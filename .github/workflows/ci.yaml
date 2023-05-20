@@ -102,6 +102,7 @@ jobs:
           isError: true
 
       - name: Set Result
+        id: result
         if: always()
         run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
 
@@ -186,6 +187,7 @@ jobs:
           isError: true
 
       - name: Set Result
+        id: result
         if: always()
         run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
 
@@ -268,6 +270,7 @@ jobs:
           isError: true
 
       - name: Set Result
+        id: result
         if: always()
         run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
 
