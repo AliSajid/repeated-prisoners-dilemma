@@ -63,8 +63,8 @@ jobs:
               MINIFY: true
               RUSTTARGET: ${{matrix.target}}
               ARCHIVE_TYPES: ${{matrix.archive}}
-              UPLOAD_URL: "none"
-              ARCHIVE_NAME: repeated_prisoners_dilemma${{env.RELEASE_VERSION}}${{matrix.platform}}
+              UPLOAD_MODE: "none"
+              ARCHIVE_NAME: repeated_prisoners_dilemma${{inputs.new_release_version}}${{matrix.platform}}
               EXTRA_FILES: "README.md LICENSE-APACHE LICENSE-MIT"
 
           - name: Upload Release Artifacts
@@ -73,8 +73,8 @@ jobs:
             env:
               GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
             with:
-              name: repeated_prisoners_dilemma-${{env.RELEASE_VERSION}}${{matrix.platform}}
-              tag_name: v${{env.RELEASE_VERSION}}
+              name: repeated_prisoners_dilemma-${{inputs.new_release_version}}${{matrix.platform}}
+              tag_name: v${{inputs.new_release_version}}
               body: ${{inputs.new_release_notes}}
               prerelease: ${{inputs.new_release_channel == 'alpha' || inputs.new_release_channel == 'beta'}}
               files: |

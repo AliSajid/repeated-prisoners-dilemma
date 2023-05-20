@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "rust_cli_template"
+name = "repeated-prisoners-dilemma"
 version = "1.0.0-alpha.1"
