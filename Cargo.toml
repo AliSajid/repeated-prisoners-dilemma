@@ -1,0 +1,31 @@
+[package]
+name = "repeated-prisoners-dilemma"
+version = "1.0.0-alpha.1"
+edition = "2021"
+readme = "README.md"
+description = ""
+rust-version = "1.64.0"
+repository = "https://github.com/AliSajid/repeated-prisoners-dilemma"
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "repeated_prisoners_dilemma_lib"
+path = "src/repeated_prisoners_dilemma_lib/lib.rs"
+crate-type = ["lib"]
+
+[[bin]]
+name = "repeated-prisoners-dilemma"
+path = "src/repeated_prisoners_dilemma/main.rs"
+
+[dependencies]
+
+
+[profile.dev]
+opt-level = 1
+debug = true
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1
