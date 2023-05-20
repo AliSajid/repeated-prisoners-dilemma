@@ -18,6 +18,9 @@ name = "repeated-prisoners-dilemma"
 path = "src/repeated_prisoners_dilemma/main.rs"
 
 [dependencies]
+clap = { version = "4.3.0", features = ["cargo", "debug", "env", "string", "unicode", "derive"] }
+rand = { version = "0.8.5", features = ["log", "serde1"] }
+tokio = { version = "1.28.1", features = ["full"] }
 
 
 [profile.dev]
