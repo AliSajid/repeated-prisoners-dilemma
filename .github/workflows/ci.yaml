@@ -104,7 +104,7 @@ jobs:
       - name: Set Result
         id: result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   ubuntu-ci:
     runs-on: ${{matrix.os}}-latest
@@ -189,7 +189,7 @@ jobs:
       - name: Set Result
         id: result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   macos-ci:
     runs-on: ${{matrix.os}}-latest
@@ -272,7 +272,7 @@ jobs:
       - name: Set Result
         id: result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   semantic-release:
     needs: [macos-ci, windows-ci, ubuntu-ci]
