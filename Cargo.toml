@@ -1,26 +1,28 @@
 [package]
-name = "repeated-prisoners-dilemma"
+name = "dilemma-tactix"
 version = "1.0.0-alpha.1"
 edition = "2021"
 readme = "README.md"
-description = ""
+description = "An iterated prisoners dilemma simulator with a terminal UI"
 rust-version = "1.64.0"
 repository = "https://github.com/AliSajid/repeated-prisoners-dilemma"
 license = "MIT OR Apache-2.0"
 
 [lib]
-name = "repeated_prisoners_dilemma_lib"
-path = "src/repeated_prisoners_dilemma_lib/lib.rs"
+name = "dilemma_tactix_lib"
+path = "src/dilemma_tactix_lib/lib.rs"
 crate-type = ["lib"]
 
 [[bin]]
-name = "repeated-prisoners-dilemma"
-path = "src/repeated_prisoners_dilemma/main.rs"
+name = "tactix"
+path = "src/tactix/main.rs"
 
 [dependencies]
 clap = { version = "4.3.0", features = ["cargo", "debug", "env", "string", "unicode", "derive"] }
 rand = { version = "0.8.5", features = ["log", "serde1"] }
+termion = { version = "2.0.1", features = ["serde"] }
 tokio = { version = "1.28.1", features = ["full"] }
+tui = { version = "0.19.0", features = ["serde", "termion"] }
 
 
 [profile.dev]

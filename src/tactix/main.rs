@@ -43,5 +43,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 fn main() {
-    println!("Hello, REPEATED_PRISONERS_DILEMMA!");
+    println!("Hello, world!");
+    println!("Here's a random number: {}", rand::random::<u8>());
+    dilemma_tactix_lib::run();
 }

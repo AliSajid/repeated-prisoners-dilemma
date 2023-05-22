@@ -42,6 +42,8 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-pub fn lib_function() {
-    println!("Hello, REPEATED_PRISONERS_DILEMMA_LIB!");
+// This function creates and maintains the primary game loop.
+pub fn run() {
+    println!("Hello, world!");
+    println!("Here's a random number again: {}", rand::random::<u32>());
 }
