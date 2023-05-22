@@ -41,20 +41,14 @@
 // * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-mod game_options;
-mod strategy;
 
-pub use game_options::GameOptions;
-pub use strategy::Strategy;
+use super::Strategy;
 
-/// This function creates and maintains the primary game loop.
-pub fn run(game_options: GameOptions) {
-    println!("Welcome to Dilemma Tactix!");
-    println!("You have initiated a new game with the following options:");
-    println!(
-        "Iterations to run per game: {}",
-        game_options.num_iterations
-    );
-    println!("Strategy: {:?}", game_options.strategy);
-    println!("Randmized Payoff: {}", game_options.random_payoff);
+#[derive(Debug)]
+pub struct GameOptions {
+    pub num_iterations: u32,
+
+    pub strategy: Strategy,
+
+    pub random_payoff: bool,
 }
