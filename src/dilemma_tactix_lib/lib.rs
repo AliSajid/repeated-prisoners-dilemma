@@ -41,9 +41,7 @@
 // * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+mod strategy;
 
-// This function creates and maintains the primary game loop.
-pub fn run() {
-    println!("Hello, world!");
-    println!("Here's a random number again: {}", rand::random::<u32>());
-}
+pub use strategy::Strategy;
+

@@ -42,48 +42,16 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use clap::Parser;
-use dilemma_tactix_lib::Strategy;
+use clap::ValueEnum;
 
-#[derive(Parser, Debug)]
-#[command(
-    author = "Ali Sajid Imami",
-    version,
-    about,
-    name = "Iterated Prisoner's Dilemma"
-)]
-pub struct Cli {
-    /// Number of Iterations
-    ///
-    /// This argument specifies the number of iterations to run the prisoner's dilemma.
-    /// This can be used to run the prisoner's dilemma for a fixed number of iterations and then analyze the results.
-    #[clap(short, long, value_name = "ITERATIONS", default_value_t = 100)]
-    num_iterations: u32,
-
-    /// Strategy
-    ///
-    /// This argument specifies the strategy to use for the prisoner's dilemma.
-    /// The strategy is used to determine whether to cooperate or defect.
-    ///
-    /// The following strategies are available:
-    /// 1. AlwaysCooperate - Always cooperate.
-    /// 2. AlwaysDefect - Always defect.
-    /// 3. TitForTat - Cooperate on the first iteration, then copy the opponent's previous move.
-    /// 4. TitForTwoTats - Cooperate on the first two iterations, then defect if the opponent defects twice in a row.
-    /// 5. Random - Randomly cooperate or defect.
-    #[clap(short, long, value_enum, value_name = "STRATEGY", default_value_t = Strategy::TitForTat)]
-    strategy: Strategy,
-
-    /// Random Payoff
-    ///
-    /// This argument specifies whether to use random payoffs for the prisoner's dilemma.
-    ///
-    /// If this argument is set to true, then the payoffs for the prisoner's dilemma will be randomly generated.
-    /// Otherwise, the payoffs will be set to the following:
-    /// 1. Reward - 3
-    /// 2. Sucker - 0
-    /// 3. Temptation - 5
-    /// 4. Punishment - 1
-    #[clap(short, long, default_value_t = true)]
-    random_payoff: bool,
+/// The strategy to use for the prisoner's dilemma.
+///
+/// The strategy is used to determine whether to cooperate or defect.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub enum Strategy {
+    AlwaysCooperate,
+    AlwaysDefect,
+    TitForTat,
+    TitForTwoTats,
+    Random,
 }
