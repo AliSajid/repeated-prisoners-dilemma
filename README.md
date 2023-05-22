@@ -1,13 +1,13 @@
 
 # Repeated Prisoners Dilemma
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/repeated-prisoners-dilemma)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/repeated-prisoners-dilemma)
-[![Continuous integration](https://github.com/AliSajid/repeated-prisoners-dilemma/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/AliSajid/repeated-prisoners-dilemma/actions/workflows/ci.yaml)
-[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#AliSajid/repeated-prisoners-dilemma)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/dilemma-tactix)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/dilemma-tactix)
+[![Continuous integration](https://github.com/AliSajid/dilemma-tactix/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/AliSajid/dilemma-tactix/actions/workflows/ci.yaml)
+[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#AliSajid/dilemma-tactix)
 
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#AliSajid/repeated-prisoners-dilemma)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#AliSajid/dilemma-tactix)
 
 A simple project to simulate prisoners dilemma and multiple strategies
 
