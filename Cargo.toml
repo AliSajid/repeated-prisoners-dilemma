@@ -5,7 +5,7 @@ edition = "2021"
 readme = "README.md"
 description = "An iterated prisoners dilemma simulator with a terminal UI"
 rust-version = "1.64.0"
-repository = "https://github.com/AliSajid/repeated-prisoners-dilemma"
+repository = "https://github.com/AliSajid/dilemma-tactix"
 license = "MIT OR Apache-2.0"
 
 [lib]
