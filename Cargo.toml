@@ -1,6 +1,6 @@
 [package]
 name = "dilemma-tactix"
-version = "1.0.0-alpha.1"
+version = "1.0.0-next.1"
 edition = "2021"
 readme = "README.md"
 description = "An iterated prisoners dilemma simulator with a terminal UI"
