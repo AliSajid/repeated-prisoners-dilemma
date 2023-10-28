@@ -76,7 +76,7 @@ jobs:
               name: repeated_prisoners_dilemma-${{inputs.new_release_version}}${{matrix.platform}}
               tag_name: v${{inputs.new_release_version}}
               body: ${{inputs.new_release_notes}}
-              prerelease: ${{inputs.new_release_channel == 'alpha' || inputs.new_release_channel == 'beta'}}
+              prerelease: ${{inputs.new_release_channel == 'next'}}
               files: |
                 ${{steps.release.outputs.BUILT_ARCHIVE}}
                 ${{steps.release.outputs.BUILT_CHECKSUM}}
