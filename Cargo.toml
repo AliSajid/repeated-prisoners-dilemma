@@ -4,7 +4,7 @@ version = "1.0.0-next.1"
 edition = "2021"
 readme = "README.md"
 description = "An iterated prisoners dilemma simulator with a terminal UI"
-rust-version = "1.64.0"
+rust-version = "1.70.0"
 repository = "https://github.com/AliSajid/dilemma-tactix"
 license = "MIT OR Apache-2.0"
 
@@ -17,12 +17,16 @@ crate-type = ["lib"]
 name = "tactix"
 path = "src/tactix/main.rs"
 
+[[bin]]
+name = "tactix-bench"
+path = "src/tactix-bench/main.rs"
+
 [dependencies]
 clap = { version = "4.3.0", features = ["cargo", "debug", "env", "string", "unicode", "derive"] }
 rand = { version = "0.8.5", features = ["log", "serde1"] }
+ratatui = { version = "0.24.0", features = ["all-widgets", "macros", "serde", "document-features"] }
 termion = { version = "2.0.1", features = ["serde"] }
 tokio = { version = "1.28.1", features = ["full"] }
-tui = { version = "0.19.0", features = ["serde", "termion"] }
 
 
 [profile.dev]
