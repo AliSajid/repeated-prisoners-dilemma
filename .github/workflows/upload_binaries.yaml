@@ -1,31 +1,39 @@
 ---
+name: Upload Binaries
+
 on:
     workflow_call:
         inputs:
-            new-release-published:
+            new_release_version:
+                description: The new version to release
+                required: true
+                type: string
+            new_release_published:
                 description: Whether a new release was published
                 required: true
-                default: 'false'
                 type: string
-            new-release-version:
-                description: The new release version
+            new_release_notes:
+                description: The release notes
                 required: true
-                default: ''
+                type: string
+            new_release_channel:
+                description: The release channel
+                required: true
                 type: string
 
-name: Semantic Release
-
-env:
-    RUST_BACKTRACE: 1
-    SEMREL_RUST_VERSION: 2.1.53
-
+# Only allow one release workflow to execute at a time, since each release
+# workflow uses shared resources (git tags, package registries)
 concurrency:
     group: ${{ github.workflow }}
 
+env:
+    RUST_BACKTRACE: 1
+
 jobs:
+    # Compile native CLI binary
     build_application:
         name: Build CLI ${{ matrix.build.target }}
-        if: inputs.new-release-published == 'true'
+        if: inputs.new_release_published == 'true'
         runs-on: ${{ matrix.build.os }}
         env:
             CARGO: cargo
@@ -70,7 +78,7 @@ jobs:
 
         steps:
         -   name: Checkout
-            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c      # v3.3.0
+            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c   # v3.3.0
 
         -   name: Install tree
             if: runner.os == 'Linux'
@@ -88,7 +96,7 @@ jobs:
                 target: ${{ matrix.build.target }}
 
         -   name: Cache dependencies
-            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f      # v2.2.1
+            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f   # v2.2.1
 
         -   name: Install cross
             uses: taiki-e/install-action@v2
@@ -106,22 +114,15 @@ jobs:
             if: runner.os == 'Linux'
             run: tree target/
 
-        -   name: Create release archive - windows
-            if: matrix.build.target == 'x86_64-pc-windows-gnu' || matrix.build.target == 'i686-pc-windows-gnu'
-            run: |
-                mkdir dist
-                cp target/${{ matrix.build.target }}/release/${{ matrix.bin }}.exe dist/${{ matrix.bin }}-${{ matrix.build.target }}
-
-        -   name: Create release archive - non-windows
-            if: matrix.build.target != 'x86_64-pc-windows-gnu' && matrix.build.target != 'i686-pc-windows-gnu'
+        -   name: Create release archive
             run: |
                 mkdir dist
                 cp target/${{ matrix.build.target }}/release/${{ matrix.bin }} dist/${{ matrix.bin }}-${{ matrix.build.target }}
 
         -   name: Create binary checksum
             run: |
-                shasum --algorithm 256 \
-                --binary ${{ matrix.bin }}-${{ matrix.build.target }} | tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
+                shasum --algorithm 256 --binary ${{ matrix.bin }}-${{ matrix.build.target }} | \
+                tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
             working-directory: ./dist
 
         -   name: Upload release artifacts
@@ -134,29 +135,19 @@ jobs:
                 if-no-files-found: error
                 retention-days: 1
 
-    release:
-        name: Semantic Release
+
+    upload_application:
         runs-on: ubuntu-latest
-        needs: build_application
-        outputs:
-            new_release_version: ${{steps.semantic.outputs.new_release_version}}
-            new_release_published: ${{steps.semantic.outputs.new_release_published}}
-            new_release_notes: ${{steps.semantic.outputs.new_release_notes}}
-            new_release_channel: ${{steps.semantic.outputs.new_release_channel}}
+        name: Release
+        if: inputs.new_release_published == 'true'
+        needs:
+        -   build_application
+
         steps:
         -   name: Checkout
-            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c      # v3.3.0
+            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c   # v3.3.0
             with:
                 fetch-depth: 0
-                persist-credentials: false
-
-        -   name: Install dependencies
-            run: sudo apt install tree
-
-        -   name: Install semantic-release-cargo
-            uses: taiki-e/install-action@v2
-            with:
-                tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
 
         -   name: Download release artifacts
             uses: actions/download-artifact@v3
@@ -164,36 +155,37 @@ jobs:
                 path: artifacts
 
         -   name: ls artifacts
-            run: tree ./artifacts
+            run: ls -R ./artifacts
 
         -   name: Prepare GitHub Release artifacts
             run: |
                 mkdir dist/
-                mv -v artifacts/aarch64-apple-darwin dist/
-                mv -v artifacts/aarch64-unknown-linux-gnu dist/
-                mv -v artifacts/aarch64-unknown-linux-musl dist/
-                mv -v artifacts/i686-unknown-linux-gnu dist/
-                mv -v artifacts/i686-unknown-linux-musl dist/
-                mv -v artifacts/x86_64-apple-darwin dist/
-                mv -v artifacts/x86_64-unknown-linux-gnu dist/
-                mv -v artifacts/x86_64-unknown-linux-musl dist/
-                mv -v artifacts/x86_64-pc-windows-gnu dist/
-                mv -v artifacts/i686-pc-windows-gnu dist/
+                mv artifacts/aarch64-apple-darwin dist/
+                mv artifacts/aarch64-unknown-linux-gnu dist/
+                mv artifacts/aarch64-unknown-linux-musl dist/
+                mv artifacts/i686-unknown-linux-gnu dist/
+                mv artifacts/i686-unknown-linux-musl dist/
+                mv artifacts/x86_64-apple-darwin dist/
+                mv artifacts/x86_64-unknown-linux-gnu dist/
+                mv artifacts/x86_64-unknown-linux-musl dist/
+                mv artifacts/x86_64-pc-windows-gnu dist/
+                mv artifacts/i686-pc-windows-gnu dist/
 
         -   name: Combine checksums
-            run: cat dist/**/*-SHA256SUM.txt | tee dist/SHA256SUMS.txt
+            run: cat dist/**/semantic-release-cargo-*-SHA256SUM.txt | tee dist/SHA256SUMS.txt
 
-        -   name: Install Conventional Commit preset
-            run: npm install conventional-changelog-conventionalcommits
-
-        -   name: Semantic Release
-            uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea      # v3.4.0
-            id: semantic
-            with:
-                semantic_version: 19
-                extra_plugins: |
-                    @semantic-release/exec@6
-                    @semantic-release/git@10
+        -   name: Upload Release Artifacts
+            uses: softprops/action-gh-release@v1
+            id: upload-release-asset
             env:
                 GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
-                CARGO_REGISTRY_TOKEN: ${{secrets.SEMREL_CRATES_IO}}
+                RELEASE_VERSION: ${{inputs.new_release_version}}
+            with:
+                name: brainfoamkit-${{env.RELEASE_VERSION}}
+                tag_name: v${{env.RELEASE_VERSION}}
+                body: ${{inputs.new_release_notes}}
+                prerelease: ${{inputs.new_release_channel == 'alpha' || inputs.new_release_channel == 'beta'}}
+                files: |
+                    dist/**/tactix-*
+                    dist/**/tactix-bench-*
+                    dist/SHA256SUMS.txt
