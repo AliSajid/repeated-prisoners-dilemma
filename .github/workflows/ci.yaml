@@ -16,7 +16,7 @@ concurrency:
     group: CI
 
 env:
-    GIST_KEY: 80eb42183fabbaf02eebcf768bdae485 # pragma: allowlist secret
+    GIST_KEY: 2142caf9bfe6fc8cdc7d1b8ccd72ce09 # pragma: allowlist secret
     RUST_BACKTRACE: 1
     MINIMUM_WAIT: 3
     MAXIMUM_WAIT: 10
