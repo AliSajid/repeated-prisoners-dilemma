@@ -42,6 +42,6 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-mod models;
+mod choice_name_options;
 
-pub use models::ChoiceNameOptions;
+pub use choice_name_options::ChoiceNameOptions;
