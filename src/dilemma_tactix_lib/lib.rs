@@ -45,3 +45,4 @@
 mod models;
 
 pub use models::ChoiceNameOptions;
+pub use models::GameOptions;
