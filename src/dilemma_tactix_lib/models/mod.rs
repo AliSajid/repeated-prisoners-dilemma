@@ -44,6 +44,8 @@
 
 mod choice_name_options;
 mod game_options;
+mod number_pair;
 
 pub use choice_name_options::ChoiceNameOptions;
 pub use game_options::GameOptions;
+pub use number_pair::NumberPair;
