@@ -42,6 +42,89 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-mod models;
+use rand::{self, Rng};
 
-pub use models::ChoiceNameOptions;
+pub struct ChoiceNameOptions {
+    choice_a_options: [&'static str; 17],
+    choice_b_options: [&'static str; 17],
+    length: usize,
+}
+
+impl ChoiceNameOptions {
+    pub const fn new() -> Self {
+        let choice_a_options = [
+            "cooperate",
+            "swerve",
+            "macro",
+            "fight",
+            "bet",
+            "raise_price",
+            "opera",
+            "go",
+            "heads",
+            "particle",
+            "discrete",
+            "peace",
+            "search",
+            "lead",
+            "accept",
+            "accept",
+            "attack",
+        ];
+        let choice_b_options = [
+            "defect",
+            "straight",
+            "micro",
+            "back_down",
+            "fold",
+            "lower_price",
+            "football",
+            "stay",
+            "tails",
+            "wave",
+            "continuous",
+            "war",
+            "evaluate",
+            "follow",
+            "reject",
+            "deny",
+            "decay",
+        ];
+        let length = choice_a_options.len();
+        Self {
+            choice_a_options,
+            choice_b_options,
+            length,
+        }
+    }
+
+    pub fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
+        (self.choice_a_options[n], self.choice_b_options[n])
+    }
+
+    pub fn get_random_pair(&self) -> (&'static str, &'static str) {
+        let mut rng = rand::thread_rng();
+        let choice = rng.gen_range(0..self.length);
+        self.get_choice_pair(choice)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_random_pair() {
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_a, choice_b) = choice_name_options.get_random_pair();
+        assert_ne!(choice_a, choice_b);
+    }
+
+    #[test]
+    fn test_get_choice_pair() {
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
+        assert_eq!(choice_a, "cooperate");
+        assert_eq!(choice_b, "defect");
+    }
+}
