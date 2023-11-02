@@ -43,5 +43,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 mod choice_name_options;
+mod game_options;
 
 pub use choice_name_options::ChoiceNameOptions;
+pub use game_options::GameOptions;
