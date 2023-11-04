@@ -187,7 +187,7 @@ impl Default for GameOptions {
     /// assert_eq!(game_options.choice_bey(), "Defect");
     /// ```
     fn default() -> Self {
-        Self::new(0, 10, "Cooperate".to_string(), "Defect".to_string())
+        Self::new(1, 10, "Cooperate".to_string(), "Defect".to_string())
     }
 }
 
@@ -219,7 +219,7 @@ mod tests {
     #[test]
     fn test_game_options_default() {
         let game_options = GameOptions::default();
-        assert_eq!(game_options.min_value(), 0);
+        assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
         assert_eq!(game_options.choice_aleph(), "Cooperate");
         assert_eq!(game_options.choice_bey(), "Defect");
@@ -239,7 +239,7 @@ mod tests {
         let game_options = GameOptions::default();
         assert_eq!(
             format!("{}", game_options),
-            "min_value: 0, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect"
+            "min_value: 1, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect"
         );
     }
 }
