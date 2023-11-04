@@ -62,7 +62,7 @@ use rand::{self, Rng};
 /// ## Get a specific pair
 ///
 /// ```
-/// use dilemma_tactix_lib::models::ChoiceNameOptions;
+/// use dilemma_tactix_lib::ChoiceNameOptions;
 ///
 /// let choice_name_options = ChoiceNameOptions::new();
 /// let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
@@ -73,7 +73,7 @@ use rand::{self, Rng};
 ///
 /// ## Get a random pair
 /// ```
-/// use dilemma_tactix_lib::models::ChoiceNameOptions;
+/// use dilemma_tactix_lib::ChoiceNameOptions;
 ///
 /// let choice_name_options = ChoiceNameOptions::new();
 /// let (choice_a, choice_b) = choice_name_options.get_random_pair();
@@ -120,9 +120,9 @@ use rand::{self, Rng};
 #[derive(Debug, Clone, Copy)]
 #[allow(clippy::doc_markdown)]
 pub struct ChoiceNameOptions {
-    choice_a_options: [&'static str; 17],
-    choice_b_options: [&'static str; 17],
-    length: usize,
+    pub choice_aleph_options: [&'static str; 17],
+    pub choice_bey_options: [&'static str; 17],
+    pub length: usize,
 }
 
 impl ChoiceNameOptions {
@@ -135,7 +135,7 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::models::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
@@ -195,8 +195,8 @@ impl ChoiceNameOptions {
         ];
         let length = choice_aleph_options.len();
         Self {
-            choice_a_options: choice_aleph_options,
-            choice_b_options: choice_bey_options,
+            choice_aleph_options,
+            choice_bey_options,
             length,
         }
     }
@@ -213,7 +213,7 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::models::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
@@ -237,7 +237,7 @@ impl ChoiceNameOptions {
     #[must_use]
     pub const fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
         assert!(n < self.length, "Index out of bounds.");
-        (self.choice_a_options[n], self.choice_b_options[n])
+        (self.choice_aleph_options[n], self.choice_bey_options[n])
     }
 
     /// Get a random choice pair.
@@ -248,7 +248,7 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::models::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///

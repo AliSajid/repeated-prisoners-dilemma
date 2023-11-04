@@ -47,6 +47,59 @@ use std::fmt::Display;
 use crate::GameOptions;
 use crate::NumberPair;
 
+/// A struct to encapsulate a single game grid
+///
+/// This struct abstracts the concept of one 2x2 Pirsoner's Dilemma
+/// game grid. It contains the game options, and the scores for each
+/// of the four possible outcomes.
+///
+/// This struct allows us to generate a randomized game grid, or a specific
+/// game grid. For this reason, the options for the scores and the choices
+/// have been abstracted to the [`GameOptions`](crate::GameOptions) struct.
+///
+/// # Example
+///
+/// ## Specific Game Grid
+///
+/// ```
+/// use dilemma_tactix_lib::{GameGrid, NumberPair};
+///
+/// let game_grid = GameGrid::new(
+///    10,
+///   1,
+///  "A".to_string(),
+/// "B".to_string(),
+/// NumberPair::new(1, 2),
+/// NumberPair::new(3, 4),
+/// NumberPair::new(5, 6),
+/// NumberPair::new(7, 8),
+/// );
+///
+/// assert_eq!(game_grid.max_value(), 10);
+/// assert_eq!(game_grid.min_value(), 1);
+/// assert_eq!(game_grid.choice_aleph(), "A");
+/// assert_eq!(game_grid.choice_bey(), "B");
+/// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 2));
+/// assert_eq!(game_grid.score_ab(), NumberPair::new(3, 4));
+/// assert_eq!(game_grid.score_ba(), NumberPair::new(5, 6));
+/// assert_eq!(game_grid.score_bb(), NumberPair::new(7, 8));
+/// ```
+///
+/// ## Default Game Grid
+///
+/// ```
+/// use dilemma_tactix_lib::GameGrid;
+/// use dilemma_tactix_lib::ChoiceNameOptions;
+///
+/// let choice_name_options = ChoiceNameOptions::new();
+/// let game_grid = GameGrid::default();
+/// assert!(game_grid.max_value() <= 10);
+/// assert!(game_grid.min_value() <= 1);
+/// assert_ne!(game_grid.choice_aleph(), game_grid.choice_bey());
+/// assert!(choice_name_options.choice_aleph_options.contains(&game_grid.choice_aleph()));
+/// assert!(choice_name_options.choice_bey_options.contains(&game_grid.choice_bey()));
+///
+/// ```
 pub struct GameGrid {
     game_options: GameOptions,
     score_aa: NumberPair,
@@ -146,6 +199,8 @@ impl Default for GameGrid {
 
 #[cfg(test)]
 mod tests {
+    use crate::ChoiceNameOptions;
+
     use super::*;
 
     #[test]
@@ -169,10 +224,16 @@ mod tests {
     #[test]
     fn test_game_grid_default() {
         let game_grid = GameGrid::default();
-        assert_eq!(game_grid.max_value(), 10);
+        let choice_name_options = ChoiceNameOptions::new();
         assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_aleph(), "Cooperate");
-        assert_eq!(game_grid.choice_bey(), "Defect");
+        assert_eq!(game_grid.max_value(), 10);
+        assert_ne!(game_grid.choice_aleph(), game_grid.choice_bey());
+        assert!(choice_name_options
+            .choice_aleph_options
+            .contains(&game_grid.choice_aleph()));
+        assert!(choice_name_options
+            .choice_bey_options
+            .contains(&game_grid.choice_bey()));
     }
 
     #[test]
