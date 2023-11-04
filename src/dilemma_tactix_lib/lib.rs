@@ -45,5 +45,7 @@
 mod models;
 
 pub use models::ChoiceNameOptions;
+pub use models::GameGrid;
+pub use models::GameGridBuilder;
 pub use models::GameOptions;
 pub use models::NumberPair;
