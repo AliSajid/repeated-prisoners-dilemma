@@ -57,8 +57,9 @@ pub struct GameGridBuilder {
 }
 
 impl GameGridBuilder {
-    pub fn new() -> GameGridBuilder {
-        GameGridBuilder {
+    #[must_use]
+    pub const fn new() -> Self {
+        Self {
             max_value: None,
             min_value: None,
             choice_aleph: None,
@@ -70,46 +71,55 @@ impl GameGridBuilder {
         }
     }
 
-    pub fn max_value(mut self, max_value: u32) -> Self {
+    #[must_use]
+    pub const fn max_value(mut self, max_value: u32) -> Self {
         self.max_value = Some(max_value);
         self
     }
 
-    pub fn min_value(mut self, min_value: u32) -> Self {
+    #[must_use]
+    pub const fn min_value(mut self, min_value: u32) -> Self {
         self.min_value = Some(min_value);
         self
     }
 
+    #[must_use]
     pub fn choice_aleph(mut self, choice_aleph: String) -> Self {
         self.choice_aleph = Some(choice_aleph);
         self
     }
 
+    #[must_use]
     pub fn choice_bey(mut self, choice_bey: String) -> Self {
         self.choice_bey = Some(choice_bey);
         self
     }
 
-    pub fn score_aa(mut self, score_aa: NumberPair) -> Self {
+    #[must_use]
+    pub const fn score_aa(mut self, score_aa: NumberPair) -> Self {
         self.score_aa = Some(score_aa);
         self
     }
 
-    pub fn score_ab(mut self, score_ab: NumberPair) -> Self {
+    #[must_use]
+    pub const fn score_ab(mut self, score_ab: NumberPair) -> Self {
         self.score_ab = Some(score_ab);
         self
     }
 
-    pub fn score_ba(mut self, score_ba: NumberPair) -> Self {
+    #[must_use]
+    pub const fn score_ba(mut self, score_ba: NumberPair) -> Self {
         self.score_ba = Some(score_ba);
         self
     }
 
-    pub fn score_bb(mut self, score_bb: NumberPair) -> Self {
+    #[must_use]
+    pub const fn score_bb(mut self, score_bb: NumberPair) -> Self {
         self.score_bb = Some(score_bb);
         self
     }
 
+    #[must_use]
     pub fn build(self) -> GameGrid {
         GameGrid::new(
             self.max_value.expect("max_value must be set"),

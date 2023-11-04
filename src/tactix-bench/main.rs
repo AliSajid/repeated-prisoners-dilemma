@@ -43,5 +43,5 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 fn main() {
-    println!("Dilemma Tactix Bench")
+    println!("Dilemma Tactix Bench");
 }

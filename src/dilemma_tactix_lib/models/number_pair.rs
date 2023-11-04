@@ -77,7 +77,7 @@ pub struct NumberPair {
 }
 
 impl NumberPair {
-    /// Creates a new NumberPair struct.
+    /// Creates a new `NumberPair` struct.
     ///
     /// # Arguments
     ///
@@ -96,12 +96,13 @@ impl NumberPair {
     ///
     /// # Returns
     ///
-    /// A new NumberPair struct with the given values.
-    pub fn new(first: u32, second: u32) -> Self {
+    /// A new `NumberPair` struct with the given values.
+    #[must_use]
+    pub const fn new(first: u32, second: u32) -> Self {
         Self { first, second }
     }
 
-    /// Creates a new NumberPair struct with random values.
+    /// Creates a new `NumberPair` struct with random values.
     ///
     /// # Arguments
     ///
@@ -124,11 +125,13 @@ impl NumberPair {
     ///
     /// # Returns
     ///
-    /// A new NumberPair struct with random values between `min_value` and `max_value` for each of `first` and `second`.
+    /// A new `NumberPair` struct with random values between `min_value` and `max_value` for each of `first` and `second`.
+    #[must_use]
     pub fn random(min_value: u32, max_value: u32) -> Self {
-        if min_value > max_value {
-            panic!("min_value must be less than or equal to max_value");
-        }
+        assert!(
+            (min_value < max_value),
+            "min_value must be strictly less than max_value"
+        );
 
         let mut rng = rand::thread_rng();
         Self::new(
@@ -159,7 +162,8 @@ impl NumberPair {
     /// # Returns
     ///
     /// The value of `first` as a `u32`.
-    pub fn first(&self) -> u32 {
+    #[must_use]
+    pub const fn first(&self) -> u32 {
         self.first
     }
 
@@ -185,7 +189,8 @@ impl NumberPair {
     /// # Returns
     ///
     /// The value of `second` as a `u32`.
-    pub fn second(&self) -> u32 {
+    #[must_use]
+    pub const fn second(&self) -> u32 {
         self.second
     }
 }
@@ -197,7 +202,7 @@ impl Display for NumberPair {
 }
 
 impl Default for NumberPair {
-    /// Creates a new NumberPair struct with default values.
+    /// Creates a new `NumberPair` struct with default values.
     ///
     /// # Example
     ///
@@ -212,7 +217,7 @@ impl Default for NumberPair {
     ///
     /// # Returns
     ///
-    /// A new NumberPair struct with random values between 1 and 10 for each of `first` and `second`.
+    /// A new `NumberPair` struct with random values between 1 and 10 for each of `first` and `second`.
     fn default() -> Self {
         let mut rng = rand::thread_rng();
         Self::new(rng.gen_range(1..=10), rng.gen_range(1..=10))
