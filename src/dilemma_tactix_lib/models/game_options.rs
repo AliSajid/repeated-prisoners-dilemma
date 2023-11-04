@@ -46,7 +46,7 @@ use std::fmt::Display;
 
 use crate::ChoiceNameOptions;
 
-/// `GameOptions` is a struct that holds the options for a game.
+/// This is a struct that holds the options for a game.
 ///
 /// This struct is used to encapsulate the parameters to be used for generating a single grid
 /// from the parameters that may be related to a tournament or a series of grids.
