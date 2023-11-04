@@ -44,14 +44,14 @@
 
 use std::fmt::Display;
 
-/// GameOptions is a struct that holds the options for a game.
+/// `GameOptions` is a struct that holds the options for a game.
 ///
 /// # Example
 /// ```
 /// use dilemma_tactix_lib::GameOptions;
 ///
 /// let game_options = GameOptions::default();
-/// assert_eq!(game_options.min_value(), 0);
+/// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
 /// assert_eq!(game_options.choice_aleph(), "Cooperate");
 /// assert_eq!(game_options.choice_bey(), "Defect");
@@ -69,7 +69,7 @@ pub struct GameOptions {
 }
 
 impl GameOptions {
-    /// Creates a new GameOptions struct.
+    /// Creates a new `GameOptions` struct.
     ///
     /// # Arguments
     ///
@@ -94,18 +94,17 @@ impl GameOptions {
     ///
     /// Panics if `min_value` is greater than `max_value` or if `choice_aleph` or `choice_bey` are empty.
     ///
+    #[must_use]
     pub fn new(min_value: u32, max_value: u32, choice_aleph: String, choice_bey: String) -> Self {
-        if min_value > max_value {
-            panic!("min_value must be less than or equal to max_value");
-        }
+        assert!(
+            min_value < max_value,
+            "min_value must be strictly less than max_value"
+        );
 
-        if choice_aleph.is_empty() {
-            panic!("choice_aleph cannot be empty");
-        }
+        assert!(!choice_aleph.is_empty(), "choice_aleph cannot be empty");
 
-        if choice_bey.is_empty() {
-            panic!("choice_bey cannot be empty");
-        }
+        assert!(!choice_bey.is_empty(), "choice_bey cannot be empty");
+
         Self {
             min_value,
             max_value,
@@ -122,10 +121,11 @@ impl GameOptions {
     /// use dilemma_tactix_lib::GameOptions;
     ///
     /// let game_options = GameOptions::default();
-    /// assert_eq!(game_options.min_value(), 0);
+    /// assert_eq!(game_options.min_value(), 1);
     /// ```
     ///
-    pub fn min_value(&self) -> u32 {
+    #[must_use]
+    pub const fn min_value(&self) -> u32 {
         self.min_value
     }
 
@@ -139,7 +139,8 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.max_value(), 10);
     /// ```
-    pub fn max_value(&self) -> u32 {
+    #[must_use]
+    pub const fn max_value(&self) -> u32 {
         self.max_value
     }
 
@@ -153,6 +154,7 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.choice_aleph(), "Cooperate");
     /// ```
+    #[must_use]
     pub fn choice_aleph(&self) -> &str {
         &self.choice_aleph
     }
@@ -167,13 +169,14 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.choice_bey(), "Defect");
     /// ```
+    #[must_use]
     pub fn choice_bey(&self) -> &str {
         &self.choice_bey
     }
 }
 
 impl Default for GameOptions {
-    /// Creates a new GameOptions struct with default values.
+    /// Creates a new `GameOptions` struct with default values.
     ///
     /// # Example
     ///
@@ -181,7 +184,7 @@ impl Default for GameOptions {
     /// use dilemma_tactix_lib::GameOptions;
     ///
     /// let game_options = GameOptions::default();
-    /// assert_eq!(game_options.min_value(), 0);
+    /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
     /// assert_eq!(game_options.choice_aleph(), "Cooperate");
     /// assert_eq!(game_options.choice_bey(), "Defect");
@@ -192,7 +195,7 @@ impl Default for GameOptions {
 }
 
 impl Display for GameOptions {
-    /// Implements the Display trait for GameOptions.
+    /// Implements the Display trait for `GameOptions`.
     ///
     /// # Example
     ///
@@ -200,7 +203,7 @@ impl Display for GameOptions {
     /// use dilemma_tactix_lib::GameOptions;
     ///
     /// let game_options = GameOptions::default();
-    /// assert_eq!(format!("{}", game_options), "min_value: 0, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect");
+    /// assert_eq!(format!("{}", game_options), "min_value: 1, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect");
     /// ```
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -212,7 +215,6 @@ impl Display for GameOptions {
 }
 
 #[cfg(test)]
-
 mod tests {
     use super::*;
 

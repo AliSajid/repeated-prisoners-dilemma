@@ -56,7 +56,8 @@ pub struct GameGrid {
 }
 
 impl GameGrid {
-    #[allow(clippy::too_many_arguments)]
+    #[allow(clippy::too_many_arguments, clippy::similar_names)]
+    #[must_use]
     pub fn new(
         max_value: u32,
         min_value: u32,
@@ -77,35 +78,43 @@ impl GameGrid {
         }
     }
 
-    pub fn max_value(&self) -> u32 {
+    #[must_use]
+    pub const fn max_value(&self) -> u32 {
         self.game_options.max_value()
     }
 
-    pub fn min_value(&self) -> u32 {
+    #[must_use]
+    pub const fn min_value(&self) -> u32 {
         self.game_options.min_value()
     }
 
+    #[must_use]
     pub fn choice_aleph(&self) -> &str {
         self.game_options.choice_aleph()
     }
 
+    #[must_use]
     pub fn choice_bey(&self) -> &str {
         self.game_options.choice_bey()
     }
 
-    pub fn score_aa(&self) -> NumberPair {
+    #[must_use]
+    pub const fn score_aa(&self) -> NumberPair {
         self.score_aa
     }
 
-    pub fn score_ab(&self) -> NumberPair {
+    #[must_use]
+    pub const fn score_ab(&self) -> NumberPair {
         self.score_ab
     }
 
-    pub fn score_ba(&self) -> NumberPair {
+    #[must_use]
+    pub const fn score_ba(&self) -> NumberPair {
         self.score_ba
     }
 
-    pub fn score_bb(&self) -> NumberPair {
+    #[must_use]
+    pub const fn score_bb(&self) -> NumberPair {
         self.score_bb
     }
 }

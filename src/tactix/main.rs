@@ -42,6 +42,9 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use dilemma_tactix_lib::GameGrid;
+
 fn main() {
-    println!("Dilemma Tactix")
+    let game_grid = GameGrid::default();
+    println!("{game_grid}");
 }

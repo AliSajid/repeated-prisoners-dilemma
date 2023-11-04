@@ -51,8 +51,9 @@ pub struct ChoiceNameOptions {
 }
 
 impl ChoiceNameOptions {
+    #[must_use]
     pub const fn new() -> Self {
-        let choice_a_options = [
+        let choice_aleph_options = [
             "cooperate",
             "swerve",
             "macro",
@@ -71,7 +72,7 @@ impl ChoiceNameOptions {
             "accept",
             "attack",
         ];
-        let choice_b_options = [
+        let choice_bey_options = [
             "defect",
             "straight",
             "micro",
@@ -90,18 +91,20 @@ impl ChoiceNameOptions {
             "deny",
             "decay",
         ];
-        let length = choice_a_options.len();
+        let length = choice_aleph_options.len();
         Self {
-            choice_a_options,
-            choice_b_options,
+            choice_a_options: choice_aleph_options,
+            choice_b_options: choice_bey_options,
             length,
         }
     }
 
-    pub fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
+    #[must_use]
+    pub const fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
         (self.choice_a_options[n], self.choice_b_options[n])
     }
 
+    #[must_use]
     pub fn get_random_pair(&self) -> (&'static str, &'static str) {
         let mut rng = rand::thread_rng();
         let choice = rng.gen_range(0..self.length);
