@@ -44,19 +44,98 @@
 
 use crate::{GameGrid, NumberPair};
 
+/// A builder struct to create a [`GameGrid`](crate::GameGrid).
+///
+/// This struct is used to create the `GameGrid` struct by success
+///
+/// # Example
+///
+/// ```
+/// use dilemma_tactix_lib::{GameGrid, NumberPair, GameGridBuilder};
+///
+/// let game_grid = GameGridBuilder::new()
+///    .max_value(10)
+///    .min_value(1)
+///    .choice_aleph("A".to_string())
+///    .choice_bey("B".to_string())
+///    .score_aa(NumberPair::new(1, 1))
+///    .score_ab(NumberPair::new(1, 1))
+///    .score_ba(NumberPair::new(1, 1))
+///    .score_bb(NumberPair::new(1, 1))
+///    .build();
+///
+/// assert_eq!(game_grid.max_value(), 10);
+/// assert_eq!(game_grid.min_value(), 1);
+/// assert_eq!(game_grid.choice_aleph(), "A");
+/// assert_eq!(game_grid.choice_bey(), "B");
+/// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
+/// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
+/// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
+/// assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+/// ```
+///
+/// # Notes
+///
+/// I chose to use the `Builder` pattern here because it allows for easier
+/// manipulation of the `GameGrid` struct.
+///
+/// # Panics
+///
+/// This struct will panic if any of the required fields are not set.
+///
+/// # See Also
+///
+/// * [`GameGrid`](crate::GameGrid)
+/// * [`GameGrid::new()`](crate::GameGrid::new())
+///
 #[derive(Debug, Default)]
 pub struct GameGridBuilder {
-    max_value: Option<u32>,
-    min_value: Option<u32>,
-    choice_aleph: Option<String>,
-    choice_bey: Option<String>,
-    score_aa: Option<NumberPair>,
-    score_ab: Option<NumberPair>,
-    score_ba: Option<NumberPair>,
-    score_bb: Option<NumberPair>,
+    pub max_value: Option<u32>,
+    pub min_value: Option<u32>,
+    pub choice_aleph: Option<String>,
+    pub choice_bey: Option<String>,
+    pub score_aa: Option<NumberPair>,
+    pub score_ab: Option<NumberPair>,
+    pub score_ba: Option<NumberPair>,
+    pub score_bb: Option<NumberPair>,
 }
 
 impl GameGridBuilder {
+    /// Creates a new `GameGridBuilder` struct.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameGridBuilder;
+    ///
+    /// let game_grid_builder = GameGridBuilder::new();
+    ///
+    /// assert_eq!(game_grid_builder.max_value, None);
+    /// assert_eq!(game_grid_builder.min_value, None);
+    /// assert_eq!(game_grid_builder.choice_aleph, None);
+    /// assert_eq!(game_grid_builder.choice_bey, None);
+    /// assert_eq!(game_grid_builder.score_aa, None);
+    /// assert_eq!(game_grid_builder.score_ab, None);
+    /// assert_eq!(game_grid_builder.score_ba, None);
+    /// assert_eq!(game_grid_builder.score_bb, None);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new `GameGridBuilder` struct.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn new() -> Self {
         Self {
@@ -71,54 +150,372 @@ impl GameGridBuilder {
         }
     }
 
+    /// Sets the maximum value for the `GameGrid`.
+    ///
+    /// # Arguments
+    ///
+    /// * `max_value` - The maximum value for the `GameGrid`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameGridBuilder;
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    ///    .max_value(10);
+    ///
+    /// assert_eq!(game_grid_builder.max_value, Some(10));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `max_value` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn max_value(mut self, max_value: u32) -> Self {
         self.max_value = Some(max_value);
         self
     }
 
+    /// Sets the minimum value for the `GameGrid`.
+    ///
+    /// # Arguments
+    ///
+    /// * `min_value` - The minimum value for the `GameGrid`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameGridBuilder;
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    ///   .min_value(1);
+    ///
+    /// assert_eq!(game_grid_builder.min_value, Some(1));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `min_value` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn min_value(mut self, min_value: u32) -> Self {
         self.min_value = Some(min_value);
         self
     }
 
+    /// Sets the first choice available to players in `GameGrid`.
+    ///
+    /// # Arguments
+    ///
+    /// * `choice_aleph` - The first choice available to players in `GameGrid`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameGridBuilder;
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    ///  .choice_aleph("cooperate".to_string());
+    ///
+    /// assert_eq!(game_grid_builder.choice_aleph, Some("cooperate".to_string()));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `choice_aleph` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
     pub fn choice_aleph(mut self, choice_aleph: String) -> Self {
         self.choice_aleph = Some(choice_aleph);
         self
     }
 
+    /// Sets the second choice available to players in `GameGrid`.
+    ///
+    /// # Arguments
+    ///
+    /// * `choice_bey` - The second choice available to players in `GameGrid`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameGridBuilder;
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    /// .choice_bey("defect".to_string());
+    ///
+    /// assert_eq!(game_grid_builder.choice_bey, Some("defect".to_string()));
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `choice_bey` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
     pub fn choice_bey(mut self, choice_bey: String) -> Self {
         self.choice_bey = Some(choice_bey);
         self
     }
 
+    /// Sets the score for the case when both players choose the first choice.
+    ///
+    /// # Arguments
+    ///
+    /// * `score_aa` - The score to set.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{GameGridBuilder, NumberPair};
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    /// .score_aa(NumberPair::new(1, 1));
+    ///
+    /// assert_eq!(game_grid_builder.score_aa, Some(NumberPair::new(1, 1)));
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `score_aa` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn score_aa(mut self, score_aa: NumberPair) -> Self {
         self.score_aa = Some(score_aa);
         self
     }
 
+    /// Sets the score for the case when the first player chooses the first choice and the second player chooses the second choice.
+    ///
+    /// # Arguments
+    ///
+    /// * `score_ab` - The score to set.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{GameGridBuilder, NumberPair};
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    /// .score_ab(NumberPair::new(1, 1));
+    ///
+    /// assert_eq!(game_grid_builder.score_ab, Some(NumberPair::new(1, 1)));
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `score_ab` field set.
+    ///
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn score_ab(mut self, score_ab: NumberPair) -> Self {
         self.score_ab = Some(score_ab);
         self
     }
 
+    /// Sets the score for the case when the first player chooses the second choice and the second player chooses the first choice.
+    ///
+    /// # Arguments
+    ///
+    /// * `score_ba` - The score to set.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{GameGridBuilder, NumberPair};
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    /// .score_ba(NumberPair::new(1, 1));
+    ///
+    /// assert_eq!(game_grid_builder.score_ba, Some(NumberPair::new(1, 1)));
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `score_ba` field set.
+    ///
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub const fn score_ba(mut self, score_ba: NumberPair) -> Self {
         self.score_ba = Some(score_ba);
         self
     }
 
+    /// Sets the score for the case when both players choose the second choice.
+    ///
+    /// # Arguments
+    ///
+    /// * `score_bb` - The score to set.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{GameGridBuilder, NumberPair};
+    ///
+    /// let game_grid_builder = GameGridBuilder::new()
+    /// .score_bb(NumberPair::new(1, 1));
+    ///
+    /// assert_eq!(game_grid_builder.score_bb, Some(NumberPair::new(1, 1)));
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameGridBuilder` struct with the `score_bb` field set.
+    ///
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    ///
     #[must_use]
     pub const fn score_bb(mut self, score_bb: NumberPair) -> Self {
         self.score_bb = Some(score_bb);
         self
     }
 
+    /// Builds the `GameGrid` struct.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{GameGrid, NumberPair, GameGridBuilder};
+    ///
+    /// let game_grid = GameGridBuilder::new()
+    ///   .max_value(10)
+    ///  .min_value(1)
+    /// .choice_aleph("cooperate".to_string())
+    /// .choice_bey("defect".to_string())
+    /// .score_aa(NumberPair::new(1, 1))
+    /// .score_ab(NumberPair::new(1, 1))
+    /// .score_ba(NumberPair::new(1, 1))
+    /// .score_bb(NumberPair::new(1, 1))
+    /// .build();
+    ///
+    /// assert_eq!(game_grid.max_value(), 10);
+    /// assert_eq!(game_grid.min_value(), 1);
+    /// assert_eq!(game_grid.choice_aleph(), "cooperate");
+    /// assert_eq!(game_grid.choice_bey(), "defect");
+    /// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
+    /// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
+    /// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
+    /// assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new `GameGrid` struct.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if any of the required fields are not set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
+    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
+    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
+    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
+    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
+    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    ///
     #[must_use]
     pub fn build(self) -> GameGrid {
         GameGrid::new(
