@@ -44,6 +44,8 @@
 
 use std::fmt::Display;
 
+use crate::ChoiceNameOptions;
+
 /// `GameOptions` is a struct that holds the options for a game.
 ///
 /// This struct is used to encapsulate the parameters to be used for generating a single grid
@@ -63,11 +65,16 @@ use std::fmt::Display;
 /// ```
 /// use dilemma_tactix_lib::GameOptions;
 ///
-/// let game_options = GameOptions::default();
+/// let game_options = GameOptions::new(
+///    1,
+///  10,
+/// "cooperate".to_string(),
+///  "defect".to_string(),
+/// );
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
-/// assert_eq!(game_options.choice_aleph(), "Cooperate");
-/// assert_eq!(game_options.choice_bey(), "Defect");
+/// assert_eq!(game_options.choice_aleph(), "cooperate");
+/// assert_eq!(game_options.choice_bey(), "defect");
 /// ```
 ///
 /// ## Default Options
@@ -78,8 +85,8 @@ use std::fmt::Display;
 /// let game_options = GameOptions::default();
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
-/// assert_eq!(game_options.choice_aleph(), "Cooperate");
-/// assert_eq!(game_options.choice_bey(), "Defect");
+/// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+///
 /// ```
 ///
 /// # Notes
@@ -214,9 +221,11 @@ impl GameOptions {
     ///
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
+    /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
-    /// assert_eq!(game_options.choice_aleph(), "Cooperate");
+    /// assert!(choice_name_options.choice_aleph_options.contains(&game_options.choice_aleph()))
     /// ```
     ///
     /// # Returns
@@ -242,9 +251,11 @@ impl GameOptions {
     ///
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
+    /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
-    /// assert_eq!(game_options.choice_bey(), "Defect");
+    /// assert!(choice_name_options.choice_bey_options.contains(&game_options.choice_bey()))
     /// ```
     ///
     /// # Returns
@@ -283,12 +294,15 @@ impl Default for GameOptions {
     ///
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
     ///
+    /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
-    /// assert_eq!(game_options.choice_aleph(), "Cooperate");
-    /// assert_eq!(game_options.choice_bey(), "Defect");
+    /// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+    /// assert!(choice_name_options.choice_aleph_options.contains(&game_options.choice_aleph()));
+    /// assert!(choice_name_options.choice_bey_options.contains(&game_options.choice_bey()));
     /// ```
     ///
     /// # See Also
@@ -296,7 +310,9 @@ impl Default for GameOptions {
     /// * [`GameOptions::new()`](#method.new)
     ///
     fn default() -> Self {
-        Self::new(1, 10, "Cooperate".to_string(), "Defect".to_string())
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_aleph, choice_bey) = choice_name_options.get_random_pair();
+        Self::new(1, 10, choice_aleph.to_string(), choice_bey.to_string())
     }
 }
 
@@ -310,8 +326,12 @@ impl Display for GameOptions {
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options = GameOptions::default();
-    /// assert_eq!(format!("{}", game_options), "min_value: 1, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect");
+    /// let game_options = GameOptions::new(
+    /// 1,
+    /// 10,
+    /// "cooperate".to_string(),
+    /// "defect".to_string());
+    /// assert_eq!(format!("{}", game_options), "min_value: 1, max_value: 10, choice_aleph: cooperate, choice_bey: defect");
     /// ```
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -328,11 +348,17 @@ mod tests {
 
     #[test]
     fn test_game_options_default() {
+        let choice_name_options = ChoiceNameOptions::new();
         let game_options = GameOptions::default();
         assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
-        assert_eq!(game_options.choice_aleph(), "Cooperate");
-        assert_eq!(game_options.choice_bey(), "Defect");
+        assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+        assert!(choice_name_options
+            .choice_aleph_options
+            .contains(&game_options.choice_aleph()));
+        assert!(choice_name_options
+            .choice_bey_options
+            .contains(&game_options.choice_bey()));
     }
 
     #[test]
@@ -346,10 +372,10 @@ mod tests {
 
     #[test]
     fn test_game_options_display() {
-        let game_options = GameOptions::default();
+        let game_options = GameOptions::new(1, 10, "A".to_string(), "B".to_string());
         assert_eq!(
             format!("{}", game_options),
-            "min_value: 1, max_value: 10, choice_aleph: Cooperate, choice_bey: Defect"
+            "min_value: 1, max_value: 10, choice_aleph: A, choice_bey: B"
         );
     }
 }
