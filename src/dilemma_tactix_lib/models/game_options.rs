@@ -46,7 +46,20 @@ use std::fmt::Display;
 
 /// `GameOptions` is a struct that holds the options for a game.
 ///
+/// This struct is used to encapsulate the parameters to be used for generating a single grid
+/// from the parameters that may be related to a tournament or a series of grids.
+///
+/// The four parameters are:
+///
+/// * `min_value` - The minimum value for that can be assigned to a choice.
+/// * `max_value` - The maximum value for that can be assigned to a choice.
+/// * `choice_aleph` - The label for the first choice that can be made.
+/// * `choice_bey` - The label for the second choice that can be made.
+///
 /// # Example
+///
+/// ## Explicit Options
+///
 /// ```
 /// use dilemma_tactix_lib::GameOptions;
 ///
@@ -56,6 +69,27 @@ use std::fmt::Display;
 /// assert_eq!(game_options.choice_aleph(), "Cooperate");
 /// assert_eq!(game_options.choice_bey(), "Defect");
 /// ```
+///
+/// ## Default Options
+///
+/// ```
+/// use dilemma_tactix_lib::GameOptions;
+///
+/// let game_options = GameOptions::default();
+/// assert_eq!(game_options.min_value(), 1);
+/// assert_eq!(game_options.max_value(), 10);
+/// assert_eq!(game_options.choice_aleph(), "Cooperate");
+/// assert_eq!(game_options.choice_bey(), "Defect");
+/// ```
+///
+/// # Notes
+///
+/// The `GameOptions` struct implements the `Default` trait, and can be created with the `default()` method.
+///
+/// # See Also
+///
+/// * [`GameOptions::new()`](#method.new)
+/// * [`GameOptions::default()`](#method.default)
 #[derive(Debug, Clone)]
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
@@ -94,6 +128,9 @@ impl GameOptions {
     ///
     /// Panics if `min_value` is greater than `max_value` or if `choice_aleph` or `choice_bey` are empty.
     ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::default()`](#method.default)
     #[must_use]
     pub fn new(min_value: u32, max_value: u32, choice_aleph: String, choice_bey: String) -> Self {
         assert!(
@@ -115,6 +152,8 @@ impl GameOptions {
 
     /// Returns the value of `min_value`.
     ///
+    /// This function returns the value of `min_value`.
+    ///
     /// # Example
     ///
     /// ```
@@ -124,12 +163,24 @@ impl GameOptions {
     /// assert_eq!(game_options.min_value(), 1);
     /// ```
     ///
+    /// # Returns
+    ///
+    /// The value of `min_value`.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::max_value()`](#method.max_value)
+    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
+    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    ///
     #[must_use]
     pub const fn min_value(&self) -> u32 {
         self.min_value
     }
 
     /// Returns the value of `max_value`.
+    ///
+    /// This function returns the value of `max_value`.
     ///
     /// # Example
     ///
@@ -139,12 +190,25 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.max_value(), 10);
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// The value of `max_value`.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::min_value()`](#method.min_value)
+    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
+    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    ///
     #[must_use]
     pub const fn max_value(&self) -> u32 {
         self.max_value
     }
 
     /// Returns the value of `choice_aleph`.
+    ///
+    /// This function returns the value of `choice_aleph`.
     ///
     /// # Example
     ///
@@ -154,12 +218,25 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.choice_aleph(), "Cooperate");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// The value of `choice_aleph`.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::min_value()`](#method.min_value)
+    /// * [`GameOptions::max_value()`](#method.max_value)
+    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    ///
     #[must_use]
     pub fn choice_aleph(&self) -> &str {
         &self.choice_aleph
     }
 
     /// Returns the value of `choice_bey`.
+    ///
+    /// This function returns the value of `choice_bey`.
     ///
     /// # Example
     ///
@@ -169,6 +246,17 @@ impl GameOptions {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.choice_bey(), "Defect");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// The value of `choice_bey`.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::min_value()`](#method.min_value)
+    /// * [`GameOptions::max_value()`](#method.max_value)
+    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
+    ///
     #[must_use]
     pub fn choice_bey(&self) -> &str {
         &self.choice_bey
@@ -178,6 +266,19 @@ impl GameOptions {
 impl Default for GameOptions {
     /// Creates a new `GameOptions` struct with default values.
     ///
+    /// This function creates a new `GameOptions` struct with default values.
+    ///
+    /// The default values are:
+    ///
+    /// * `min_value` - 1
+    /// * `max_value` - 10
+    /// * `choice_aleph` - "Cooperate"
+    /// * `choice_bey` - "Defect"
+    ///
+    /// # Returns
+    ///
+    /// A new `GameOptions` struct with default values.
+    ///
     /// # Example
     ///
     /// ```
@@ -189,6 +290,11 @@ impl Default for GameOptions {
     /// assert_eq!(game_options.choice_aleph(), "Cooperate");
     /// assert_eq!(game_options.choice_bey(), "Defect");
     /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions::new()`](#method.new)
+    ///
     fn default() -> Self {
         Self::new(1, 10, "Cooperate".to_string(), "Defect".to_string())
     }
@@ -196,6 +302,8 @@ impl Default for GameOptions {
 
 impl Display for GameOptions {
     /// Implements the Display trait for `GameOptions`.
+    ///
+    /// This function implements the Display trait for `GameOptions`.
     ///
     /// # Example
     ///
