@@ -17,7 +17,3 @@ plugins:
           - Cargo.lock
           - CHANGELOG.md
         message: "chore(release): ${nextRelease.version} [skip ci]"
-
-generateNotes:
-  - path: "@semantic-release/release-notes-generator"
-    preset: "conventionalcommits"
