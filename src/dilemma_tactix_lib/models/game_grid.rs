@@ -170,6 +170,32 @@ impl GameGrid {
     pub const fn score_bb(&self) -> NumberPair {
         self.score_bb
     }
+
+    pub fn play(&self, choice_aleph: &str, choice_bey: &str) -> NumberPair {
+        match (choice_aleph, choice_bey) {
+            (choice_aleph, choice_bey)
+                if choice_aleph == self.choice_aleph() && choice_bey == self.choice_aleph() =>
+            {
+                self.score_aa()
+            }
+            (choice_aleph, choice_bey)
+                if choice_aleph == self.choice_aleph() && choice_bey == self.choice_bey() =>
+            {
+                self.score_ab()
+            }
+            (choice_aleph, choice_bey)
+                if choice_aleph == self.choice_bey() && choice_bey == self.choice_aleph() =>
+            {
+                self.score_ba()
+            }
+            (choice_aleph, choice_bey)
+                if choice_aleph == self.choice_bey() && choice_bey == self.choice_bey() =>
+            {
+                self.score_bb()
+            }
+            _ => panic!("Invalid choices"),
+        }
+    }
 }
 
 impl Display for GameGrid {

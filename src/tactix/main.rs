@@ -43,8 +43,106 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use dilemma_tactix_lib::GameGrid;
+use prettytable::{format::Alignment, Cell, Row, Table};
+
+fn display_game_grid(game_grid: &GameGrid) {
+    let mut table = Table::new();
+
+    table.add_row(Row::new(vec![
+        Cell::new(""),
+        Cell::new_align("Player 2", Alignment::CENTER).with_hspan(2),
+    ]));
+    table.add_row(Row::new(vec![
+        Cell::new("Player 1"),
+        Cell::new(game_grid.choice_aleph()),
+        Cell::new(game_grid.choice_bey()),
+    ]));
+    table.add_row(Row::new(vec![
+        Cell::new(game_grid.choice_aleph()),
+        Cell::new(&game_grid.score_aa().to_string()),
+        Cell::new(&game_grid.score_ab().to_string()),
+    ]));
+    table.add_row(Row::new(vec![
+        Cell::new(game_grid.choice_bey()),
+        Cell::new(&game_grid.score_ba().to_string()),
+        Cell::new(&game_grid.score_bb().to_string()),
+    ]));
+    table.printstd();
+}
+
+fn parse_choice(choice: &str, game_grid: &GameGrid) -> String {
+    match choice {
+        "A" => game_grid.choice_aleph().to_owned(),
+        "B" => game_grid.choice_bey().to_owned(),
+        _ => {
+            println!("Invalid choice, defaulting to A");
+            game_grid.choice_aleph().to_owned()
+        }
+    }
+}
 
 fn main() {
     let game_grid = GameGrid::default();
-    println!("{game_grid}");
+    display_game_grid(&game_grid);
+
+    println!("The choices available to you are: ");
+    println!("A: {}", game_grid.choice_aleph());
+    println!("B: {}", game_grid.choice_bey());
+    println!("Enter your choice (A or B): ");
+    let mut choice_aleph = String::new();
+    std::io::stdin()
+        .read_line(&mut choice_aleph)
+        .expect("Failed to read line");
+    let choice_aleph = parse_choice(choice_aleph.trim(), &game_grid);
+
+    println!("Enter opponents choice (A or B): ");
+    let mut choice_bey = String::new();
+    std::io::stdin()
+        .read_line(&mut choice_bey)
+        .expect("Failed to read line");
+    let choice_bey = parse_choice(choice_bey.trim(), &game_grid);
+
+    let result = game_grid.play(&choice_aleph, &choice_bey);
+
+    if (result.first() == game_grid.score_aa().first())
+        && (result.second() == game_grid.score_aa().second())
+    {
+        println!(
+            "Both players both chose {}. Player 1 scored {}, Player 2 scored {}",
+            game_grid.choice_aleph(),
+            game_grid.score_aa().first(),
+            game_grid.score_aa().second()
+        );
+    } else if (result.first() == game_grid.score_ab().first())
+        && (result.second() == game_grid.score_ab().second())
+    {
+        println!(
+            "Player 1 chose {}, Player 2 chose {}. Player 1 scored {}, Player 2 scored {}",
+            game_grid.choice_aleph(),
+            game_grid.choice_bey(),
+            game_grid.score_ab().first(),
+            game_grid.score_ab().second()
+        );
+    } else if (result.first() == game_grid.score_ba().first())
+        && (result.second() == game_grid.score_ba().second())
+    {
+        println!(
+            "Player 1 chose {}, Player 2 chose {}. Player 1 scored {}, Player 2 scored {}",
+            game_grid.choice_bey(),
+            game_grid.choice_aleph(),
+            game_grid.score_ba().first(),
+            game_grid.score_ba().second()
+        );
+    } else if (result.first() == game_grid.score_bb().first())
+        && (result.second() == game_grid.score_bb().second())
+    {
+        println!(
+            "Both players chose {}, Player 1 scored {}, Player 2 scored {}",
+            game_grid.choice_bey(),
+            game_grid.score_bb().first(),
+            game_grid.score_bb().second()
+        );
+    } else {
+        println!("Something went wrong");
+    }
 }
