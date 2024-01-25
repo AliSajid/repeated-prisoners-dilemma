@@ -1,5 +1,5 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-// * Copyright (c) 2023
+// * Copyright (c) 2023-2024
 // *
 // * This project is dual-licensed under the MIT and Apache licenses.
 // *
@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,26 +23,36 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+//   copy
+// * of this software and associated documentation files (the "Software"), to
+//   deal
+// * in the Software without restriction, including without limitation the
+//   rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+//   all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//   FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::{self, Display, Formatter};
+use std::fmt::{
+    self,
+    Display,
+    Formatter,
+};
 
 use rand::Rng;
 
@@ -71,7 +81,7 @@ use rand::Rng;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct NumberPair {
     /// The first number in the pair.
-    first: u32,
+    first:  u32,
     /// The second number in the pair.
     second: u32,
 }
@@ -125,7 +135,8 @@ impl NumberPair {
     ///
     /// # Returns
     ///
-    /// A new `NumberPair` struct with random values between `min_value` and `max_value` for each of `first` and `second`.
+    /// A new `NumberPair` struct with random values between `min_value` and
+    /// `max_value` for each of `first` and `second`.
     #[must_use]
     pub fn random(min_value: u32, max_value: u32) -> Self {
         assert!(
@@ -212,12 +223,12 @@ impl Default for NumberPair {
     /// let number_pair = NumberPair::default();
     /// assert!(number_pair.first() <= 10);
     /// assert!(number_pair.second() <= 10);
-    ///
     /// ```
     ///
     /// # Returns
     ///
-    /// A new `NumberPair` struct with random values between 1 and 10 for each of `first` and `second`.
+    /// A new `NumberPair` struct with random values between 1 and 10 for each
+    /// of `first` and `second`.
     fn default() -> Self {
         let mut rng = rand::thread_rng();
         Self::new(rng.gen_range(1..=10), rng.gen_range(1..=10))

@@ -1,5 +1,5 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-// * Copyright (c) 2023
+// * Copyright (c) 2023-2024
 // *
 // * This project is dual-licensed under the MIT and Apache licenses.
 // *
@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,26 +23,35 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+//   copy
+// * of this software and associated documentation files (the "Software"), to
+//   deal
+// * in the Software without restriction, including without limitation the
+//   rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+//   all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//   FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use rand::{self, Rng};
+use rand::{
+    self,
+    Rng,
+};
 /// A data struct that holds the names of the choices.
 ///
 /// This is a simple data struct that is used to internally store
@@ -53,7 +62,8 @@ use rand::{self, Rng};
 ///
 /// The names are stored in two arrays, one for each choice. The
 /// names are then accessed by index, and returned as a pair. The table
-/// of all choices and their respective indices can be found [below](#available-options).
+/// of all choices and their respective indices can be found
+/// [below](#available-options).
 ///
 /// The struct also provides a way to get a random pair of names.
 ///
@@ -84,11 +94,12 @@ use rand::{self, Rng};
 ///
 /// The names are taken from the [Universal Paperclips](https://www.decisionproblem.com/paperclips/index2.html).
 ///
-/// I have also decided to make a static array that can be stored in the binary itself to make it easier to
-/// distribute the game. This means that the names are not configurable, and are the same for every game.
+/// I have also decided to make a static array that can be stored in the binary
+/// itself to make it easier to distribute the game. This means that the names
+/// are not configurable, and are the same for every game.
 ///
-/// For this reason, you would usually want to use the `get_random_pair` function, as it will return a random
-/// pair of names.
+/// For this reason, you would usually want to use the `get_random_pair`
+/// function, as it will return a random pair of names.
 ///
 /// # Available Options
 ///
@@ -121,8 +132,8 @@ use rand::{self, Rng};
 #[allow(clippy::doc_markdown)]
 pub struct ChoiceNameOptions {
     pub choice_aleph_options: [&'static str; 17],
-    pub choice_bey_options: [&'static str; 17],
-    pub length: usize,
+    pub choice_bey_options:   [&'static str; 17],
+    pub length:               usize,
 }
 
 impl ChoiceNameOptions {
@@ -229,7 +240,8 @@ impl ChoiceNameOptions {
     ///
     /// # Panics
     ///
-    /// This function will panic if the index is greater than the length of the array.
+    /// This function will panic if the index is greater than the length of the
+    /// array.
     ///
     /// # See Also
     ///
