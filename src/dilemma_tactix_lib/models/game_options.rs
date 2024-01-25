@@ -1,5 +1,5 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-// * Copyright (c) 2023
+// * Copyright (c) 2023-2024
 // *
 // * This project is dual-licensed under the MIT and Apache licenses.
 // *
@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,22 +23,28 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+//   copy
+// * of this software and associated documentation files (the "Software"), to
+//   deal
+// * in the Software without restriction, including without limitation the
+//   rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+//   all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//   FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//   THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -48,8 +54,9 @@ use crate::ChoiceNameOptions;
 
 /// This is a struct that holds the options for a game.
 ///
-/// This struct is used to encapsulate the parameters to be used for generating a single grid
-/// from the parameters that may be related to a tournament or a series of grids.
+/// This struct is used to encapsulate the parameters to be used for generating
+/// a single grid from the parameters that may be related to a tournament or a
+/// series of grids.
 ///
 /// The four parameters are:
 ///
@@ -65,12 +72,8 @@ use crate::ChoiceNameOptions;
 /// ```
 /// use dilemma_tactix_lib::GameOptions;
 ///
-/// let game_options = GameOptions::new(
-///    1,
-///  10,
-/// "cooperate".to_string(),
-///  "defect".to_string(),
-/// );
+/// let game_options =
+///     GameOptions::new(1, 10, "cooperate".to_string(), "defect".to_string());
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
 /// assert_eq!(game_options.choice_aleph(), "cooperate");
@@ -86,12 +89,12 @@ use crate::ChoiceNameOptions;
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
 /// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
-///
 /// ```
 ///
 /// # Notes
 ///
-/// The `GameOptions` struct implements the `Default` trait, and can be created with the `default()` method.
+/// The `GameOptions` struct implements the `Default` trait, and can be created
+/// with the `default()` method.
 ///
 /// # See Also
 ///
@@ -100,13 +103,13 @@ use crate::ChoiceNameOptions;
 #[derive(Debug, Clone)]
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
-    min_value: u32,
+    min_value:    u32,
     /// The maximum value for that can be assigned to a choice.
-    max_value: u32,
+    max_value:    u32,
     /// The label for the first choice that can be made
     choice_aleph: String,
     /// The label for the second choice that can be made
-    choice_bey: String,
+    choice_bey:   String,
 }
 
 impl GameOptions {
@@ -124,7 +127,8 @@ impl GameOptions {
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options = GameOptions::new(1, 10, "A".to_string(), "B".to_string());
+    /// let game_options =
+    ///     GameOptions::new(1, 10, "A".to_string(), "B".to_string());
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
     /// assert_eq!(game_options.choice_aleph(), "A");
@@ -133,7 +137,8 @@ impl GameOptions {
     ///
     /// # Panics
     ///
-    /// Panics if `min_value` is greater than `max_value` or if `choice_aleph` or `choice_bey` are empty.
+    /// Panics if `min_value` is greater than `max_value` or if `choice_aleph`
+    /// or `choice_bey` are empty.
     ///
     /// # See Also
     ///
@@ -179,7 +184,6 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
     /// * [`GameOptions::choice_bey()`](#method.choice_bey)
-    ///
     #[must_use]
     pub const fn min_value(&self) -> u32 {
         self.min_value
@@ -207,7 +211,6 @@ impl GameOptions {
     /// * [`GameOptions::min_value()`](#method.min_value)
     /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
     /// * [`GameOptions::choice_bey()`](#method.choice_bey)
-    ///
     #[must_use]
     pub const fn max_value(&self) -> u32 {
         self.max_value
@@ -220,12 +223,16 @@ impl GameOptions {
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameOptions;
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::{
+    ///     ChoiceNameOptions,
+    ///     GameOptions,
+    /// };
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
-    /// assert!(choice_name_options.choice_aleph_options.contains(&game_options.choice_aleph()))
+    /// assert!(choice_name_options
+    ///     .choice_aleph_options
+    ///     .contains(&game_options.choice_aleph()))
     /// ```
     ///
     /// # Returns
@@ -237,7 +244,6 @@ impl GameOptions {
     /// * [`GameOptions::min_value()`](#method.min_value)
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_bey()`](#method.choice_bey)
-    ///
     #[must_use]
     pub fn choice_aleph(&self) -> &str {
         &self.choice_aleph
@@ -250,12 +256,16 @@ impl GameOptions {
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameOptions;
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::{
+    ///     ChoiceNameOptions,
+    ///     GameOptions,
+    /// };
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
-    /// assert!(choice_name_options.choice_bey_options.contains(&game_options.choice_bey()))
+    /// assert!(choice_name_options
+    ///     .choice_bey_options
+    ///     .contains(&game_options.choice_bey()))
     /// ```
     ///
     /// # Returns
@@ -267,7 +277,6 @@ impl GameOptions {
     /// * [`GameOptions::min_value()`](#method.min_value)
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
-    ///
     #[must_use]
     pub fn choice_bey(&self) -> &str {
         &self.choice_bey
@@ -293,22 +302,27 @@ impl Default for GameOptions {
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameOptions;
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::{
+    ///     ChoiceNameOptions,
+    ///     GameOptions,
+    /// };
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
     /// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
-    /// assert!(choice_name_options.choice_aleph_options.contains(&game_options.choice_aleph()));
-    /// assert!(choice_name_options.choice_bey_options.contains(&game_options.choice_bey()));
+    /// assert!(choice_name_options
+    ///     .choice_aleph_options
+    ///     .contains(&game_options.choice_aleph()));
+    /// assert!(choice_name_options
+    ///     .choice_bey_options
+    ///     .contains(&game_options.choice_bey()));
     /// ```
     ///
     /// # See Also
     ///
     /// * [`GameOptions::new()`](#method.new)
-    ///
     fn default() -> Self {
         let choice_name_options = ChoiceNameOptions::new();
         let (choice_aleph, choice_bey) = choice_name_options.get_random_pair();
@@ -326,12 +340,13 @@ impl Display for GameOptions {
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options = GameOptions::new(
-    /// 1,
-    /// 10,
-    /// "cooperate".to_string(),
-    /// "defect".to_string());
-    /// assert_eq!(format!("{}", game_options), "min_value: 1, max_value: 10, choice_aleph: cooperate, choice_bey: defect");
+    /// let game_options =
+    ///     GameOptions::new(1, 10, "cooperate".to_string(), "defect".to_string());
+    /// assert_eq!(
+    ///     format!("{}", game_options),
+    ///     "min_value: 1, max_value: 10, choice_aleph: cooperate, choice_bey: \
+    ///      defect"
+    /// );
     /// ```
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
