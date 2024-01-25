@@ -22,6 +22,7 @@ name = "tactix-bench"
 path = "src/tactix-bench/main.rs"
 
 [dependencies]
+anyhow = { version = "1.0.79", features = ["backtrace"] }
 clap = { version = "4.3.0", features = ["cargo", "debug", "env", "string", "unicode", "derive"] }
 crossterm = { version = "0.27.0", features = ["serde"] }
 prettytable-rs = "0.10.0"
