@@ -139,16 +139,15 @@ impl NumberPair {
     /// `max_value` for each of `first` and `second`.
     #[must_use]
     pub fn random(min_value: u32, max_value: u32) -> Self {
-        assert!(
-            (min_value < max_value),
-            "min_value must be strictly less than max_value"
-        );
-
-        let mut rng = rand::thread_rng();
-        Self::new(
-            rng.gen_range(min_value..=max_value),
-            rng.gen_range(min_value..=max_value),
-        )
+        if min_value < max_value {
+            let mut rng = rand::thread_rng();
+            Self::new(
+                rng.gen_range(min_value..=max_value),
+                rng.gen_range(min_value..=max_value),
+            )
+        } else {
+            panic!("min_value must be less than max_value");
+        }
     }
 
     /// Returns the value of `first`.
@@ -231,7 +230,9 @@ impl Default for NumberPair {
     /// of `first` and `second`.
     fn default() -> Self {
         let mut rng = rand::thread_rng();
-        Self::new(rng.gen_range(1..=10), rng.gen_range(1..=10))
+        Self::new(rng.gen_range(1..=10), rng.gen_range(1..=10)) // TODO - Make
+                                                                // this range
+                                                                // 0-9
     }
 }
 
