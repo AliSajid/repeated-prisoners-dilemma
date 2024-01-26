@@ -50,6 +50,7 @@
 
 use crate::{
     GameGrid,
+    GameOptions,
     NumberPair,
 };
 
@@ -101,18 +102,18 @@ use crate::{
 /// * [`GameGrid`](crate::GameGrid)
 /// * [`GameGrid::new()`](crate::GameGrid::new())
 #[derive(Debug, Default)]
-pub struct GameGridBuilder {
+pub struct GameGridBuilder<'a> {
     pub max_value:    Option<u32>,
     pub min_value:    Option<u32>,
-    pub choice_aleph: Option<String>,
-    pub choice_bey:   Option<String>,
+    pub choice_aleph: Option<&'a str>,
+    pub choice_bey:   Option<&'a str>,
     pub score_aa:     Option<NumberPair>,
     pub score_ab:     Option<NumberPair>,
     pub score_ba:     Option<NumberPair>,
     pub score_bb:     Option<NumberPair>,
 }
 
-impl GameGridBuilder {
+impl<'a> GameGridBuilder<'a> {
     /// Creates a new `GameGridBuilder` struct.
     ///
     /// # Example
@@ -271,7 +272,7 @@ impl GameGridBuilder {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_aleph(mut self, choice_aleph: String) -> Self {
+    pub fn choice_aleph(mut self, choice_aleph: &'a str) -> Self {
         self.choice_aleph = Some(choice_aleph);
         self
     }
@@ -309,7 +310,7 @@ impl GameGridBuilder {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_bey(mut self, choice_bey: String) -> Self {
+    pub fn choice_bey(mut self, choice_bey: &'a str) -> Self {
         self.choice_bey = Some(choice_bey);
         self
     }
@@ -535,17 +536,24 @@ impl GameGridBuilder {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn build(self) -> GameGrid {
-        GameGrid::new(
-            self.max_value.expect("max_value must be set"),
-            self.min_value.expect("min_value must be set"),
-            self.choice_aleph.expect("choice_aleph must be set"),
-            self.choice_bey.expect("choice_bey must be set"),
-            self.score_aa.expect("score_aa must be set"),
-            self.score_ab.expect("score_ab must be set"),
-            self.score_ba.expect("score_ba must be set"),
-            self.score_bb.expect("score_bb must be set"),
-        )
+    pub fn build(self) -> GameGrid<'a> {
+        let max_value = self.max_value.unwrap_or(10);
+        let min_value = self.min_value.unwrap_or(1);
+        let choice_aleph = self.choice_aleph.unwrap_or("cooperate");
+        let choice_bey = self.choice_bey.unwrap_or("defect");
+        let score_aa = self.score_aa.unwrap_or(NumberPair::new(4, 4));
+        let score_ab = self.score_ab.unwrap_or(NumberPair::new(5, 0));
+        let score_ba = self.score_ba.unwrap_or(NumberPair::new(0, 5));
+        let score_bb = self.score_bb.unwrap_or(NumberPair::new(3, 3));
+        let game_options = GameOptions::new(min_value, max_value, choice_aleph, choice_bey);
+
+        GameGrid {
+            game_options,
+            score_aa,
+            score_ab,
+            score_ba,
+            score_bb,
+        }
     }
 }
 
@@ -558,8 +566,8 @@ mod tests {
         let game_grid = GameGridBuilder::new()
             .max_value(10)
             .min_value(1)
-            .choice_aleph("A".to_string())
-            .choice_bey("B".to_string())
+            .choice_aleph("A")
+            .choice_bey("B")
             .score_aa(NumberPair::new(1, 1))
             .score_ab(NumberPair::new(1, 1))
             .score_ba(NumberPair::new(1, 1))
@@ -574,5 +582,19 @@ mod tests {
         assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
         assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
         assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+    }
+
+    #[test]
+    fn test_default_builder() {
+        let game_grid = GameGridBuilder::new().build();
+
+        assert_eq!(game_grid.max_value(), 10);
+        assert_eq!(game_grid.min_value(), 1);
+        assert_eq!(game_grid.choice_aleph(), "cooperate");
+        assert_eq!(game_grid.choice_bey(), "defect");
+        assert_eq!(game_grid.score_aa(), NumberPair::new(4, 4));
+        assert_eq!(game_grid.score_ab(), NumberPair::new(5, 0));
+        assert_eq!(game_grid.score_ba(), NumberPair::new(0, 5));
+        assert_eq!(game_grid.score_bb(), NumberPair::new(3, 3));
     }
 }

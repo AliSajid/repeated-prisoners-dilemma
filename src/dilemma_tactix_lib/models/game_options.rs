@@ -101,18 +101,18 @@ use crate::ChoiceNameOptions;
 /// * [`GameOptions::new()`](#method.new)
 /// * [`GameOptions::default()`](#method.default)
 #[derive(Debug, Clone)]
-pub struct GameOptions {
+pub struct GameOptions<'a> {
     /// The minimum value for that can be assigned to a choice.
     min_value:    u32,
     /// The maximum value for that can be assigned to a choice.
     max_value:    u32,
     /// The label for the first choice that can be made
-    choice_aleph: String,
+    choice_aleph: &'a str,
     /// The label for the second choice that can be made
-    choice_bey:   String,
+    choice_bey:   &'a str,
 }
 
-impl GameOptions {
+impl<'a> GameOptions<'a> {
     /// Creates a new `GameOptions` struct.
     ///
     /// # Arguments
@@ -127,8 +127,7 @@ impl GameOptions {
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options =
-    ///     GameOptions::new(1, 10, "A".to_string(), "B".to_string());
+    /// let game_options = GameOptions::new(1, 10, "A", "B");
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
     /// assert_eq!(game_options.choice_aleph(), "A");
@@ -144,16 +143,7 @@ impl GameOptions {
     ///
     /// * [`GameOptions::default()`](#method.default)
     #[must_use]
-    pub fn new(min_value: u32, max_value: u32, choice_aleph: String, choice_bey: String) -> Self {
-        assert!(
-            min_value < max_value,
-            "min_value must be strictly less than max_value"
-        );
-
-        assert!(!choice_aleph.is_empty(), "choice_aleph cannot be empty");
-
-        assert!(!choice_bey.is_empty(), "choice_bey cannot be empty");
-
+    pub fn new(min_value: u32, max_value: u32, choice_aleph: &'a str, choice_bey: &'a str) -> Self {
         Self {
             min_value,
             max_value,
@@ -246,7 +236,7 @@ impl GameOptions {
     /// * [`GameOptions::choice_bey()`](#method.choice_bey)
     #[must_use]
     pub fn choice_aleph(&self) -> &str {
-        &self.choice_aleph
+        self.choice_aleph
     }
 
     /// Returns the value of `choice_bey`.
@@ -279,11 +269,11 @@ impl GameOptions {
     /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
     #[must_use]
     pub fn choice_bey(&self) -> &str {
-        &self.choice_bey
+        self.choice_bey
     }
 }
 
-impl Default for GameOptions {
+impl<'a> Default for GameOptions<'a> {
     /// Creates a new `GameOptions` struct with default values.
     ///
     /// This function creates a new `GameOptions` struct with default values.
@@ -292,8 +282,8 @@ impl Default for GameOptions {
     ///
     /// * `min_value` - 1
     /// * `max_value` - 10
-    /// * `choice_aleph` - "Cooperate"
-    /// * `choice_bey` - "Defect"
+    /// * `choice_aleph` - "cooperate"
+    /// * `choice_bey` - "defect"
     ///
     /// # Returns
     ///
@@ -326,11 +316,11 @@ impl Default for GameOptions {
     fn default() -> Self {
         let choice_name_options = ChoiceNameOptions::new();
         let (choice_aleph, choice_bey) = choice_name_options.get_random_pair();
-        Self::new(1, 10, choice_aleph.to_string(), choice_bey.to_string())
+        Self::new(1, 10, choice_aleph, choice_bey)
     }
 }
 
-impl Display for GameOptions {
+impl<'a> Display for GameOptions<'a> {
     /// Implements the Display trait for `GameOptions`.
     ///
     /// This function implements the Display trait for `GameOptions`.
@@ -340,8 +330,7 @@ impl Display for GameOptions {
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options =
-    ///     GameOptions::new(1, 10, "cooperate".to_string(), "defect".to_string());
+    /// let game_options = GameOptions::new(1, 10, "cooperate", "defect");
     /// assert_eq!(
     ///     format!("{}", game_options),
     ///     "min_value: 1, max_value: 10, choice_aleph: cooperate, choice_bey: \
@@ -378,7 +367,7 @@ mod tests {
 
     #[test]
     fn test_game_options_new() {
-        let game_options = GameOptions::new(1, 10, "A".to_string(), "B".to_string());
+        let game_options = GameOptions::new(1, 10, "A", "B");
         assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
         assert_eq!(game_options.choice_aleph(), "A");
@@ -387,7 +376,7 @@ mod tests {
 
     #[test]
     fn test_game_options_display() {
-        let game_options = GameOptions::new(1, 10, "A".to_string(), "B".to_string());
+        let game_options = GameOptions::new(1, 10, "A", "B");
         assert_eq!(
             format!("{}", game_options),
             "min_value: 1, max_value: 10, choice_aleph: A, choice_bey: B"
