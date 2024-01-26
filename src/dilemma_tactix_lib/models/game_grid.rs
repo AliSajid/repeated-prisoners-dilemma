@@ -78,8 +78,8 @@ use crate::{
 /// let game_grid = GameGrid::new(
 ///     10,
 ///     1,
-///     "A".to_string(),
-///     "B".to_string(),
+///     "A",
+///     "B",
 ///     NumberPair::new(1, 2),
 ///     NumberPair::new(3, 4),
 ///     NumberPair::new(5, 6),
@@ -116,22 +116,22 @@ use crate::{
 ///     .choice_bey_options
 ///     .contains(&game_grid.choice_bey()));
 /// ```
-pub struct GameGrid {
-    game_options: GameOptions,
-    score_aa:     NumberPair,
-    score_ab:     NumberPair,
-    score_ba:     NumberPair,
-    score_bb:     NumberPair,
+pub struct GameGrid<'a> {
+    pub game_options: GameOptions<'a>,
+    pub score_aa:     NumberPair,
+    pub score_ab:     NumberPair,
+    pub score_ba:     NumberPair,
+    pub score_bb:     NumberPair,
 }
 
-impl GameGrid {
+impl<'a> GameGrid<'a> {
     #[allow(clippy::too_many_arguments, clippy::similar_names)]
     #[must_use]
     pub fn new(
         max_value: u32,
         min_value: u32,
-        choice_aleph: String,
-        choice_bey: String,
+        choice_aleph: &'a str,
+        choice_bey: &'a str,
         score_aa: NumberPair,
         score_ab: NumberPair,
         score_ba: NumberPair,
@@ -214,7 +214,7 @@ impl GameGrid {
     }
 }
 
-impl Display for GameGrid {
+impl<'a> Display for GameGrid<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -224,7 +224,7 @@ impl Display for GameGrid {
     }
 }
 
-impl Default for GameGrid {
+impl<'a> Default for GameGrid<'a> {
     fn default() -> Self {
         let game_options = GameOptions::default();
         let min_value = game_options.min_value();
@@ -249,8 +249,8 @@ mod tests {
         let game_grid = GameGrid::new(
             10,
             1,
-            "A".to_string(),
-            "B".to_string(),
+            "A",
+            "B",
             NumberPair::new(1, 2),
             NumberPair::new(3, 4),
             NumberPair::new(5, 6),
@@ -283,8 +283,8 @@ mod tests {
         let game_grid = GameGrid::new(
             10,
             1,
-            "A".to_string(),
-            "B".to_string(),
+            "A",
+            "B",
             NumberPair::new(1, 2),
             NumberPair::new(3, 4),
             NumberPair::new(5, 6),
@@ -301,8 +301,8 @@ mod tests {
         let game_grid = GameGrid::new(
             10,
             1,
-            "A".to_string(),
-            "B".to_string(),
+            "A",
+            "B",
             NumberPair::new(1, 2),
             NumberPair::new(3, 4),
             NumberPair::new(5, 6),
@@ -316,8 +316,8 @@ mod tests {
         let game_grid = GameGrid::new(
             10,
             1,
-            "A".to_string(),
-            "B".to_string(),
+            "A",
+            "B",
             NumberPair::new(1, 2),
             NumberPair::new(3, 4),
             NumberPair::new(5, 6),
