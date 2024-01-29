@@ -49,9 +49,11 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use rand::{
-    self,
     Rng,
+    SeedableRng,
 };
+use rand_chacha::ChaCha12Rng;
+
 /// A data struct that holds the names of the choices.
 ///
 /// This is a simple data struct that is used to internally store
@@ -289,7 +291,47 @@ impl ChoiceNameOptions {
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[must_use]
     pub fn get_random_pair(&self) -> (&'static str, &'static str) {
-        let mut rng = rand::thread_rng();
+        let mut rng = ChaCha12Rng::from_entropy();
+        let choice = rng.gen_range(0..self.length);
+        self.get_choice_pair(choice)
+    }
+
+    /// Get a random choice pair seeded.
+    ///
+    /// This function returns a random choice pair, based on the length
+    /// of the array.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    ///
+    /// let choice_name_options = ChoiceNameOptions::new();
+    ///
+    /// let (choice_a, choice_b) = choice_name_options.get_random_pair();
+    /// assert_ne!(choice_a, choice_b);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A tuple containing the two choices.
+    ///
+    /// # See Also
+    ///
+    /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
+    ///
+    /// # Notes
+    ///
+    /// This function uses the [`rand`](https://crates.io/crates/rand) crate to generate a random number.
+    ///
+    /// # See Also
+    ///
+    /// * [`rand`](https://crates.io/crates/rand)
+    /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
+    #[cfg(test)]
+    #[doc(hidden)]
+    pub fn get_random_pair_seeded(&self, seed: u64) -> (&'static str, &'static str) {
+        let mut rng = ChaCha12Rng::seed_from_u64(seed);
         let choice = rng.gen_range(0..self.length);
         self.get_choice_pair(choice)
     }
