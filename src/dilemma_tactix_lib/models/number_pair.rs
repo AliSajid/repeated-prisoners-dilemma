@@ -54,7 +54,11 @@ use std::fmt::{
     Formatter,
 };
 
-use rand::Rng;
+use rand::{
+    Rng,
+    SeedableRng,
+};
+use rand_chacha::ChaCha12Rng;
 
 /// A convenience struct to represent a pair of numbers.
 ///
@@ -138,9 +142,12 @@ impl NumberPair {
     /// A new `NumberPair` struct with random values between `min_value` and
     /// `max_value` for each of `first` and `second`.
     #[must_use]
-    pub fn random(min_value: u32, max_value: u32) -> Self {
+    pub fn random(min_value: u32, max_value: u32, seed: Option<u64>) -> Self {
+        let mut rng = match seed {
+            Some(seed) => ChaCha12Rng::seed_from_u64(seed),
+            None => ChaCha12Rng::from_entropy(),
+        };
         if min_value < max_value {
-            let mut rng = rand::thread_rng();
             Self::new(
                 rng.gen_range(min_value..=max_value),
                 rng.gen_range(min_value..=max_value),
@@ -229,51 +236,68 @@ impl Default for NumberPair {
     /// A new `NumberPair` struct with random values between 1 and 10 for each
     /// of `first` and `second`.
     fn default() -> Self {
-        let mut rng = rand::thread_rng();
-        Self::new(rng.gen_range(1..=10), rng.gen_range(1..=10)) // TODO - Make
-                                                                // this range
-                                                                // 0-9
+        let mut rng = ChaCha12Rng::seed_from_u64(2000);
+        Self::new(rng.gen_range(1..=10), rng.gen_range(0..10))
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use rstest::{
+        fixture,
+        rstest,
+    };
+
     use super::*;
 
-    #[test]
+    #[fixture]
+    fn seed() -> u64 {
+        2024
+    }
+
+    #[fixture]
+    fn number_pair_example() -> NumberPair {
+        NumberPair::new(1, 2)
+    }
+
+    #[rstest]
     fn test_number_pair_display() {
         let number_pair = NumberPair::new(1, 2);
         assert_eq!(format!("{}", number_pair), "(1, 2)");
     }
 
-    #[test]
+    #[rstest]
     fn test_number_pair_default() {
         let number_pair = NumberPair::default();
-        assert!(number_pair.first() <= 10);
+        assert!(number_pair.first() < 10);
+        assert_eq!(number_pair.first(), 6);
         assert!(number_pair.second() <= 10);
+        assert_eq!(number_pair.second(), 3);
     }
 
-    #[test]
-    fn test_number_pair_random() {
-        let number_pair = NumberPair::random(1, 10);
+    #[rstest]
+    fn test_number_pair_random(seed: u64) {
+        let number_pair = NumberPair::random(1, 10, Some(seed));
         assert!(number_pair.first() <= 10);
+        assert_eq!(number_pair.first(), 6);
         assert!(number_pair.second() <= 10);
+        assert!(number_pair.second() >= 1);
     }
 
-    #[test]
+    #[rstest]
     fn test_number_pair_new() {
         let number_pair = NumberPair::new(1, 2);
         assert_eq!(number_pair.first(), 1);
         assert_eq!(number_pair.second(), 2);
     }
 
-    #[test]
+    #[rstest]
     fn test_number_pair_first() {
         let number_pair = NumberPair::new(1, 2);
         assert_eq!(number_pair.first(), 1);
     }
 
-    #[test]
+    #[rstest]
     fn test_number_pair_second() {
         let number_pair = NumberPair::new(1, 2);
         assert_eq!(number_pair.second(), 2);

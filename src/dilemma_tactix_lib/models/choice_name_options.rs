@@ -103,7 +103,7 @@ use rand::{
 ///
 /// # Available Options
 ///
-/// | Index | Choice Aleph | Choice Bey |
+/// | Index | Choice Atlantis | Choice Olympus |
 /// | ----- | -------- | -------- |
 /// | 0     | cooperate | defect |
 /// | 1     | swerve | straight |
@@ -131,9 +131,9 @@ use rand::{
 #[derive(Debug, Clone, Copy)]
 #[allow(clippy::doc_markdown)]
 pub struct ChoiceNameOptions {
-    pub choice_aleph_options: [&'static str; 17],
-    pub choice_bey_options:   [&'static str; 17],
-    pub length:               usize,
+    pub choice_atlantis_options: [&'static str; 17],
+    pub choice_olympus_options:  [&'static str; 17],
+    pub length:                  usize,
 }
 
 impl ChoiceNameOptions {
@@ -166,7 +166,7 @@ impl ChoiceNameOptions {
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[must_use]
     pub const fn new() -> Self {
-        let choice_aleph_options = [
+        let choice_atlantis_options = [
             "cooperate",
             "swerve",
             "macro",
@@ -185,7 +185,7 @@ impl ChoiceNameOptions {
             "accept",
             "attack",
         ];
-        let choice_bey_options = [
+        let choice_olympus_options = [
             "defect",
             "straight",
             "micro",
@@ -204,10 +204,10 @@ impl ChoiceNameOptions {
             "deny",
             "decay",
         ];
-        let length = choice_aleph_options.len();
+        let length = choice_atlantis_options.len();
         Self {
-            choice_aleph_options,
-            choice_bey_options,
+            choice_atlantis_options,
+            choice_olympus_options,
             length,
         }
     }
@@ -249,7 +249,10 @@ impl ChoiceNameOptions {
     #[must_use]
     pub const fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
         assert!(n < self.length, "Index out of bounds.");
-        (self.choice_aleph_options[n], self.choice_bey_options[n])
+        (
+            self.choice_atlantis_options[n],
+            self.choice_olympus_options[n],
+        )
     }
 
     /// Get a random choice pair.

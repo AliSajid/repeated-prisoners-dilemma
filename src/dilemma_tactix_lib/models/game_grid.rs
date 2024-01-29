@@ -88,8 +88,8 @@ use crate::{
 ///
 /// assert_eq!(game_grid.max_value(), 10);
 /// assert_eq!(game_grid.min_value(), 1);
-/// assert_eq!(game_grid.choice_aleph(), "A");
-/// assert_eq!(game_grid.choice_bey(), "B");
+/// assert_eq!(game_grid.choice_atlantis(), "A");
+/// assert_eq!(game_grid.choice_olympus(), "B");
 /// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 2));
 /// assert_eq!(game_grid.score_ab(), NumberPair::new(3, 4));
 /// assert_eq!(game_grid.score_ba(), NumberPair::new(5, 6));
@@ -108,13 +108,13 @@ use crate::{
 /// let game_grid = GameGrid::default();
 /// assert!(game_grid.max_value() <= 10);
 /// assert!(game_grid.min_value() <= 1);
-/// assert_ne!(game_grid.choice_aleph(), game_grid.choice_bey());
+/// assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
 /// assert!(choice_name_options
-///     .choice_aleph_options
-///     .contains(&game_grid.choice_aleph()));
+///     .choice_atlantis_options
+///     .contains(&game_grid.choice_atlantis()));
 /// assert!(choice_name_options
-///     .choice_bey_options
-///     .contains(&game_grid.choice_bey()));
+///     .choice_olympus_options
+///     .contains(&game_grid.choice_olympus()));
 /// ```
 pub struct GameGrid<'a> {
     pub game_options: GameOptions<'a>,
@@ -125,25 +125,23 @@ pub struct GameGrid<'a> {
 }
 
 impl<'a> GameGrid<'a> {
-    #[allow(clippy::too_many_arguments, clippy::similar_names)]
+    #[allow(clippy::similar_names)]
     #[must_use]
     pub fn new(
         max_value: u32,
         min_value: u32,
-        choice_aleph: &'a str,
-        choice_bey: &'a str,
-        score_aa: NumberPair,
-        score_ab: NumberPair,
-        score_ba: NumberPair,
-        score_bb: NumberPair,
+        choice_atlantis: &'a str,
+        choice_olympus: &'a str,
     ) -> Self {
-        let game_options = GameOptions::new(min_value, max_value, choice_aleph, choice_bey);
+        let game_options = GameOptions::new(min_value, max_value, choice_atlantis, choice_olympus);
+        let min_value = game_options.min_value();
+        let max_value = game_options.max_value();
         Self {
             game_options,
-            score_aa,
-            score_ab,
-            score_ba,
-            score_bb,
+            score_aa: NumberPair::random(min_value, max_value, None),
+            score_ab: NumberPair::random(min_value, max_value, None),
+            score_ba: NumberPair::random(min_value, max_value, None),
+            score_bb: NumberPair::random(min_value, max_value, None),
         }
     }
 
@@ -158,13 +156,13 @@ impl<'a> GameGrid<'a> {
     }
 
     #[must_use]
-    pub fn choice_aleph(&self) -> &str {
-        self.game_options.choice_aleph()
+    pub fn choice_atlantis(&self) -> &str {
+        self.game_options.choice_atlantis()
     }
 
     #[must_use]
-    pub fn choice_bey(&self) -> &str {
-        self.game_options.choice_bey()
+    pub fn choice_olympus(&self) -> &str {
+        self.game_options.choice_olympus()
     }
 
     #[must_use]
@@ -187,25 +185,31 @@ impl<'a> GameGrid<'a> {
         self.score_bb
     }
 
-    pub fn play(&self, choice_aleph: &str, choice_bey: &str) -> NumberPair {
-        match (choice_aleph, choice_bey) {
-            (choice_aleph, choice_bey)
-                if choice_aleph == self.choice_aleph() && choice_bey == self.choice_aleph() =>
+    // FIXME - The variable names are confusing and do not distinguish between game
+    // state adn player choice
+    pub fn play(&self, choice_atlantis: &str, choice_olympus: &str) -> NumberPair {
+        match (choice_atlantis, choice_olympus) {
+            (choice_atlantis, choice_olympus)
+                if choice_atlantis == self.choice_atlantis()
+                    && choice_olympus == self.choice_atlantis() =>
             {
                 self.score_aa()
             }
-            (choice_aleph, choice_bey)
-                if choice_aleph == self.choice_aleph() && choice_bey == self.choice_bey() =>
+            (choice_atlantis, choice_olympus)
+                if choice_atlantis == self.choice_atlantis()
+                    && choice_olympus == self.choice_olympus() =>
             {
                 self.score_ab()
             }
-            (choice_aleph, choice_bey)
-                if choice_aleph == self.choice_bey() && choice_bey == self.choice_aleph() =>
+            (choice_atlantis, choice_olympus)
+                if choice_atlantis == self.choice_olympus()
+                    && choice_olympus == self.choice_atlantis() =>
             {
                 self.score_ba()
             }
-            (choice_aleph, choice_bey)
-                if choice_aleph == self.choice_bey() && choice_bey == self.choice_bey() =>
+            (choice_atlantis, choice_olympus)
+                if choice_atlantis == self.choice_olympus()
+                    && choice_olympus == self.choice_olympus() =>
             {
                 self.score_bb()
             }
@@ -231,98 +235,72 @@ impl<'a> Default for GameGrid<'a> {
         let max_value = game_options.max_value();
         Self {
             game_options,
-            score_aa: NumberPair::random(min_value, max_value),
-            score_ab: NumberPair::random(min_value, max_value),
-            score_ba: NumberPair::random(min_value, max_value),
-            score_bb: NumberPair::random(min_value, max_value),
+            score_aa: NumberPair::random(min_value, max_value, None),
+            score_ab: NumberPair::random(min_value, max_value, None),
+            score_ba: NumberPair::random(min_value, max_value, None),
+            score_bb: NumberPair::random(min_value, max_value, None),
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use rstest::{
+        fixture,
+        rstest,
+    };
+
     use super::*;
     use crate::ChoiceNameOptions;
 
-    #[test]
-    fn test_game_grid_display() {
-        let game_grid = GameGrid::new(
-            10,
-            1,
-            "A",
-            "B",
-            NumberPair::new(1, 2),
-            NumberPair::new(3, 4),
-            NumberPair::new(5, 6),
-            NumberPair::new(7, 8),
-        );
-        assert_eq!(
-            format!("{}", game_grid),
-            "Game Grid with Following Options:\nmin_value: 1, max_value: 10, choice_aleph: A, \
-             choice_bey: B\n"
-        );
+    #[fixture]
+    fn seed() -> u64 {
+        2024
     }
 
     #[test]
+    fn test_game_grid_display() {
+        let game_grid = GameGrid::new(10, 1, "A", "B");
+        assert_eq!(
+            format!("{}", game_grid),
+            "Game Grid with Following Options:\nmin_value: 1, max_value: 10, choice_atlantis: A, \
+             choice_olympus: B\n"
+        );
+    }
+
+    #[rstest]
     fn test_game_grid_default() {
         let game_grid = GameGrid::default();
         let choice_name_options = ChoiceNameOptions::new();
         assert_eq!(game_grid.min_value(), 1);
         assert_eq!(game_grid.max_value(), 10);
-        assert_ne!(game_grid.choice_aleph(), game_grid.choice_bey());
+        assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
         assert!(choice_name_options
-            .choice_aleph_options
-            .contains(&game_grid.choice_aleph()));
+            .choice_atlantis_options
+            .contains(&game_grid.choice_atlantis()));
         assert!(choice_name_options
-            .choice_bey_options
-            .contains(&game_grid.choice_bey()));
+            .choice_olympus_options
+            .contains(&game_grid.choice_olympus()));
     }
 
     #[test]
     fn test_game_grid_new() {
-        let game_grid = GameGrid::new(
-            10,
-            1,
-            "A",
-            "B",
-            NumberPair::new(1, 2),
-            NumberPair::new(3, 4),
-            NumberPair::new(5, 6),
-            NumberPair::new(7, 8),
-        );
+        let game_grid = GameGrid::new(10, 1, "A", "B");
         assert_eq!(game_grid.max_value(), 10);
         assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_aleph(), "A");
-        assert_eq!(game_grid.choice_bey(), "B");
+        assert_eq!(game_grid.choice_atlantis(), "A");
+        assert_eq!(game_grid.choice_olympus(), "B");
     }
 
     #[test]
     fn test_game_grid_score_aa() {
-        let game_grid = GameGrid::new(
-            10,
-            1,
-            "A",
-            "B",
-            NumberPair::new(1, 2),
-            NumberPair::new(3, 4),
-            NumberPair::new(5, 6),
-            NumberPair::new(7, 8),
-        );
-        assert_eq!(game_grid.score_aa(), NumberPair::new(1, 2));
+        let game_grid = GameGrid::new(10, 1, "A", "B");
+        assert_eq!(game_grid.score_aa(), NumberPair::new(4, 3));
     }
 
     #[test]
     fn test_game_grid_score_ab() {
-        let game_grid = GameGrid::new(
-            10,
-            1,
-            "A",
-            "B",
-            NumberPair::new(1, 2),
-            NumberPair::new(3, 4),
-            NumberPair::new(5, 6),
-            NumberPair::new(7, 8),
-        );
-        assert_eq!(game_grid.score_ab(), NumberPair::new(3, 4));
+        let game_grid = GameGrid::new(10, 1, "A", "B");
+        assert_eq!(game_grid.score_ab(), NumberPair::new(2, 4));
     }
 }
