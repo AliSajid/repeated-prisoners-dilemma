@@ -260,11 +260,13 @@ impl ChoiceNameOptions {
     /// * [`get_random_pair`](ChoiceNameOptions::get_random_pair)
     #[must_use]
     pub const fn get_choice_pair(&self, n: usize) -> (&'static str, &'static str) {
-        assert!(n < self.length, "Index out of bounds.");
-        (
-            self.choice_atlantis_options[n],
-            self.choice_olympus_options[n],
-        )
+        if n < self.length {
+            return (
+                self.choice_atlantis_options[n],
+                self.choice_olympus_options[n],
+            );
+        }
+        panic!("Index out of bounds.");
     }
 
     /// Get a random choice pair.
@@ -320,8 +322,10 @@ impl ChoiceNameOptions {
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
     /// let (choice_atlantis, choice_olympus) =
-    ///     choice_name_options.get_random_pair();
+    ///     choice_name_options.get_random_pair_seeded(2024);
     /// assert_ne!(choice_atlantis, choice_olympus);
+    /// assert_eq!(choice_atlantis, "discrete");
+    /// assert_eq!(choice_olympus, "continuous");
     /// ```
     ///
     /// # Returns
@@ -429,7 +433,7 @@ mod tests {
 
     // This test checks that the get_choice_pair method returns the expected choices
     // for a given index
-    #[test]
+    #[rstest]
     fn test_get_choice_pair() {
         let choice_name_options = ChoiceNameOptions::new();
         let (choice_atlantis, choice_olympus) = choice_name_options.get_choice_pair(0);
