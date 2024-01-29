@@ -70,8 +70,8 @@ use crate::{
 /// let game_grid = GameGridBuilder::new()
 ///     .max_value(10)
 ///     .min_value(1)
-///     .choice_aleph("A".to_string())
-///     .choice_bey("B".to_string())
+///     .choice_atlantis("A".to_string())
+///     .choice_olympus("B".to_string())
 ///     .score_aa(NumberPair::new(1, 1))
 ///     .score_ab(NumberPair::new(1, 1))
 ///     .score_ba(NumberPair::new(1, 1))
@@ -80,8 +80,8 @@ use crate::{
 ///
 /// assert_eq!(game_grid.max_value(), 10);
 /// assert_eq!(game_grid.min_value(), 1);
-/// assert_eq!(game_grid.choice_aleph(), "A");
-/// assert_eq!(game_grid.choice_bey(), "B");
+/// assert_eq!(game_grid.choice_atlantis(), "A");
+/// assert_eq!(game_grid.choice_olympus(), "B");
 /// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
 /// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
 /// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
@@ -103,14 +103,14 @@ use crate::{
 /// * [`GameGrid::new()`](crate::GameGrid::new())
 #[derive(Debug, Default)]
 pub struct GameGridBuilder<'a> {
-    pub max_value:    Option<u32>,
-    pub min_value:    Option<u32>,
-    pub choice_aleph: Option<&'a str>,
-    pub choice_bey:   Option<&'a str>,
-    pub score_aa:     Option<NumberPair>,
-    pub score_ab:     Option<NumberPair>,
-    pub score_ba:     Option<NumberPair>,
-    pub score_bb:     Option<NumberPair>,
+    pub max_value:       Option<u32>,
+    pub min_value:       Option<u32>,
+    pub choice_atlantis: Option<&'a str>,
+    pub choice_olympus:  Option<&'a str>,
+    pub score_aa:        Option<NumberPair>,
+    pub score_ab:        Option<NumberPair>,
+    pub score_ba:        Option<NumberPair>,
+    pub score_bb:        Option<NumberPair>,
 }
 
 impl<'a> GameGridBuilder<'a> {
@@ -125,8 +125,8 @@ impl<'a> GameGridBuilder<'a> {
     ///
     /// assert_eq!(game_grid_builder.max_value, None);
     /// assert_eq!(game_grid_builder.min_value, None);
-    /// assert_eq!(game_grid_builder.choice_aleph, None);
-    /// assert_eq!(game_grid_builder.choice_bey, None);
+    /// assert_eq!(game_grid_builder.choice_atlantis, None);
+    /// assert_eq!(game_grid_builder.choice_olympus, None);
     /// assert_eq!(game_grid_builder.score_aa, None);
     /// assert_eq!(game_grid_builder.score_ab, None);
     /// assert_eq!(game_grid_builder.score_ba, None);
@@ -142,8 +142,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
@@ -151,14 +151,14 @@ impl<'a> GameGridBuilder<'a> {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            max_value:    None,
-            min_value:    None,
-            choice_aleph: None,
-            choice_bey:   None,
-            score_aa:     None,
-            score_ab:     None,
-            score_ba:     None,
-            score_bb:     None,
+            max_value:       None,
+            min_value:       None,
+            choice_atlantis: None,
+            choice_olympus:  None,
+            score_aa:        None,
+            score_ab:        None,
+            score_ba:        None,
+            score_bb:        None,
         }
     }
 
@@ -187,8 +187,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
@@ -224,8 +224,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
@@ -240,7 +240,8 @@ impl<'a> GameGridBuilder<'a> {
     ///
     /// # Arguments
     ///
-    /// * `choice_aleph` - The first choice available to players in `GameGrid`.
+    /// * `choice_atlantis` - The first choice available to players in
+    ///   `GameGrid`.
     ///
     /// # Example
     ///
@@ -248,17 +249,17 @@ impl<'a> GameGridBuilder<'a> {
     /// use dilemma_tactix_lib::GameGridBuilder;
     ///
     /// let game_grid_builder =
-    ///     GameGridBuilder::new().choice_aleph("cooperate".to_string());
+    ///     GameGridBuilder::new().choice_atlantis("cooperate".to_string());
     ///
     /// assert_eq!(
-    ///     game_grid_builder.choice_aleph,
+    ///     game_grid_builder.choice_atlantis,
     ///     Some("cooperate".to_string())
     /// );
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `choice_aleph` field set.
+    /// The `GameGridBuilder` struct with the `choice_atlantis` field set.
     ///
     /// # See Also
     ///
@@ -266,14 +267,14 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_aleph(mut self, choice_aleph: &'a str) -> Self {
-        self.choice_aleph = Some(choice_aleph);
+    pub fn choice_atlantis(mut self, choice_atlantis: &'a str) -> Self {
+        self.choice_atlantis = Some(choice_atlantis);
         self
     }
 
@@ -281,7 +282,8 @@ impl<'a> GameGridBuilder<'a> {
     ///
     /// # Arguments
     ///
-    /// * `choice_bey` - The second choice available to players in `GameGrid`.
+    /// * `choice_olympus` - The second choice available to players in
+    ///   `GameGrid`.
     ///
     /// # Example
     ///
@@ -289,14 +291,14 @@ impl<'a> GameGridBuilder<'a> {
     /// use dilemma_tactix_lib::GameGridBuilder;
     ///
     /// let game_grid_builder =
-    ///     GameGridBuilder::new().choice_bey("defect".to_string());
+    ///     GameGridBuilder::new().choice_olympus("defect".to_string());
     ///
-    /// assert_eq!(game_grid_builder.choice_bey, Some("defect".to_string()));
+    /// assert_eq!(game_grid_builder.choice_olympus, Some("defect".to_string()));
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `choice_bey` field set.
+    /// The `GameGridBuilder` struct with the `choice_olympus` field set.
     ///
     /// # See Also
     ///
@@ -304,14 +306,14 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_bey(mut self, choice_bey: &'a str) -> Self {
-        self.choice_bey = Some(choice_bey);
+    pub fn choice_olympus(mut self, choice_olympus: &'a str) -> Self {
+        self.choice_olympus = Some(choice_olympus);
         self
     }
 
@@ -345,8 +347,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
@@ -388,8 +390,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
@@ -431,8 +433,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
@@ -473,8 +475,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
@@ -498,8 +500,8 @@ impl<'a> GameGridBuilder<'a> {
     /// let game_grid = GameGridBuilder::new()
     ///     .max_value(10)
     ///     .min_value(1)
-    ///     .choice_aleph("cooperate".to_string())
-    ///     .choice_bey("defect".to_string())
+    ///     .choice_atlantis("cooperate".to_string())
+    ///     .choice_olympus("defect".to_string())
     ///     .score_aa(NumberPair::new(1, 1))
     ///     .score_ab(NumberPair::new(1, 1))
     ///     .score_ba(NumberPair::new(1, 1))
@@ -508,8 +510,8 @@ impl<'a> GameGridBuilder<'a> {
     ///
     /// assert_eq!(game_grid.max_value(), 10);
     /// assert_eq!(game_grid.min_value(), 1);
-    /// assert_eq!(game_grid.choice_aleph(), "cooperate");
-    /// assert_eq!(game_grid.choice_bey(), "defect");
+    /// assert_eq!(game_grid.choice_atlantis(), "cooperate");
+    /// assert_eq!(game_grid.choice_olympus(), "defect");
     /// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
     /// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
     /// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
@@ -529,8 +531,8 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
     /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
     /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_aleph()`](GameGridBuilder::choice_aleph())
-    /// * [`GameGridBuilder::choice_bey()`](GameGridBuilder::choice_bey())
+    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
+    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
     /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
     /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
@@ -539,13 +541,13 @@ impl<'a> GameGridBuilder<'a> {
     pub fn build(self) -> GameGrid<'a> {
         let max_value = self.max_value.unwrap_or(10);
         let min_value = self.min_value.unwrap_or(1);
-        let choice_aleph = self.choice_aleph.unwrap_or("cooperate");
-        let choice_bey = self.choice_bey.unwrap_or("defect");
+        let choice_atlantis = self.choice_atlantis.unwrap_or("cooperate");
+        let choice_olympus = self.choice_olympus.unwrap_or("defect");
         let score_aa = self.score_aa.unwrap_or(NumberPair::new(4, 4));
         let score_ab = self.score_ab.unwrap_or(NumberPair::new(5, 0));
         let score_ba = self.score_ba.unwrap_or(NumberPair::new(0, 5));
         let score_bb = self.score_bb.unwrap_or(NumberPair::new(3, 3));
-        let game_options = GameOptions::new(min_value, max_value, choice_aleph, choice_bey);
+        let game_options = GameOptions::new(min_value, max_value, choice_atlantis, choice_olympus);
 
         GameGrid {
             game_options,
@@ -566,8 +568,8 @@ mod tests {
         let game_grid = GameGridBuilder::new()
             .max_value(10)
             .min_value(1)
-            .choice_aleph("A")
-            .choice_bey("B")
+            .choice_atlantis("A")
+            .choice_olympus("B")
             .score_aa(NumberPair::new(1, 1))
             .score_ab(NumberPair::new(1, 1))
             .score_ba(NumberPair::new(1, 1))
@@ -576,8 +578,8 @@ mod tests {
 
         assert_eq!(game_grid.max_value(), 10);
         assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_aleph(), "A");
-        assert_eq!(game_grid.choice_bey(), "B");
+        assert_eq!(game_grid.choice_atlantis(), "A");
+        assert_eq!(game_grid.choice_olympus(), "B");
         assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
         assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
         assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
@@ -590,8 +592,8 @@ mod tests {
 
         assert_eq!(game_grid.max_value(), 10);
         assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_aleph(), "cooperate");
-        assert_eq!(game_grid.choice_bey(), "defect");
+        assert_eq!(game_grid.choice_atlantis(), "cooperate");
+        assert_eq!(game_grid.choice_olympus(), "defect");
         assert_eq!(game_grid.score_aa(), NumberPair::new(4, 4));
         assert_eq!(game_grid.score_ab(), NumberPair::new(5, 0));
         assert_eq!(game_grid.score_ba(), NumberPair::new(0, 5));

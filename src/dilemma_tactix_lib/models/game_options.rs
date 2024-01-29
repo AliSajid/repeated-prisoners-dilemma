@@ -62,8 +62,8 @@ use crate::ChoiceNameOptions;
 ///
 /// * `min_value` - The minimum value for that can be assigned to a choice.
 /// * `max_value` - The maximum value for that can be assigned to a choice.
-/// * `choice_aleph` - The label for the first choice that can be made.
-/// * `choice_bey` - The label for the second choice that can be made.
+/// * `choice_atlantis` - The label for the first choice that can be made.
+/// * `choice_olympus` - The label for the second choice that can be made.
 ///
 /// # Example
 ///
@@ -76,8 +76,8 @@ use crate::ChoiceNameOptions;
 ///     GameOptions::new(1, 10, "cooperate".to_string(), "defect".to_string());
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
-/// assert_eq!(game_options.choice_aleph(), "cooperate");
-/// assert_eq!(game_options.choice_bey(), "defect");
+/// assert_eq!(game_options.choice_atlantis(), "cooperate");
+/// assert_eq!(game_options.choice_olympus(), "defect");
 /// ```
 ///
 /// ## Default Options
@@ -88,7 +88,10 @@ use crate::ChoiceNameOptions;
 /// let game_options = GameOptions::default();
 /// assert_eq!(game_options.min_value(), 1);
 /// assert_eq!(game_options.max_value(), 10);
-/// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+/// assert_ne!(
+///     game_options.choice_atlantis(),
+///     game_options.choice_olympus()
+/// );
 /// ```
 ///
 /// # Notes
@@ -103,13 +106,13 @@ use crate::ChoiceNameOptions;
 #[derive(Debug, Clone)]
 pub struct GameOptions<'a> {
     /// The minimum value for that can be assigned to a choice.
-    min_value:    u32,
+    min_value:       u32,
     /// The maximum value for that can be assigned to a choice.
-    max_value:    u32,
+    max_value:       u32,
     /// The label for the first choice that can be made
-    choice_aleph: &'a str,
+    choice_atlantis: &'a str,
     /// The label for the second choice that can be made
-    choice_bey:   &'a str,
+    choice_olympus:  &'a str,
 }
 
 impl<'a> GameOptions<'a> {
@@ -119,8 +122,8 @@ impl<'a> GameOptions<'a> {
     ///
     /// * `min_value` - The minimum value for that can be assigned to a choice.
     /// * `max_value` - The maximum value for that can be assigned to a choice.
-    /// * `choice_aleph` - The label for the first choice that can be made.
-    /// * `choice_bey` - The label for the second choice that can be made.
+    /// * `choice_atlantis` - The label for the first choice that can be made.
+    /// * `choice_olympus` - The label for the second choice that can be made.
     ///
     /// # Example
     ///
@@ -130,25 +133,30 @@ impl<'a> GameOptions<'a> {
     /// let game_options = GameOptions::new(1, 10, "A", "B");
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
-    /// assert_eq!(game_options.choice_aleph(), "A");
-    /// assert_eq!(game_options.choice_bey(), "B");
+    /// assert_eq!(game_options.choice_atlantis(), "A");
+    /// assert_eq!(game_options.choice_olympus(), "B");
     /// ```
     ///
     /// # Panics
     ///
-    /// Panics if `min_value` is greater than `max_value` or if `choice_aleph`
-    /// or `choice_bey` are empty.
+    /// Panics if `min_value` is greater than `max_value` or if
+    /// `choice_atlantis` or `choice_olympus` are empty.
     ///
     /// # See Also
     ///
     /// * [`GameOptions::default()`](#method.default)
     #[must_use]
-    pub fn new(min_value: u32, max_value: u32, choice_aleph: &'a str, choice_bey: &'a str) -> Self {
+    pub fn new(
+        min_value: u32,
+        max_value: u32,
+        choice_atlantis: &'a str,
+        choice_olympus: &'a str,
+    ) -> Self {
         Self {
             min_value,
             max_value,
-            choice_aleph,
-            choice_bey,
+            choice_atlantis,
+            choice_olympus,
         }
     }
 
@@ -172,8 +180,8 @@ impl<'a> GameOptions<'a> {
     /// # See Also
     ///
     /// * [`GameOptions::max_value()`](#method.max_value)
-    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
-    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
+    /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
     pub const fn min_value(&self) -> u32 {
         self.min_value
@@ -199,16 +207,16 @@ impl<'a> GameOptions<'a> {
     /// # See Also
     ///
     /// * [`GameOptions::min_value()`](#method.min_value)
-    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
-    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
+    /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
     pub const fn max_value(&self) -> u32 {
         self.max_value
     }
 
-    /// Returns the value of `choice_aleph`.
+    /// Returns the value of `choice_atlantis`.
     ///
-    /// This function returns the value of `choice_aleph`.
+    /// This function returns the value of `choice_atlantis`.
     ///
     /// # Example
     ///
@@ -221,27 +229,27 @@ impl<'a> GameOptions<'a> {
     /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
     /// assert!(choice_name_options
-    ///     .choice_aleph_options
-    ///     .contains(&game_options.choice_aleph()))
+    ///     .choice_atlantis_options
+    ///     .contains(&game_options.choice_atlantis()))
     /// ```
     ///
     /// # Returns
     ///
-    /// The value of `choice_aleph`.
+    /// The value of `choice_atlantis`.
     ///
     /// # See Also
     ///
     /// * [`GameOptions::min_value()`](#method.min_value)
     /// * [`GameOptions::max_value()`](#method.max_value)
-    /// * [`GameOptions::choice_bey()`](#method.choice_bey)
+    /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
-    pub fn choice_aleph(&self) -> &str {
-        self.choice_aleph
+    pub fn choice_atlantis(&self) -> &str {
+        self.choice_atlantis
     }
 
-    /// Returns the value of `choice_bey`.
+    /// Returns the value of `choice_olympus`.
     ///
-    /// This function returns the value of `choice_bey`.
+    /// This function returns the value of `choice_olympus`.
     ///
     /// # Example
     ///
@@ -254,22 +262,22 @@ impl<'a> GameOptions<'a> {
     /// let choice_name_options = ChoiceNameOptions::new();
     /// let game_options = GameOptions::default();
     /// assert!(choice_name_options
-    ///     .choice_bey_options
-    ///     .contains(&game_options.choice_bey()))
+    ///     .choice_olympus_options
+    ///     .contains(&game_options.choice_olympus()))
     /// ```
     ///
     /// # Returns
     ///
-    /// The value of `choice_bey`.
+    /// The value of `choice_olympus`.
     ///
     /// # See Also
     ///
     /// * [`GameOptions::min_value()`](#method.min_value)
     /// * [`GameOptions::max_value()`](#method.max_value)
-    /// * [`GameOptions::choice_aleph()`](#method.choice_aleph)
+    /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     #[must_use]
-    pub fn choice_bey(&self) -> &str {
-        self.choice_bey
+    pub fn choice_olympus(&self) -> &str {
+        self.choice_olympus
     }
 }
 
@@ -282,8 +290,8 @@ impl<'a> Default for GameOptions<'a> {
     ///
     /// * `min_value` - 1
     /// * `max_value` - 10
-    /// * `choice_aleph` - "cooperate"
-    /// * `choice_bey` - "defect"
+    /// * `choice_atlantis` - "cooperate"
+    /// * `choice_olympus` - "defect"
     ///
     /// # Returns
     ///
@@ -301,13 +309,16 @@ impl<'a> Default for GameOptions<'a> {
     /// let game_options = GameOptions::default();
     /// assert_eq!(game_options.min_value(), 1);
     /// assert_eq!(game_options.max_value(), 10);
-    /// assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+    /// assert_ne!(
+    ///     game_options.choice_atlantis(),
+    ///     game_options.choice_olympus()
+    /// );
     /// assert!(choice_name_options
-    ///     .choice_aleph_options
-    ///     .contains(&game_options.choice_aleph()));
+    ///     .choice_atlantis_options
+    ///     .contains(&game_options.choice_atlantis()));
     /// assert!(choice_name_options
-    ///     .choice_bey_options
-    ///     .contains(&game_options.choice_bey()));
+    ///     .choice_olympus_options
+    ///     .contains(&game_options.choice_olympus()));
     /// ```
     ///
     /// # See Also
@@ -315,8 +326,8 @@ impl<'a> Default for GameOptions<'a> {
     /// * [`GameOptions::new()`](#method.new)
     fn default() -> Self {
         let choice_name_options = ChoiceNameOptions::new();
-        let (choice_aleph, choice_bey) = choice_name_options.get_random_pair();
-        Self::new(1, 10, choice_aleph, choice_bey)
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair();
+        Self::new(1, 10, choice_atlantis, choice_olympus)
     }
 }
 
@@ -333,15 +344,15 @@ impl<'a> Display for GameOptions<'a> {
     /// let game_options = GameOptions::new(1, 10, "cooperate", "defect");
     /// assert_eq!(
     ///     format!("{}", game_options),
-    ///     "min_value: 1, max_value: 10, choice_aleph: cooperate, choice_bey: \
-    ///      defect"
+    ///     "min_value: 1, max_value: 10, choice_atlantis: cooperate, \
+    ///      choice_olympus: defect"
     /// );
     /// ```
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "min_value: {}, max_value: {}, choice_aleph: {}, choice_bey: {}",
-            self.min_value, self.max_value, self.choice_aleph, self.choice_bey
+            "min_value: {}, max_value: {}, choice_atlantis: {}, choice_olympus: {}",
+            self.min_value, self.max_value, self.choice_atlantis, self.choice_olympus
         )
     }
 }
@@ -356,13 +367,16 @@ mod tests {
         let game_options = GameOptions::default();
         assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
-        assert_ne!(game_options.choice_aleph(), game_options.choice_bey());
+        assert_ne!(
+            game_options.choice_atlantis(),
+            game_options.choice_olympus()
+        );
         assert!(choice_name_options
-            .choice_aleph_options
-            .contains(&game_options.choice_aleph()));
+            .choice_atlantis_options
+            .contains(&game_options.choice_atlantis()));
         assert!(choice_name_options
-            .choice_bey_options
-            .contains(&game_options.choice_bey()));
+            .choice_olympus_options
+            .contains(&game_options.choice_olympus()));
     }
 
     #[test]
@@ -370,8 +384,8 @@ mod tests {
         let game_options = GameOptions::new(1, 10, "A", "B");
         assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
-        assert_eq!(game_options.choice_aleph(), "A");
-        assert_eq!(game_options.choice_bey(), "B");
+        assert_eq!(game_options.choice_atlantis(), "A");
+        assert_eq!(game_options.choice_olympus(), "B");
     }
 
     #[test]
@@ -379,7 +393,7 @@ mod tests {
         let game_options = GameOptions::new(1, 10, "A", "B");
         assert_eq!(
             format!("{}", game_options),
-            "min_value: 1, max_value: 10, choice_aleph: A, choice_bey: B"
+            "min_value: 1, max_value: 10, choice_atlantis: A, choice_olympus: B"
         );
     }
 }
