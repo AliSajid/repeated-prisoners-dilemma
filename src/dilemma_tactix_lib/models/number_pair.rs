@@ -177,9 +177,12 @@ impl NumberPair {
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::NumberPair;
+    /// use dilemma_tactix_lib::{
+    ///     NumberPair,
+    ///     RAND_SEED,
+    /// };
     ///
-    /// let number_pair = NumberPair::random(1, 10);
+    /// let number_pair = NumberPair::random_seeded(1, 10, RAND_SEED);
     /// assert!(number_pair.first() <= 10);
     /// assert!(number_pair.second() <= 10);
     /// ```
@@ -194,7 +197,7 @@ impl NumberPair {
     /// `max_value` for each of `first` and `second`.
     #[doc(hidden)]
     #[cfg(test)]
-    fn random_seeded(min_value: u32, max_value: u32, seed: u64) -> Self {
+    pub(crate) fn random_seeded(min_value: u32, max_value: u32, seed: u64) -> Self {
         // Create a new RNG seeded with the given seed.
         let mut rng = ChaCha12Rng::seed_from_u64(seed);
         if min_value < max_value {
@@ -325,6 +328,7 @@ mod tests {
     };
 
     use super::*;
+    use crate::constants::RANDOM_SEED;
 
     // This is a fixture function for tests. Fixtures are setup functions that
     // provide a fixed baseline upon which tests can reliably and repeatedly
@@ -332,10 +336,11 @@ mod tests {
     // number generation in tests.
     #[fixture]
     fn seed() -> u64 {
-        // We return a constant seed value of 2024. This seed can be used to initialize
-        // a random number generator in a predictable way, which is useful for testing
-        // code that involves random behavior.
-        2024
+        // We return a constant seed value of 2024. This seed can be used to
+        // initialize a random number generator in a predictable way,
+        // which is useful for testing code that involves random
+        // behavior.
+        RANDOM_SEED.0
     }
 
     // This is a fixture function that provides a NumberPair instance for testing
@@ -459,7 +464,7 @@ mod tests {
         // Check that the second number is equal to 6
         // This is a specific check for the seeded random number generation.
         // Given a specific seed, the generated number should always be the same
-        assert_eq!(number_pair.second(), 6);
+        assert_eq!(number_pair.second(), 9);
     }
 
     #[rstest]

@@ -48,16 +48,10 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+/// A constant used to seed the random number generator.
+///
+/// This is a seed used to generate random numbers. It is used to ensure that
+/// the random number generator is deterministic when testing.
 #[cfg(test)]
-mod constants;
-#[cfg(test)]
-pub(crate) use constants::RANDOM_SEED;
 
-mod models;
-pub use models::{
-    ChoiceNameOptions,
-    GameGrid,
-    GameOptionBuilder,
-    GameOptions,
-    NumberPair,
-};
+pub const RANDOM_SEED: (u64, u64, u64, u64) = (2024, 2023, 2022, 2021);
