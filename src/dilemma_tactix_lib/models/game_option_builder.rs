@@ -102,18 +102,18 @@ use crate::{
 /// * [`GameGrid`](crate::GameGrid)
 /// * [`GameGrid::new()`](crate::GameGrid::new())
 #[derive(Debug, Default)]
-pub struct GameGridBuilder<'a> {
+pub struct GameOptionBuilder {
     pub max_value:       Option<u32>,
     pub min_value:       Option<u32>,
-    pub choice_atlantis: Option<&'a str>,
-    pub choice_olympus:  Option<&'a str>,
+    pub choice_atlantis: Option<&'static str>,
+    pub choice_olympus:  Option<&'static str>,
     pub score_aa:        Option<NumberPair>,
     pub score_ab:        Option<NumberPair>,
     pub score_ba:        Option<NumberPair>,
     pub score_bb:        Option<NumberPair>,
 }
 
-impl<'a> GameGridBuilder<'a> {
+impl GameOptionBuilder {
     /// Creates a new `GameGridBuilder` struct.
     ///
     /// # Example
@@ -273,7 +273,7 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_atlantis(mut self, choice_atlantis: &'a str) -> Self {
+    pub fn choice_atlantis(mut self, choice_atlantis: &'static str) -> Self {
         self.choice_atlantis = Some(choice_atlantis);
         self
     }
@@ -312,7 +312,7 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn choice_olympus(mut self, choice_olympus: &'a str) -> Self {
+    pub fn choice_olympus(mut self, choice_olympus: &'static str) -> Self {
         self.choice_olympus = Some(choice_olympus);
         self
     }
@@ -538,7 +538,7 @@ impl<'a> GameGridBuilder<'a> {
     /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
     /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
     #[must_use]
-    pub fn build(self) -> GameGrid<'a> {
+    pub fn build(self) -> GameGrid {
         let max_value = self.max_value.unwrap_or(10);
         let min_value = self.min_value.unwrap_or(1);
         let choice_atlantis = self.choice_atlantis.unwrap_or("cooperate");
@@ -547,7 +547,7 @@ impl<'a> GameGridBuilder<'a> {
         let score_ab = self.score_ab.unwrap_or(NumberPair::new(5, 0));
         let score_ba = self.score_ba.unwrap_or(NumberPair::new(0, 5));
         let score_bb = self.score_bb.unwrap_or(NumberPair::new(3, 3));
-        let game_options = GameOptions::new(min_value, max_value, choice_atlantis, choice_olympus);
+        let game_options = GameOptions::new(min_value, max_value);
 
         GameGrid {
             game_options,
@@ -565,7 +565,7 @@ mod tests {
 
     #[test]
     fn test_game_grid_builder() {
-        let game_grid = GameGridBuilder::new()
+        let game_grid = GameOptionBuilder::new()
             .max_value(10)
             .min_value(1)
             .choice_atlantis("A")
@@ -588,7 +588,7 @@ mod tests {
 
     #[test]
     fn test_default_builder() {
-        let game_grid = GameGridBuilder::new().build();
+        let game_grid = GameOptionBuilder::new().build();
 
         assert_eq!(game_grid.max_value(), 10);
         assert_eq!(game_grid.min_value(), 1);
