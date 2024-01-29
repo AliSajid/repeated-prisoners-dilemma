@@ -77,10 +77,11 @@ use rand_chacha::ChaCha12Rng;
 /// use dilemma_tactix_lib::ChoiceNameOptions;
 ///
 /// let choice_name_options = ChoiceNameOptions::new();
-/// let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
+/// let (choice_atlantis, choice_olympus) =
+///     choice_name_options.get_choice_pair(0);
 ///
-/// assert_eq!(choice_a, "cooperate");
-/// assert_eq!(choice_b, "defect");
+/// assert_eq!(choice_atlantis, "cooperate");
+/// assert_eq!(choice_olympus, "defect");
 /// ```
 ///
 /// ## Get a random pair
@@ -88,8 +89,9 @@ use rand_chacha::ChaCha12Rng;
 /// use dilemma_tactix_lib::ChoiceNameOptions;
 ///
 /// let choice_name_options = ChoiceNameOptions::new();
-/// let (choice_a, choice_b) = choice_name_options.get_random_pair();
-/// assert_ne!(choice_a, choice_b);
+/// let (choice_atlantis, choice_olympus) =
+///     choice_name_options.get_random_pair();
+/// assert_ne!(choice_atlantis, choice_olympus);
 /// ```
 ///
 /// # Notes
@@ -152,10 +154,11 @@ impl ChoiceNameOptions {
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
-    /// let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
+    /// let (choice_atlantis, choice_olympus) =
+    ///     choice_name_options.get_choice_pair(0);
     ///
-    /// assert_eq!(choice_a, "cooperate");
-    /// assert_eq!(choice_b, "defect");
+    /// assert_eq!(choice_atlantis, "cooperate");
+    /// assert_eq!(choice_olympus, "defect");
     /// ```
     ///
     /// # Returns
@@ -206,11 +209,17 @@ impl ChoiceNameOptions {
             "deny",
             "decay",
         ];
-        let length = choice_atlantis_options.len();
-        Self {
-            choice_atlantis_options,
-            choice_olympus_options,
-            length,
+        let length_atlantis = choice_atlantis_options.len();
+        let length_olympus = choice_olympus_options.len();
+        if length_atlantis != length_olympus {
+            panic!("Atlantis and Olympus arrays are not the same length.");
+        } else {
+            let length = length_atlantis;
+            Self {
+                choice_atlantis_options,
+                choice_olympus_options,
+                length,
+            }
         }
     }
 
@@ -230,10 +239,11 @@ impl ChoiceNameOptions {
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
-    /// let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
+    /// let (choice_atlantis, choice_olympus) =
+    ///     choice_name_options.get_choice_pair(0);
     ///
-    /// assert_eq!(choice_a, "cooperate");
-    /// assert_eq!(choice_b, "defect");
+    /// assert_eq!(choice_atlantis, "cooperate");
+    /// assert_eq!(choice_olympus, "defect");
     /// ```
     ///
     /// # Returns
@@ -269,8 +279,9 @@ impl ChoiceNameOptions {
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
-    /// let (choice_a, choice_b) = choice_name_options.get_random_pair();
-    /// assert_ne!(choice_a, choice_b);
+    /// let (choice_atlantis, choice_olympus) =
+    ///     choice_name_options.get_random_pair();
+    /// assert_ne!(choice_atlantis, choice_olympus);
     /// ```
     ///
     /// # Returns
@@ -308,8 +319,9 @@ impl ChoiceNameOptions {
     ///
     /// let choice_name_options = ChoiceNameOptions::new();
     ///
-    /// let (choice_a, choice_b) = choice_name_options.get_random_pair();
-    /// assert_ne!(choice_a, choice_b);
+    /// let (choice_atlantis, choice_olympus) =
+    ///     choice_name_options.get_random_pair();
+    /// assert_ne!(choice_atlantis, choice_olympus);
     /// ```
     ///
     /// # Returns
@@ -339,20 +351,92 @@ impl ChoiceNameOptions {
 
 #[cfg(test)]
 mod tests {
+    use rstest::{
+        fixture,
+        rstest,
+    };
+
     use super::*;
 
-    #[test]
-    fn test_get_random_pair() {
-        let choice_name_options = ChoiceNameOptions::new();
-        let (choice_a, choice_b) = choice_name_options.get_random_pair();
-        assert_ne!(choice_a, choice_b);
+    // This fixture provides a fixed seed for random number generation in tests
+    #[fixture]
+    fn seed() -> u64 {
+        2024
     }
 
+    // This test checks that the get_random_pair method returns two different
+    // choices
+    #[rstest]
+    fn test_get_random_pair() {
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair();
+        // This assertion checks that the two choices are not the same,
+        // ensuring that get_random_pair is correctly generating two distinct choices
+        assert_ne!(choice_atlantis, choice_olympus);
+        // This assertion checks that the choice_atlantis is pulled from the
+        // choice_atlantis_options array, ensuring that get_random_pair is correctly
+        // using the array to generate choices
+        assert!(choice_name_options
+            .choice_atlantis_options
+            .contains(&choice_atlantis));
+        // This assertion checks that the choice_olympus is pulled from the
+        // choice_olympus_options array, ensuring that get_random_pair is correctly
+        // using the array to generate choices
+        assert!(choice_name_options
+            .choice_olympus_options
+            .contains(&choice_olympus));
+    }
+
+    // This test checks that the get_random_pair_seeded method returns the expected
+    // choices for a given seed
+    #[rstest]
+    fn test_get_random_pair_seeded(seed: u64) {
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair_seeded(seed);
+        // This assertion checks that the two choices are not the same,
+        // ensuring that get_random_pair_seeded is correctly generating two distinct
+        // choices
+        assert_ne!(choice_atlantis, choice_olympus);
+        // These assertions check that the choices are as expected for the given seed,
+        // ensuring that get_random_pair_seeded is correctly using the seed to generate
+        // choices
+        assert_eq!(choice_atlantis, "discrete");
+        assert_eq!(choice_olympus, "continuous");
+    }
+
+    // This test checks that the get_random_pair_seeded method is repeatable for a
+    // given seed
+    #[rstest]
+    fn test_get_random_pair_seeded_repeatable(seed: u64) {
+        let choice_name_options = ChoiceNameOptions::new();
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair_seeded(seed);
+        // This assertion checks that the two choices are not the same,
+        // ensuring that get_random_pair_seeded is correctly generating two distinct
+        // choices
+        assert_ne!(choice_atlantis, choice_olympus);
+        // These assertions check that the choices are as expected for the given seed,
+        // ensuring that get_random_pair_seeded is correctly using the seed to generate
+        // choices
+        assert_eq!(choice_atlantis, "discrete");
+        assert_eq!(choice_olympus, "continuous");
+        // This part repeats the same checks, to ensure that the same seed will always
+        // generate the same pair of choices
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair_seeded(seed);
+        assert_ne!(choice_atlantis, choice_olympus);
+        assert_eq!(choice_atlantis, "discrete");
+        assert_eq!(choice_olympus, "continuous");
+    }
+
+    // This test checks that the get_choice_pair method returns the expected choices
+    // for a given index
     #[test]
     fn test_get_choice_pair() {
         let choice_name_options = ChoiceNameOptions::new();
-        let (choice_a, choice_b) = choice_name_options.get_choice_pair(0);
-        assert_eq!(choice_a, "cooperate");
-        assert_eq!(choice_b, "defect");
+        let (choice_atlantis, choice_olympus) = choice_name_options.get_choice_pair(0);
+        // These assertions check that the choices are as expected for the given index,
+        // ensuring that get_choice_pair is correctly using the index to generate
+        // choices
+        assert_eq!(choice_atlantis, "cooperate");
+        assert_eq!(choice_olympus, "defect");
     }
 }
