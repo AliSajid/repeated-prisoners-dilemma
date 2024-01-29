@@ -138,10 +138,10 @@ impl<'a> GameGrid<'a> {
         let max_value = game_options.max_value();
         Self {
             game_options,
-            score_aa: NumberPair::random(min_value, max_value, None),
-            score_ab: NumberPair::random(min_value, max_value, None),
-            score_ba: NumberPair::random(min_value, max_value, None),
-            score_bb: NumberPair::random(min_value, max_value, None),
+            score_aa: NumberPair::random(min_value, max_value),
+            score_ab: NumberPair::random(min_value, max_value),
+            score_ba: NumberPair::random(min_value, max_value),
+            score_bb: NumberPair::random(min_value, max_value),
         }
     }
 
@@ -235,10 +235,10 @@ impl<'a> Default for GameGrid<'a> {
         let max_value = game_options.max_value();
         Self {
             game_options,
-            score_aa: NumberPair::random(min_value, max_value, None),
-            score_ab: NumberPair::random(min_value, max_value, None),
-            score_ba: NumberPair::random(min_value, max_value, None),
-            score_bb: NumberPair::random(min_value, max_value, None),
+            score_aa: NumberPair::random(min_value, max_value),
+            score_ab: NumberPair::random(min_value, max_value),
+            score_ba: NumberPair::random(min_value, max_value),
+            score_bb: NumberPair::random(min_value, max_value),
         }
     }
 }
