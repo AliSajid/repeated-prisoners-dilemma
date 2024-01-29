@@ -50,12 +50,12 @@
 
 mod choice_name_options;
 mod game_grid;
-mod game_grid_builder;
+mod game_option_builder;
 mod game_options;
 mod number_pair;
 
 pub use choice_name_options::ChoiceNameOptions;
 pub use game_grid::GameGrid;
-pub use game_grid_builder::GameGridBuilder;
+pub use game_option_builder::GameOptionBuilder;
 pub use game_options::GameOptions;
 pub use number_pair::NumberPair;
