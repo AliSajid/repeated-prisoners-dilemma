@@ -57,7 +57,7 @@ mod models;
 pub use models::{
     ChoiceNameOptions,
     GameGrid,
-    GameOptionBuilder,
     GameOptions,
+    GameOptionsBuilder,
     NumberPair,
 };
