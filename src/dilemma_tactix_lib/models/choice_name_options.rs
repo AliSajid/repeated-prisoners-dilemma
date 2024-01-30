@@ -83,6 +83,7 @@ use rand_chacha::ChaCha12Rng;
 ///     ChoiceNameOptions::get_choice_pair(0);
 ///
 /// assert_eq!(choice_atlantis, "cooperate");
+///
 /// assert_eq!(choice_olympus, "defect");
 /// ```
 ///
@@ -134,6 +135,7 @@ use rand_chacha::ChaCha12Rng;
 /// * [get_choice_pair](ChoiceNameOptions::get_choice_pair)
 #[derive(Debug, Clone, Copy)]
 #[allow(clippy::doc_markdown)]
+
 pub struct ChoiceNameOptions {}
 
 /// The `ChoiceNameOptions` struct represents a collection of choice pairs.
@@ -141,11 +143,14 @@ pub struct ChoiceNameOptions {}
 /// This struct provides methods to retrieve specific choice pairs, as well as
 /// random choice pairs. It also exposes the choice pairs as arrays and provides
 /// methods to retrieve the individual choices from each pair.
+
 impl ChoiceNameOptions {
     // ... rest of the code ...
 }
+
 impl ChoiceNameOptions {
     /// The array of available choice pairs.
+
     const CHOICE_PAIRS: [(&'static str, &'static str); 17] = [
         ("cooperate", "defect"),
         ("swerve", "straight"),
@@ -187,6 +192,7 @@ impl ChoiceNameOptions {
     ///     choice_name_options.get_choice_pair(0);
     ///
     /// assert_eq!(choice_atlantis, "cooperate");
+    ///
     /// assert_eq!(choice_olympus, "defect");
     /// ```
     ///
@@ -203,11 +209,14 @@ impl ChoiceNameOptions {
     ///
     /// * [`get_random_pair`](ChoiceNameOptions::get_random_pair)
     #[must_use]
+
     pub const fn get_choice_pair(n: usize) -> (&'static str, &'static str) {
         if n < Self::CHOICE_PAIRS_LENGTH {
             let pair = Self::CHOICE_PAIRS[n];
+
             return (pair.0, pair.1);
         }
+
         panic!("Index out of bounds.");
     }
 
@@ -225,6 +234,7 @@ impl ChoiceNameOptions {
     ///
     /// let (choice_atlantis, choice_olympus) =
     ///     choice_name_options.get_random_pair();
+    ///
     /// assert_ne!(choice_atlantis, choice_olympus);
     /// ```
     ///
@@ -245,9 +255,12 @@ impl ChoiceNameOptions {
     /// * [`rand`](https://crates.io/crates/rand)
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[must_use]
+
     pub fn get_random_pair() -> (&'static str, &'static str) {
         let mut rng = ChaCha12Rng::from_entropy();
+
         let choice = rng.gen_range(0..Self::CHOICE_PAIRS_LENGTH);
+
         Self::get_choice_pair(choice)
     }
 
@@ -265,8 +278,11 @@ impl ChoiceNameOptions {
     ///
     /// let (choice_atlantis, choice_olympus) =
     ///     choice_name_options.get_random_pair_seeded(2024);
+    ///
     /// assert_ne!(choice_atlantis, choice_olympus);
+    ///
     /// assert_eq!(choice_atlantis, "discrete");
+    ///
     /// assert_eq!(choice_olympus, "continuous");
     /// ```
     ///
@@ -288,9 +304,12 @@ impl ChoiceNameOptions {
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[cfg(test)]
     #[doc(hidden)]
+
     pub fn get_random_pair_seeded(seed: u64) -> (&'static str, &'static str) {
         let mut rng = ChaCha12Rng::seed_from_u64(seed);
+
         let choice = rng.gen_range(0..Self::CHOICE_PAIRS_LENGTH);
+
         Self::get_choice_pair(choice)
     }
 
@@ -308,6 +327,7 @@ impl ChoiceNameOptions {
     ///
     /// ```
     /// let pairs = ChoiceNameOptions::choice_pairs();
+    ///
     /// assert_eq!(pairs[0], ("cooperate", "defect"));
     /// ```
     ///
@@ -317,6 +337,7 @@ impl ChoiceNameOptions {
     /// two `&'static str` elements representing the name of the Atlantis choice
     /// and the name of the Olympus choice.
     #[must_use]
+
     pub const fn choice_pairs() -> [(&'static str, &'static str); 17] {
         Self::CHOICE_PAIRS
     }
@@ -339,6 +360,7 @@ impl ChoiceNameOptions {
     /// `CHOICE_PAIRS` array.
 
     #[must_use]
+
     pub const fn choice_pairs_length() -> usize {
         Self::CHOICE_PAIRS_LENGTH
     }
@@ -352,6 +374,7 @@ impl ChoiceNameOptions {
     ///
     /// ```
     /// let atlantis_options = ChoiceNameOptions::choice_atlantis_options();
+    ///
     /// assert_eq!(atlantis_options[0], "cooperate");
     /// ```
     ///
@@ -361,6 +384,7 @@ impl ChoiceNameOptions {
     /// element is the first item (Atlantis choice) of the corresponding tuple
     /// in the `CHOICE_PAIRS` array.
     #[must_use]
+
     pub fn choice_atlantis_options() -> [&'static str; 17] {
         Self::CHOICE_PAIRS.map(|pair| pair.0)
     }
@@ -374,6 +398,7 @@ impl ChoiceNameOptions {
     ///
     /// ```
     /// let olympus_options = ChoiceNameOptions::choice_olympus_options();
+    ///
     /// assert_eq!(olympus_options[0], "defect");
     /// ```
     ///
@@ -383,13 +408,16 @@ impl ChoiceNameOptions {
     /// element is the second item (Olympus choice) of the corresponding tuple
     /// in the `CHOICE_PAIRS` array.
     #[must_use]
+
     pub fn choice_olympus_options() -> [&'static str; 17] {
         Self::CHOICE_PAIRS.map(|pair| pair.1)
     }
 }
 
 #[cfg(test)]
+
 mod tests {
+
     use rstest::{
         fixture,
         rstest,
@@ -399,16 +427,19 @@ mod tests {
 
     // This fixture provides a fixed seed for random number generation in tests
     #[fixture]
+
     fn seed() -> u64 {
         crate::RANDOM_SEED.0
     }
 
     #[fixture]
+
     fn choice_atlantis_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_atlantis_options()
     }
 
     #[fixture]
+
     fn choice_olympus_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_olympus_options()
     }
@@ -416,15 +447,18 @@ mod tests {
     // This test checks that the get_random_pair method returns two different
     // choices
     #[rstest]
+
     fn test_get_random_pair(
         choice_atlantis_options: [&'static str; 17],
         choice_olympus_options: [&'static str; 17],
     ) {
         let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_random_pair();
+
         // This assertion checks that the choice_atlantis is pulled from the
         // choice_atlantis_options array, ensuring that get_random_pair is correctly
         // using the array to generate choices
         assert!(choice_atlantis_options.contains(&choice_atlantis));
+
         // This assertion checks that the choice_olympus is pulled from the
         // choice_olympus_options array, ensuring that get_random_pair is correctly
         // using the array to generate choices
@@ -434,46 +468,59 @@ mod tests {
     // This test checks that the get_random_pair_seeded method returns the expected
     // choices for a given seed
     #[rstest]
+
     fn test_get_random_pair_seeded(seed: u64) {
         let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_random_pair_seeded(seed);
+
         // These assertions check that the choices are as expected for the given seed,
         // ensuring that get_random_pair_seeded is correctly using the seed to generate
         // choices
         assert_eq!(choice_atlantis, "discrete");
+
         assert_eq!(choice_olympus, "continuous");
     }
 
     // This test checks that the get_random_pair_seeded method is repeatable for a
     // given seed
     #[rstest]
+
     fn test_get_random_pair_seeded_repeatable(seed: u64) {
         let (choice_atlantis_a, choice_olympus_a) = ChoiceNameOptions::get_random_pair_seeded(seed);
+
         // These assertions check that the choices are as expected for the given seed,
         // ensuring that get_random_pair_seeded is correctly using the seed to generate
         // choices
         assert_eq!(choice_atlantis_a, "discrete");
+
         assert_eq!(choice_olympus_a, "continuous");
+
         // This part repeats the same checks, to ensure that the same seed will always
         // generate the same pair of choices
         let (choice_atlantis_b, choice_olympus_b) = ChoiceNameOptions::get_random_pair_seeded(seed);
+
         assert_eq!(choice_atlantis_b, "discrete");
+
         assert_eq!(choice_olympus_b, "continuous");
 
         // This assertion checks that the choices are the same for both pairs, ensuring
         // that get_random_pair_seeded is correctly using the seed to generate choices
         assert_eq!(choice_atlantis_a, choice_atlantis_b);
+
         assert_eq!(choice_olympus_a, choice_olympus_b);
     }
 
     // This test checks that the get_choice_pair method returns the expected choices
     // for a given index
     #[rstest]
+
     fn test_get_choice_pair() {
         let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_choice_pair(0);
+
         // These assertions check that the choices are as expected for the given index,
         // ensuring that get_choice_pair is correctly using the index to generate
         // choices
         assert_eq!(choice_atlantis, "cooperate");
+
         assert_eq!(choice_olympus, "defect");
     }
 }

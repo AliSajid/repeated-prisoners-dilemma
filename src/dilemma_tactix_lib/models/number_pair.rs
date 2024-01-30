@@ -76,7 +76,9 @@ use rand_chacha::ChaCha12Rng;
 /// use dilemma_tactix_lib::NumberPair;
 ///
 /// let number_pair = NumberPair::new(1, 2);
+///
 /// assert_eq!(number_pair.first(), 1);
+///
 /// assert_eq!(number_pair.second(), 2);
 /// ```
 ///
@@ -85,12 +87,17 @@ use rand_chacha::ChaCha12Rng;
 /// use dilemma_tactix_lib::NumberPair;
 ///
 /// let number_pair = NumberPair::default();
+///
 /// assert!(number_pair.first() >= 1);
+///
 /// assert!(number_pair.first() < 10);
+///
 /// assert!(number_pair.second() >= 1);
+///
 /// assert!(number_pair.second() < 10);
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+
 pub struct NumberPair {
     /// The first number in the pair.
     first:  u32,
@@ -112,7 +119,9 @@ impl NumberPair {
     /// use dilemma_tactix_lib::NumberPair;
     ///
     /// let number_pair = NumberPair::new(1, 2);
+    ///
     /// assert_eq!(number_pair.first(), 1);
+    ///
     /// assert_eq!(number_pair.second(), 2);
     /// ```
     ///
@@ -120,6 +129,7 @@ impl NumberPair {
     ///
     /// A new `NumberPair` struct with the given values.
     #[must_use]
+
     pub const fn new(first: u32, second: u32) -> Self {
         Self { first, second }
     }
@@ -137,9 +147,13 @@ impl NumberPair {
     /// use dilemma_tactix_lib::NumberPair;
     ///
     /// let number_pair = NumberPair::random(1, 10);
+    ///
     /// assert!(number_pair.first() >= 1);
+    ///
     /// assert!(number_pair.first() <= 10);
+    ///
     /// assert!(number_pair.second() >= 1);
+    ///
     /// assert!(number_pair.second() <= 10);
     /// ```
     ///
@@ -152,6 +166,7 @@ impl NumberPair {
     /// A new `NumberPair` struct with random values between `min_value` and
     /// `max_value` for each of `first` and `second`.
     #[must_use]
+
     pub fn random(min_value: u32, max_value: u32) -> Self {
         let mut rng = ChaCha12Rng::from_entropy();
 
@@ -183,7 +198,9 @@ impl NumberPair {
     /// };
     ///
     /// let number_pair = NumberPair::random_seeded(1, 10, RAND_SEED);
+    ///
     /// assert!(number_pair.first() <= 10);
+    ///
     /// assert!(number_pair.second() <= 10);
     /// ```
     ///
@@ -197,9 +214,11 @@ impl NumberPair {
     /// `max_value` for each of `first` and `second`.
     #[doc(hidden)]
     #[cfg(test)]
+
     pub(crate) fn random_seeded(min_value: u32, max_value: u32, seed: u64) -> Self {
         // Create a new RNG seeded with the given seed.
         let mut rng = ChaCha12Rng::seed_from_u64(seed);
+
         if min_value < max_value {
             Self::new(
                 rng.gen_range(min_value..=max_value),
@@ -219,6 +238,7 @@ impl NumberPair {
     /// use dilemma_tactix_lib::NumberPair;
     ///
     /// let number_pair = NumberPair::new(1, 2);
+    ///
     /// assert_eq!(number_pair.first(), 1);
     /// ```
     ///
@@ -230,6 +250,7 @@ impl NumberPair {
     /// let number_pair = NumberPair::default();
     ///
     /// assert!(number_pair.first() >= 1);
+    ///
     /// assert!(number_pair.first() < 10);
     /// ```
     ///
@@ -237,6 +258,7 @@ impl NumberPair {
     ///
     /// The value of `first` as a `u32`.
     #[must_use]
+
     pub const fn first(&self) -> u32 {
         self.first
     }
@@ -251,6 +273,7 @@ impl NumberPair {
     /// use dilemma_tactix_lib::NumberPair;
     ///
     /// let number_pair = NumberPair::new(1, 2);
+    ///
     /// assert_eq!(number_pair.second(), 2);
     /// ```
     ///
@@ -261,6 +284,7 @@ impl NumberPair {
     /// let number_pair = NumberPair::default();
     ///
     /// assert!(number_pair.second() >= 1);
+    ///
     /// assert!(number_pair.second() < 10);
     /// ```
     ///
@@ -268,6 +292,7 @@ impl NumberPair {
     ///
     /// The value of `second` as a `u32`.
     #[must_use]
+
     pub const fn second(&self) -> u32 {
         self.second
     }
@@ -288,6 +313,7 @@ impl NumberPair {
 /// This function returns a `fmt::Result`. If the write operation was
 /// successful, the function returns `Ok(())`. If the write operation failed,
 /// the function returns `Err` with the underlying error.
+
 impl Display for NumberPair {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "({}, {})", self.first, self.second)
@@ -303,9 +329,13 @@ impl Default for NumberPair {
     /// use dilemma_tactix_lib::NumberPair;
     ///
     /// let number_pair = NumberPair::default();
+    ///
     /// assert!(number_pair.first() >= 1);
+    ///
     /// assert!(number_pair.first() < 10);
+    ///
     /// assert!(number_pair.second() >= 1);
+    ///
     /// assert!(number_pair.second() < 10);
     /// ```
     ///
@@ -313,15 +343,19 @@ impl Default for NumberPair {
     ///
     /// A new `NumberPair` struct with random values between 1 and 10 for each
     /// of `first` and `second`.
+
     fn default() -> Self {
         let mut rng = ChaCha12Rng::from_entropy();
+
         Self::new(rng.gen_range(1..10), rng.gen_range(1..10))
     }
 }
 
 #[cfg(test)]
 #[allow(unused_comparisons)]
+
 mod tests {
+
     use rstest::{
         fixture,
         rstest,
@@ -335,6 +369,7 @@ mod tests {
     // execute. This particular fixture is providing a fixed seed for random
     // number generation in tests.
     #[fixture]
+
     fn seed() -> u64 {
         // We return a constant seed value of 2024. This seed can be used to
         // initialize a random number generator in a predictable way,
@@ -345,6 +380,7 @@ mod tests {
 
     // This is a fixture function that provides a NumberPair instance for testing
     #[fixture]
+
     fn number_pair_example() -> NumberPair {
         // We create a NumberPair with values 1 and 2
         NumberPair::new(1, 2)
@@ -352,9 +388,11 @@ mod tests {
 
     // This test checks the Display implementation for NumberPair
     #[rstest]
+
     fn test_number_pair_display(_number_pair_example: NumberPair) {
         // We create a NumberPair with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
+
         // We check that the Display implementation for NumberPair correctly converts
         // the NumberPair to a string
         assert_eq!(format!("{}", number_pair), "(1, 2)");
@@ -362,51 +400,64 @@ mod tests {
 
     // This test checks the `default` constructor for NumberPair
     #[rstest]
+
     fn test_number_pair_default() {
         // We create a `NumberPair` using the `default` constructor
         let number_pair = NumberPair::default();
+
         // We check that the first number is less than 10 and greater than or equal to 1
         // This verifies that the `default` constructor correctly initializes the first
         // number
         assert!(number_pair.first() >= 1);
+
         assert!(number_pair.first() < 10);
+
         // We check that the second number is less than 10 and greater than
         // or equal to 1 This verifies that the `default` constructor correctly
         // initializes the second number
         assert!(number_pair.second() >= 1);
+
         assert!(number_pair.second() < 10);
     }
 
     // This test checks the `new` constructor for NumberPair
     #[rstest]
+
     fn test_number_pair_new() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
+
         // We check that the first number is 1 and the second number is 2
         // This verifies that the `new` constructor correctly initializes the numbers
         assert_eq!(number_pair.first(), 1);
+
         assert_eq!(number_pair.second(), 2);
     }
 
     // This test checks the `first` method of `NumberPair`
     #[rstest]
+
     fn test_number_pair_first() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
+
         // We check that the first method correctly returns the first number
         assert_eq!(number_pair.first(), 1);
     }
 
     // This test checks the `second` method of `NumberPair`
     #[rstest]
+
     fn test_number_pair_second() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
+
         // We check that the `second` method correctly returns the second number
         assert_eq!(number_pair.second(), 2);
     }
 
     #[rstest]
+
     fn test_number_pair_random() {
         // Generate a random `NumberPair` where both numbers are between 1 and 10
         // We use the `random` function of the `NumberPair` struct to generate a pair of
@@ -435,6 +486,7 @@ mod tests {
     }
 
     #[rstest]
+
     fn test_number_pair_random_with_seed(seed: u64) {
         // Generate a random NumberPair where both numbers are between 1 and 10, using a
         // specific seed
@@ -468,10 +520,12 @@ mod tests {
     }
 
     #[rstest]
+
     fn test_number_pair_random_with_seed_repeated(seed: u64) {
         // Generate a random NumberPair where both numbers are between 1 and 10, using a
         // specific seed
         let number_pair_1 = NumberPair::random_seeded(1, 10, seed);
+
         let number_pair_2 = NumberPair::random_seeded(1, 10, seed);
 
         // Check if number_pair_1 and number_pair_2 are equal

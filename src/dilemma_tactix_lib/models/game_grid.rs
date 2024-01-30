@@ -48,8 +48,6 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::Display;
-
 use prettytable::{
     format::Alignment,
     Cell,
@@ -83,11 +81,13 @@ use crate::{
 /// };
 ///
 /// let game_options = GameOptions::builder().build();
+///
 /// let game_grid = GameGrid::new(game_options);
 ///
 /// game_grid.show_grid();
 /// ```
 #[derive(Clone, Debug, Copy, PartialEq, Eq, Default)]
+
 pub struct GameGrid {
     pub game_options: GameOptions,
 }
@@ -105,6 +105,7 @@ impl GameGrid {
     /// };
     ///
     /// let game_options = GameOptions::builder().build();
+    ///
     /// let game_grid = GameGrid::new(game_options);
     /// ```
     ///
@@ -121,6 +122,7 @@ impl GameGrid {
     /// * [`GameOptions::builder()`](struct.GameOptions.html#method.builder)
     /// * [`GameOptionsBuilder::build()`](struct.GameOptionsBuilder.html#method.
     ///   build)
+
     pub fn new(game_options: GameOptions) -> Self {
         Self { game_options }
     }
@@ -137,6 +139,7 @@ impl GameGrid {
     /// };
     ///
     /// let game_options = GameOptions::builder().build();
+    ///
     /// let game_grid = GameGrid::new(game_options);
     ///
     /// let table = game_grid.make_grid();
@@ -151,6 +154,7 @@ impl GameGrid {
     /// * [`GameGrid::show_grid()`](struct.GameGrid.html#method.show_grid)
     /// * [`Table`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.
     ///  html)
+
     fn make_grid(&self) -> Table {
         let mut table = Table::new();
 
@@ -158,16 +162,19 @@ impl GameGrid {
             Cell::new(""),
             Cell::new_align("Player 2", Alignment::CENTER).with_hspan(2),
         ]));
+
         table.add_row(Row::new(vec![
             Cell::new("Player 1"),
             Cell::new(self.game_options.choice_atlantis()),
             Cell::new(self.game_options.choice_olympus()),
         ]));
+
         table.add_row(Row::new(vec![
             Cell::new(self.game_options.choice_atlantis()),
             Cell::new(self.game_options.atlantis_atlantis().to_string().as_str()),
             Cell::new(self.game_options.atlantis_olympus().to_string().as_str()),
         ]));
+
         table.add_row(Row::new(vec![
             Cell::new(self.game_options.choice_olympus()),
             Cell::new(self.game_options.olympus_atlantis().to_string().as_str()),
@@ -189,6 +196,7 @@ impl GameGrid {
     /// };
     ///
     /// let game_options = GameOptions::builder().build();
+    ///
     /// let game_grid = GameGrid::new(game_options);
     ///
     /// game_grid.show_grid();
@@ -201,6 +209,7 @@ impl GameGrid {
     /// struct.Table.html#method.printstd)
     /// * [`Table::to_string()`](https://docs.rs/prettytable/0.8.0/prettytable/
     /// struct.Table.html#method.to_string)
+
     pub fn show_grid(&self) {
         self.make_grid().printstd();
     }
@@ -222,6 +231,7 @@ impl GameGrid {
     /// };
     ///
     /// let game_options = GameOptions::builder().build();
+    ///
     /// let game_grid = GameGrid::new(game_options);
     ///
     /// let result = game_grid.return_score(Choice::Atlantis, Choice::Atlantis);
@@ -235,6 +245,7 @@ impl GameGrid {
     ///
     /// * [`NumberPair`](struct.NumberPair.html)
     /// * [`GameOptions`](struct.GameOptions.html)
+
     pub fn return_score(&self, aleph_choice: Choice, beth_choice: Choice) -> NumberPair {
         match (aleph_choice, beth_choice) {
             (Choice::Atlantis, Choice::Atlantis) => self.game_options.atlantis_atlantis(),

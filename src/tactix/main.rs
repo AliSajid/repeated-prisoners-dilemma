@@ -72,6 +72,7 @@ fn parse_choice(choice: &str) -> Choice {
         "B" => Choice::Olympus,
         _ => {
             println!("Invalid choice, defaulting to A");
+
             Choice::Atlantis
         }
     }
@@ -79,8 +80,11 @@ fn parse_choice(choice: &str) -> Choice {
 
 fn get_computer_choice(seed: Option<u64>) -> Choice {
     let mut rng = rand_chacha::ChaCha12Rng::seed_from_u64(seed.unwrap_or(0));
+
     let choices = ["A", "B"];
+
     let choice = choices.choose(&mut rng).unwrap();
+
     parse_choice(choice)
 }
 
@@ -88,21 +92,29 @@ pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
     game_grid.show_grid();
 
     println!("The choices available to you are: ");
+
     println!("A: {}", game_options.choice_atlantis());
+
     println!("B: {}", game_options.choice_olympus());
+
     print!("Enter your choice (A or B): ");
+
     io::stdout().flush().unwrap();
 
     let mut choice = String::new();
+
     io::stdin().read_line(&mut choice).unwrap();
 
     let choice = parse_choice(choice.trim());
+
     let computer_choice = get_computer_choice(None);
 
     let result = game_grid.return_score(choice, computer_choice);
 
     println!("You chose: {}", choice);
+
     println!("The computer chose: {}", computer_choice);
+
     println!(
         "Your Score: {}\nComputer Score: {}",
         result.first(),
@@ -118,6 +130,7 @@ pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
 
 fn main() {
     let game_options = GameOptions::builder().build();
+
     let game_grid = GameGrid::new(game_options);
 
     println!("Welcome to Dilemma Tactix!");
@@ -126,9 +139,11 @@ fn main() {
         game_loop(game_options, game_grid);
 
         print!("Play again? (Y/N): ");
+
         io::stdout().flush().unwrap();
 
         let mut play_again = String::new();
+
         io::stdin().read_line(&mut play_again).unwrap();
 
         if play_again.trim() != "Y" {
