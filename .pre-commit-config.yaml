@@ -69,9 +69,9 @@ repos:
             - --no-ensure-ascii
           id: pretty-format-json
           exclude: ".vscode/launch.json"
-        - args:
+        - id: trailing-whitespace
+          args:
             - --markdown-linebreak-ext=md
-          id: trailing-whitespace
     - repo: https://github.com/compilerla/conventional-pre-commit
       rev: v3.1.0
       hooks:
@@ -111,7 +111,7 @@ repos:
         - id: yamlfmt
           exclude: ".github/workflows/.*\\.ya?ml"
     - repo: https://github.com/igorshubovych/markdownlint-cli
-      rev: v0.38.0
+      rev: v0.39.0
       hooks:
         - args:
             - --ignore
@@ -124,7 +124,7 @@ repos:
           args: ["--baseline", ".secrets.baseline"]
           exclude: "meta/licenses.*"
     - repo: https://github.com/sirosen/texthooks
-      rev: 0.6.3
+      rev: 0.6.4
       hooks:
         - id: fix-smartquotes
         - id: fix-ligatures
