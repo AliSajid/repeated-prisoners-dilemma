@@ -116,24 +116,19 @@ use crate::{
 ///     .choice_olympus_options
 ///     .contains(&game_grid.choice_olympus()));
 /// ```
-pub struct GameGrid<'a> {
-    pub game_options: GameOptions<'a>,
+pub struct GameGrid {
+    pub game_options: GameOptions,
     pub score_aa:     NumberPair,
     pub score_ab:     NumberPair,
     pub score_ba:     NumberPair,
     pub score_bb:     NumberPair,
 }
 
-impl<'a> GameGrid<'a> {
+impl GameGrid {
     #[allow(clippy::similar_names)]
     #[must_use]
-    pub fn new(
-        max_value: u32,
-        min_value: u32,
-        choice_atlantis: &'a str,
-        choice_olympus: &'a str,
-    ) -> Self {
-        let game_options = GameOptions::new(min_value, max_value, choice_atlantis, choice_olympus);
+    pub fn new(max_value: u32, min_value: u32) -> Self {
+        let game_options = GameOptions::new(min_value, max_value);
         let min_value = game_options.min_value();
         let max_value = game_options.max_value();
         Self {
@@ -218,7 +213,7 @@ impl<'a> GameGrid<'a> {
     }
 }
 
-impl<'a> Display for GameGrid<'a> {
+impl Display for GameGrid {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -228,7 +223,7 @@ impl<'a> Display for GameGrid<'a> {
     }
 }
 
-impl<'a> Default for GameGrid<'a> {
+impl Default for GameGrid {
     fn default() -> Self {
         let game_options = GameOptions::default();
         let min_value = game_options.min_value();
@@ -260,7 +255,7 @@ mod tests {
 
     #[test]
     fn test_game_grid_display() {
-        let game_grid = GameGrid::new(10, 1, "A", "B");
+        let game_grid = GameGrid::new(10, 1);
         assert_eq!(
             format!("{}", game_grid),
             "Game Grid with Following Options:\nmin_value: 1, max_value: 10, choice_atlantis: A, \
@@ -285,7 +280,7 @@ mod tests {
 
     #[test]
     fn test_game_grid_new() {
-        let game_grid = GameGrid::new(10, 1, "A", "B");
+        let game_grid = GameGrid::new(10, 1);
         assert_eq!(game_grid.max_value(), 10);
         assert_eq!(game_grid.min_value(), 1);
         assert_eq!(game_grid.choice_atlantis(), "A");
@@ -294,13 +289,13 @@ mod tests {
 
     #[test]
     fn test_game_grid_score_aa() {
-        let game_grid = GameGrid::new(10, 1, "A", "B");
+        let game_grid = GameGrid::new(10, 1);
         assert_eq!(game_grid.score_aa(), NumberPair::new(4, 3));
     }
 
     #[test]
     fn test_game_grid_score_ab() {
-        let game_grid = GameGrid::new(10, 1, "A", "B");
+        let game_grid = GameGrid::new(10, 1);
         assert_eq!(game_grid.score_ab(), NumberPair::new(2, 4));
     }
 }
