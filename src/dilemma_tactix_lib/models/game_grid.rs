@@ -87,7 +87,6 @@ use crate::{
 /// game_grid.show_grid();
 /// ```
 #[derive(Clone, Debug, Copy, PartialEq, Eq, Default)]
-
 pub struct GameGrid {
     pub game_options: GameOptions,
 }
@@ -122,8 +121,8 @@ impl GameGrid {
     /// * [`GameOptions::builder()`](struct.GameOptions.html#method.builder)
     /// * [`GameOptionsBuilder::build()`](struct.GameOptionsBuilder.html#method.
     ///   build)
-
-    pub fn new(game_options: GameOptions) -> Self {
+    #[must_use]
+    pub const fn new(game_options: GameOptions) -> Self {
         Self { game_options }
     }
 
@@ -152,8 +151,7 @@ impl GameGrid {
     /// # See Also
     ///
     /// * [`GameGrid::show_grid()`](struct.GameGrid.html#method.show_grid)
-    /// * [`Table`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.
-    ///  html)
+    /// * [`Table`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.html)
 
     fn make_grid(&self) -> Table {
         let mut table = Table::new();
@@ -205,11 +203,8 @@ impl GameGrid {
     /// # See Also
     ///
     /// * [`GameGrid::make_grid()`](struct.GameGrid.html#method.make_grid)
-    /// * [`Table::printstd()`](https://docs.rs/prettytable/0.8.0/prettytable/
-    /// struct.Table.html#method.printstd)
-    /// * [`Table::to_string()`](https://docs.rs/prettytable/0.8.0/prettytable/
-    /// struct.Table.html#method.to_string)
-
+    /// * [`Table::printstd()`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.html#method.printstd)
+    /// * [`Table::to_string()`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.html#method.to_string)
     pub fn show_grid(&self) {
         self.make_grid().printstd();
     }
@@ -245,8 +240,8 @@ impl GameGrid {
     ///
     /// * [`NumberPair`](struct.NumberPair.html)
     /// * [`GameOptions`](struct.GameOptions.html)
-
-    pub fn return_score(&self, aleph_choice: Choice, beth_choice: Choice) -> NumberPair {
+    #[must_use]
+    pub const fn return_score(&self, aleph_choice: Choice, beth_choice: Choice) -> NumberPair {
         match (aleph_choice, beth_choice) {
             (Choice::Atlantis, Choice::Atlantis) => self.game_options.atlantis_atlantis(),
             (Choice::Atlantis, Choice::Olympus) => self.game_options.atlantis_olympus(),

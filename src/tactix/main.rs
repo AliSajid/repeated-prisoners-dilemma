@@ -83,7 +83,7 @@ fn get_computer_choice(seed: Option<u64>) -> Choice {
 
     let choices = ["A", "B"];
 
-    let choice = choices.choose(&mut rng).unwrap();
+    let choice = choices.choose(&mut rng).unwrap_or_else(|| &choices[0]);
 
     parse_choice(choice)
 }
@@ -97,13 +97,7 @@ pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
 
     println!("B: {}", game_options.choice_olympus());
 
-    print!("Enter your choice (A or B): ");
-
-    io::stdout().flush().unwrap();
-
-    let mut choice = String::new();
-
-    io::stdin().read_line(&mut choice).unwrap();
+    let choice = read_user_input("Enter your choice (A or B): ");
 
     let choice = parse_choice(choice.trim());
 
@@ -111,9 +105,9 @@ pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
 
     let result = game_grid.return_score(choice, computer_choice);
 
-    println!("You chose: {}", choice);
+    println!("You chose: {choice}");
 
-    println!("The computer chose: {}", computer_choice);
+    println!("The computer chose: {computer_choice}");
 
     println!(
         "Your Score: {}\nComputer Score: {}",
@@ -128,6 +122,22 @@ pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
     }
 }
 
+fn read_user_input(prompt: &str) -> String {
+    print!("{prompt}");
+    match io::stdout().flush() {
+        Ok(()) => (),
+        Err(e) => eprintln!("Failed to flush stdout: {e}"),
+    }
+
+    let mut input = String::new();
+    match io::stdin().read_line(&mut input) {
+        Ok(_) => (),
+        Err(e) => eprintln!("Failed to read line: {e}"),
+    }
+
+    input
+}
+
 fn main() {
     let game_options = GameOptions::builder().build();
 
@@ -138,15 +148,9 @@ fn main() {
     loop {
         game_loop(game_options, game_grid);
 
-        print!("Play again? (Y/N): ");
+        let play_again = read_user_input("Play again? (Y/N): ").trim().to_string();
 
-        io::stdout().flush().unwrap();
-
-        let mut play_again = String::new();
-
-        io::stdin().read_line(&mut play_again).unwrap();
-
-        if play_again.trim() != "Y" {
+        if play_again.to_lowercase() != "y" {
             break;
         }
     }
