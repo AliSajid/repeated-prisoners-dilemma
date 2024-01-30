@@ -50,252 +50,197 @@
 
 use std::fmt::Display;
 
+use prettytable::{
+    format::Alignment,
+    Cell,
+    Row,
+    Table,
+};
+
 use crate::{
+    Choice,
     GameOptions,
     NumberPair,
 };
 
-/// A struct to encapsulate a single game grid
+/// A representation of the game board.
 ///
-/// This struct abstracts the concept of one 2x2 Pirsoner's Dilemma
-/// game grid. It contains the game options, and the scores for each
-/// of the four possible outcomes.
+/// The `GameGrid` struct is a representation of the game board. It encapsulates
+/// the various values that are used to represent the game board, including the
+/// Players Aleph and Beth, the four possible ways the two players can make
+/// their choices, and the corresponding scores.
 ///
-/// This struct allows us to generate a randomized game grid, or a specific
-/// game grid. For this reason, the options for the scores and the choices
-/// have been abstracted to the [`GameOptions`](crate::GameOptions) struct.
+/// The `GameGrid` struct also contains the `GameOptions` struct, which contains
+/// the various options that can be used to configure the game.
 ///
-/// # Example
-///
-/// ## Specific Game Grid
+/// # Examples
 ///
 /// ```
 /// use dilemma_tactix_lib::{
+///     Choice,
 ///     GameGrid,
-///     NumberPair,
+///     GameOptions,
 /// };
 ///
-/// let game_grid = GameGrid::new(
-///     10,
-///     1,
-///     "A",
-///     "B",
-///     NumberPair::new(1, 2),
-///     NumberPair::new(3, 4),
-///     NumberPair::new(5, 6),
-///     NumberPair::new(7, 8),
-/// );
+/// let game_options = GameOptions::builder().build();
+/// let game_grid = GameGrid::new(game_options);
 ///
-/// assert_eq!(game_grid.max_value(), 10);
-/// assert_eq!(game_grid.min_value(), 1);
-/// assert_eq!(game_grid.choice_atlantis(), "A");
-/// assert_eq!(game_grid.choice_olympus(), "B");
-/// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 2));
-/// assert_eq!(game_grid.score_ab(), NumberPair::new(3, 4));
-/// assert_eq!(game_grid.score_ba(), NumberPair::new(5, 6));
-/// assert_eq!(game_grid.score_bb(), NumberPair::new(7, 8));
+/// game_grid.show_grid();
 /// ```
-///
-/// ## Default Game Grid
-///
-/// ```
-/// use dilemma_tactix_lib::{
-///     ChoiceNameOptions,
-///     GameGrid,
-/// };
-///
-/// let choice_name_options = ChoiceNameOptions::new();
-/// let game_grid = GameGrid::default();
-/// assert!(game_grid.max_value() <= 10);
-/// assert!(game_grid.min_value() <= 1);
-/// assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
-/// assert!(choice_name_options
-///     .choice_atlantis_options
-///     .contains(&game_grid.choice_atlantis()));
-/// assert!(choice_name_options
-///     .choice_olympus_options
-///     .contains(&game_grid.choice_olympus()));
-/// ```
+#[derive(Clone, Debug, Copy, PartialEq, Eq, Default)]
 pub struct GameGrid {
     pub game_options: GameOptions,
-    pub score_aa:     NumberPair,
-    pub score_ab:     NumberPair,
-    pub score_ba:     NumberPair,
-    pub score_bb:     NumberPair,
 }
 
 impl GameGrid {
-    #[allow(clippy::similar_names)]
-    #[must_use]
-    pub fn new(max_value: u32, min_value: u32) -> Self {
-        let game_options = GameOptions::new(min_value, max_value);
-        let min_value = game_options.min_value();
-        let max_value = game_options.max_value();
-        Self {
-            game_options,
-            score_aa: NumberPair::random(min_value, max_value),
-            score_ab: NumberPair::random(min_value, max_value),
-            score_ba: NumberPair::random(min_value, max_value),
-            score_bb: NumberPair::random(min_value, max_value),
-        }
+    /// Creates a new `GameGrid` instance.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{
+    ///     Choice,
+    ///     GameGrid,
+    ///     GameOptions,
+    /// };
+    ///
+    /// let game_options = GameOptions::builder().build();
+    /// let game_grid = GameGrid::new(game_options);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new `GameGrid` instance.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptions`](struct.GameOptions.html)
+    /// * [`GameOptionsBuilder`](struct.GameOptionsBuilder.html)
+    /// * [`GameOptions::new()`](struct.GameOptions.html#method.new)
+    /// * [`GameOptions::default()`](struct.GameOptions.html#impl-Default)
+    /// * [`GameOptions::builder()`](struct.GameOptions.html#method.builder)
+    /// * [`GameOptionsBuilder::build()`](struct.GameOptionsBuilder.html#method.
+    ///   build)
+    pub fn new(game_options: GameOptions) -> Self {
+        Self { game_options }
     }
 
-    #[must_use]
-    pub const fn max_value(&self) -> u32 {
-        self.game_options.max_value()
+    /// Format the `GameGrid` into a `Table`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{
+    ///     Choice,
+    ///     GameGrid,
+    ///     GameOptions,
+    /// };
+    ///
+    /// let game_options = GameOptions::builder().build();
+    /// let game_grid = GameGrid::new(game_options);
+    ///
+    /// let table = game_grid.make_grid();
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A `Table` representation of the `GameGrid`.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGrid::show_grid()`](struct.GameGrid.html#method.show_grid)
+    /// * [`Table`](https://docs.rs/prettytable/0.8.0/prettytable/struct.Table.
+    ///  html)
+    fn make_grid(&self) -> Table {
+        let mut table = Table::new();
+
+        table.add_row(Row::new(vec![
+            Cell::new(""),
+            Cell::new_align("Player 2", Alignment::CENTER).with_hspan(2),
+        ]));
+        table.add_row(Row::new(vec![
+            Cell::new("Player 1"),
+            Cell::new(self.game_options.choice_atlantis()),
+            Cell::new(self.game_options.choice_olympus()),
+        ]));
+        table.add_row(Row::new(vec![
+            Cell::new(self.game_options.choice_atlantis()),
+            Cell::new(self.game_options.atlantis_atlantis().to_string().as_str()),
+            Cell::new(self.game_options.atlantis_olympus().to_string().as_str()),
+        ]));
+        table.add_row(Row::new(vec![
+            Cell::new(self.game_options.choice_olympus()),
+            Cell::new(self.game_options.olympus_atlantis().to_string().as_str()),
+            Cell::new(self.game_options.olympus_olympus().to_string().as_str()),
+        ]));
+
+        table
     }
 
-    #[must_use]
-    pub const fn min_value(&self) -> u32 {
-        self.game_options.min_value()
+    ///  Display the `GameGrid` in the terminal.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{
+    ///     Choice,
+    ///     GameGrid,
+    ///     GameOptions,
+    /// };
+    ///
+    /// let game_options = GameOptions::builder().build();
+    /// let game_grid = GameGrid::new(game_options);
+    ///
+    /// game_grid.show_grid();
+    /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`GameGrid::make_grid()`](struct.GameGrid.html#method.make_grid)
+    /// * [`Table::printstd()`](https://docs.rs/prettytable/0.8.0/prettytable/
+    /// struct.Table.html#method.printstd)
+    /// * [`Table::to_string()`](https://docs.rs/prettytable/0.8.0/prettytable/
+    /// struct.Table.html#method.to_string)
+    pub fn show_grid(&self) {
+        self.make_grid().printstd();
     }
 
-    #[must_use]
-    pub fn choice_atlantis(&self) -> &str {
-        self.game_options.choice_atlantis()
-    }
-
-    #[must_use]
-    pub fn choice_olympus(&self) -> &str {
-        self.game_options.choice_olympus()
-    }
-
-    #[must_use]
-    pub const fn score_aa(&self) -> NumberPair {
-        self.score_aa
-    }
-
-    #[must_use]
-    pub const fn score_ab(&self) -> NumberPair {
-        self.score_ab
-    }
-
-    #[must_use]
-    pub const fn score_ba(&self) -> NumberPair {
-        self.score_ba
-    }
-
-    #[must_use]
-    pub const fn score_bb(&self) -> NumberPair {
-        self.score_bb
-    }
-
-    // FIXME - The variable names are confusing and do not distinguish between game
-    // state adn player choice
-    pub fn play(&self, choice_atlantis: &str, choice_olympus: &str) -> NumberPair {
-        match (choice_atlantis, choice_olympus) {
-            (choice_atlantis, choice_olympus)
-                if choice_atlantis == self.choice_atlantis()
-                    && choice_olympus == self.choice_atlantis() =>
-            {
-                self.score_aa()
-            }
-            (choice_atlantis, choice_olympus)
-                if choice_atlantis == self.choice_atlantis()
-                    && choice_olympus == self.choice_olympus() =>
-            {
-                self.score_ab()
-            }
-            (choice_atlantis, choice_olympus)
-                if choice_atlantis == self.choice_olympus()
-                    && choice_olympus == self.choice_atlantis() =>
-            {
-                self.score_ba()
-            }
-            (choice_atlantis, choice_olympus)
-                if choice_atlantis == self.choice_olympus()
-                    && choice_olympus == self.choice_olympus() =>
-            {
-                self.score_bb()
-            }
-            _ => panic!("Invalid choices"),
+    /// Return the score for the given choices.
+    ///
+    /// # Arguments
+    ///
+    /// * `aleph_choice` - The choice made by Player 1.
+    /// * `beth_choice` - The choice made by Player 2.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::{
+    ///     Choice,
+    ///     GameGrid,
+    ///     GameOptions,
+    /// };
+    ///
+    /// let game_options = GameOptions::builder().build();
+    /// let game_grid = GameGrid::new(game_options);
+    ///
+    /// let result = game_grid.return_score(Choice::Atlantis, Choice::Atlantis);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A `NumberPair` containing the scores for the given choices.
+    ///
+    /// # See Also
+    ///
+    /// * [`NumberPair`](struct.NumberPair.html)
+    /// * [`GameOptions`](struct.GameOptions.html)
+    pub fn return_score(&self, aleph_choice: Choice, beth_choice: Choice) -> NumberPair {
+        match (aleph_choice, beth_choice) {
+            (Choice::Atlantis, Choice::Atlantis) => self.game_options.atlantis_atlantis(),
+            (Choice::Atlantis, Choice::Olympus) => self.game_options.atlantis_olympus(),
+            (Choice::Olympus, Choice::Atlantis) => self.game_options.olympus_atlantis(),
+            (Choice::Olympus, Choice::Olympus) => self.game_options.olympus_olympus(),
         }
     }
 }
-
-impl Display for GameGrid {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Game Grid with Following Options:\n{}\n",
-            self.game_options,
-        )
-    }
-}
-
-impl Default for GameGrid {
-    fn default() -> Self {
-        let game_options = GameOptions::default();
-        let min_value = game_options.min_value();
-        let max_value = game_options.max_value();
-        Self {
-            game_options,
-            score_aa: NumberPair::random(min_value, max_value),
-            score_ab: NumberPair::random(min_value, max_value),
-            score_ba: NumberPair::random(min_value, max_value),
-            score_bb: NumberPair::random(min_value, max_value),
-        }
-    }
-}
-
-// #[cfg(test)]
-// mod tests {
-//     use rstest::{
-//         fixture,
-//         rstest,
-//     };
-
-//     use super::*;
-//     use crate::ChoiceNameOptions;
-
-//     #[fixture]
-//     fn seed() -> u64 {
-//         2024
-//     }
-
-//     #[test]
-//     fn test_game_grid_display() {
-//         let game_grid = GameGrid::new(10, 1);
-//         assert_eq!(
-//             format!("{}", game_grid),
-//             "Game Grid with Following Options:\nmin_value: 1, max_value: 10,
-// choice_atlantis: A, \              choice_olympus: B\n"
-//         );
-//     }
-
-//     #[rstest]
-//     fn test_game_grid_default() {
-//         let game_grid = GameGrid::default();
-//         let choice_name_options = ChoiceNameOptions::new();
-//         assert_eq!(game_grid.min_value(), 1);
-//         assert_eq!(game_grid.max_value(), 10);
-//         assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
-//         assert!(choice_name_options
-//             .choice_atlantis_options
-//             .contains(&game_grid.choice_atlantis()));
-//         assert!(choice_name_options
-//             .choice_olympus_options
-//             .contains(&game_grid.choice_olympus()));
-//     }
-
-//     #[test]
-//     fn test_game_grid_new() {
-//         let game_grid = GameGrid::new(10, 1);
-//         assert_eq!(game_grid.max_value(), 10);
-//         assert_eq!(game_grid.min_value(), 1);
-//         assert_eq!(game_grid.choice_atlantis(), "A");
-//         assert_eq!(game_grid.choice_olympus(), "B");
-//     }
-
-//     #[test]
-//     fn test_game_grid_score_aa() {
-//         let game_grid = GameGrid::new(10, 1);
-//         assert_eq!(game_grid.score_aa(), NumberPair::new(4, 3));
-//     }
-
-//     #[test]
-//     fn test_game_grid_score_ab() {
-//         let game_grid = GameGrid::new(10, 1);
-//         assert_eq!(game_grid.score_ab(), NumberPair::new(2, 4));
-//     }
-// }
