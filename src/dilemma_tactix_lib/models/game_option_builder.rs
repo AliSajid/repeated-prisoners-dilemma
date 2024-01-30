@@ -80,14 +80,14 @@ use crate::{
 ///     .olympus_atlantis(NumberPair::new(1, 1))
 ///     .olympus_olympus(NumberPair::new(1, 1))
 ///     .build();
-//# assert_eq!(game_options.min_value(), 1);
-//# assert_eq!(game_options.max_value(), 10);
-//# assert_eq!(game_options.choice_atlantis(), "A");
-//# assert_eq!(game_options.choice_olympus(), "B");
-//# assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(1, 1));
-//# assert_eq!(game_options.atlantis_olympus(), NumberPair::new(1, 1));
-//# assert_eq!(game_options.olympus_atlantis(), NumberPair::new(1, 1));
-//# assert_eq!(game_options.olympus_olympus(), NumberPair::new(1, 1));
+/// assert_eq!(game_options.min_value(), 1);
+/// assert_eq!(game_options.max_value(), 10);
+/// assert_eq!(game_options.choice_atlantis(), "A");
+/// assert_eq!(game_options.choice_olympus(), "B");
+/// assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(1, 1));
+/// assert_eq!(game_options.atlantis_olympus(), NumberPair::new(1, 1));
+/// assert_eq!(game_options.olympus_atlantis(), NumberPair::new(1, 1));
+/// assert_eq!(game_options.olympus_olympus(), NumberPair::new(1, 1));
 /// ```
 ///
 /// # Notes
@@ -124,14 +124,14 @@ impl GameOptionsBuilder {
     /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
     /// let game_options_builder = GameOptionsBuilder::new();
-    //# assert_eq!(game_options_builder.max_value, None);
-    //# assert_eq!(game_options_builder.min_value, None);
-    //# assert_eq!(game_options_builder.choice_atlantis, None);
-    //# assert_eq!(game_options_builder.choice_olympus, None);
-    //# assert_eq!(game_options_builder.atlantis_atlantis, None);
-    //# assert_eq!(game_options_builder.atlantis_olympus, None);
-    //# assert_eq!(game_options_builder.olympus_atlantis, None);
-    //# assert_eq!(game_options_builder.olympus_olympus, None);
+    /// assert_eq!(game_options_builder.max_value, None);
+    /// assert_eq!(game_options_builder.min_value, None);
+    /// assert_eq!(game_options_builder.choice_atlantis, None);
+    /// assert_eq!(game_options_builder.choice_olympus, None);
+    /// assert_eq!(game_options_builder.atlantis_atlantis, None);
+    /// assert_eq!(game_options_builder.atlantis_olympus, None);
+    /// assert_eq!(game_options_builder.olympus_atlantis, None);
+    /// assert_eq!(game_options_builder.olympus_olympus, None);
     /// ```
     ///
     /// # Returns
@@ -175,7 +175,7 @@ impl GameOptionsBuilder {
     /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
     /// let game_options_builder = GameOptionsBuilder::new().min_value(1);
-    //# assert_eq!(game_options_builder.min_value, Some(1));
+    /// assert_eq!(game_options_builder.min_value, Some(1));
     /// ```
     ///
     /// # Returns
@@ -211,7 +211,7 @@ impl GameOptionsBuilder {
     /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
     /// let game_options_builder = GameOptionsBuilder::new().max_value(10);
-    //# assert_eq!(game_options_builder.max_value, Some(10));
+    /// assert_eq!(game_options_builder.max_value, Some(10));
     /// ```
     ///
     /// # Returns
@@ -247,8 +247,9 @@ impl GameOptionsBuilder {
     /// ```
     /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
-    /// let game_options_builder = GameOptionsBuilder::new().choice_atlantis("cooperate");
-    //# assert_eq!(game_options_builder.choice_atlantis, Some("cooperate"));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().choice_atlantis("cooperate");
+    /// assert_eq!(game_options_builder.choice_atlantis, Some("cooperate"));
     /// ```
     ///
     /// # Returns
@@ -286,7 +287,7 @@ impl GameOptionsBuilder {
     ///
     /// let game_options_builder =
     ///     GameOptionsBuilder::new().choice_olympus("defect");
-    //# assert_eq!(game_options_builder.choice_olympus, Some("defect"));
+    /// assert_eq!(game_options_builder.choice_olympus, Some("defect"));
     /// ```
     ///
     /// # Returns
@@ -326,7 +327,10 @@ impl GameOptionsBuilder {
     ///
     /// let game_options_builder =
     ///     GameOptionsBuilder::new().atlantis_atlantis(NumberPair::new(1, 1));
-    //# assert_eq!(game_options_builder.atlantis_atlantis, Some(NumberPair::new(1, 1)));
+    /// assert_eq!(
+    ///     game_options_builder.atlantis_atlantis,
+    ///     Some(NumberPair::new(1, 1))
+    /// );
     /// ```
     ///
     /// # Returns
@@ -367,10 +371,10 @@ impl GameOptionsBuilder {
     ///
     /// let game_options_builder =
     ///     GameOptionsBuilder::new().atlantis_olympus(NumberPair::new(1, 1));
-    //# assert_eq!(
-    //#     game_options_builder.atlantis_olympus,
-    //#     Some(NumberPair::new(1, 1))
-    //# );
+    /// assert_eq!(
+    ///     game_options_builder.atlantis_olympus,
+    ///     Some(NumberPair::new(1, 1))
+    /// );
     /// ```
     ///
     /// # Returns
@@ -412,10 +416,10 @@ impl GameOptionsBuilder {
     ///
     /// let game_options_builder =
     ///     GameOptionsBuilder::new().olympus_atlantis(NumberPair::new(1, 1));
-    //# assert_eq!(
-    //#     game_options_builder.olympus_atlantis,
-    //#     Some(NumberPair::new(1, 1))
-    //# );
+    /// assert_eq!(
+    ///     game_options_builder.olympus_atlantis,
+    ///     Some(NumberPair::new(1, 1))
+    /// );
     /// ```
     ///
     /// # Returns
@@ -456,10 +460,10 @@ impl GameOptionsBuilder {
     ///
     /// let game_options_builder =
     ///     GameOptionsBuilder::new().olympus_olympus(NumberPair::new(1, 1));
-    //# assert_eq!(
-    //#     game_options_builder.olympus_olympus,
-    //#     Some(NumberPair::new(1, 1))
-    //# );
+    /// assert_eq!(
+    ///     game_options_builder.olympus_olympus,
+    ///     Some(NumberPair::new(1, 1))
+    /// );
     /// ```
     ///
     /// # Returns
@@ -505,14 +509,14 @@ impl GameOptionsBuilder {
     ///     .olympus_atlantis(NumberPair::new(1, 1))
     ///     .olympus_olympus(NumberPair::new(1, 1))
     ///     .build();
-    //# assert_eq!(game_options.max_value(), 10);
-    //# assert_eq!(game_options.min_value(), 1);
-    //# assert_eq!(game_options.choice_atlantis(), "cooperate");
-    //# assert_eq!(game_options.choice_olympus(), "defect");
-    //# assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
-    //# assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
-    //# assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
-    //# assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
+    /// assert_eq!(game_options.max_value(), 10);
+    /// assert_eq!(game_options.min_value(), 1);
+    /// assert_eq!(game_options.choice_atlantis(), "cooperate");
+    /// assert_eq!(game_options.choice_olympus(), "defect");
+    /// assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+    /// assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+    /// assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+    /// assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
     /// ```
     ///
     /// # Returns
