@@ -53,6 +53,7 @@ use std::fmt;
 
 // Define an enum called Choice with two variants: Atlantis and Olympus
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+
 pub enum Choice {
     Atlantis,
     Olympus,
@@ -87,28 +88,36 @@ impl fmt::Display for Choice {
 }
 
 #[cfg(test)]
+
 mod tests {
+
     use super::*;
 
     #[test]
+
     fn test_choice_to_string() {
         assert_eq!(Choice::Atlantis.to_string(), "Atlantis");
+
         assert_eq!(Choice::Olympus.to_string(), "Olympus");
     }
 
     #[test]
+
     fn test_choice_atlantis() {
         assert_eq!(Choice::atlantis(), Choice::Atlantis);
     }
 
     #[test]
+
     fn test_choice_olympus() {
         assert_eq!(Choice::olympus(), Choice::Olympus);
     }
 
     #[test]
+
     fn test_choice_display() {
         assert_eq!(format!("{}", Choice::Atlantis), "Atlantis");
+
         assert_eq!(format!("{}", Choice::Olympus), "Olympus");
     }
 }
