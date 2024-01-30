@@ -136,6 +136,14 @@ use rand_chacha::ChaCha12Rng;
 #[allow(clippy::doc_markdown)]
 pub struct ChoiceNameOptions {}
 
+/// The `ChoiceNameOptions` struct represents a collection of choice pairs.
+///
+/// This struct provides methods to retrieve specific choice pairs, as well as
+/// random choice pairs. It also exposes the choice pairs as arrays and provides
+/// methods to retrieve the individual choices from each pair.
+impl ChoiceNameOptions {
+    // ... rest of the code ...
+}
 impl ChoiceNameOptions {
     /// The array of available choice pairs.
     const CHOICE_PAIRS: [(&'static str, &'static str); 17] = [
@@ -285,6 +293,99 @@ impl ChoiceNameOptions {
         let choice = rng.gen_range(0..Self::CHOICE_PAIRS_LENGTH);
         Self::get_choice_pair(choice)
     }
+
+    /// Returns the choice name options pair list.
+    ///
+    /// This function is a `const fn`, which means it is evaluated at
+    /// compile time. It returns the `CHOICE_PAIRS` array, which is a list
+    /// of tuples representing choice name options.
+    ///
+    /// Each tuple in the array contains two `&'static str` elements, where the
+    /// first element is the name of the Atlantis choice and the second element
+    /// is the name of the Olympus choice.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let pairs = ChoiceNameOptions::choice_pairs();
+    /// assert_eq!(pairs[0], ("cooperate", "defect"));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// This function returns an array of 17 tuples, where each tuple contains
+    /// two `&'static str` elements representing the name of the Atlantis choice
+    /// and the name of the Olympus choice.
+    #[must_use]
+    pub const fn choice_pairs() -> [(&'static str, &'static str); 17] {
+        Self::CHOICE_PAIRS
+    }
+
+    /// Returns the length of the choice name options pair list.
+    ///
+    /// This function is a `const fn`, which means it is evaluated at
+    /// compile time. It returns the length of the `CHOICE_PAIRS` array,
+    /// which represents the number of choice name option pairs available.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// assert_eq!(ChoiceNameOptions::choice_pairs_length(), 17);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// This function returns a `usize` which represents the length of the
+    /// `CHOICE_PAIRS` array.
+
+    #[must_use]
+    pub const fn choice_pairs_length() -> usize {
+        Self::CHOICE_PAIRS_LENGTH
+    }
+
+    /// Returns the array of the first choice in each pair.
+    ///
+    /// This function maps over the `CHOICE_PAIRS` array and returns a new array
+    /// containing the first element (the `Atlantis` choice) of each tuple.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let atlantis_options = ChoiceNameOptions::choice_atlantis_options();
+    /// assert_eq!(atlantis_options[0], "cooperate");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// This function returns an array of 17 `&'static str` elements, where each
+    /// element is the first item (Atlantis choice) of the corresponding tuple
+    /// in the `CHOICE_PAIRS` array.
+    #[must_use]
+    pub fn choice_atlantis_options() -> [&'static str; 17] {
+        Self::CHOICE_PAIRS.map(|pair| pair.0)
+    }
+
+    /// Returns the array of the second choice in each pair.
+    ///
+    /// This function maps over the `CHOICE_PAIRS` array and returns a new array
+    /// containing the second element (the Olympus choice) of each tuple.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let olympus_options = ChoiceNameOptions::choice_olympus_options();
+    /// assert_eq!(olympus_options[0], "defect");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// This function returns an array of 17 `&'static str` elements, where each
+    /// element is the second item (Olympus choice) of the corresponding tuple
+    /// in the `CHOICE_PAIRS` array.
+    #[must_use]
+    pub fn choice_olympus_options() -> [&'static str; 17] {
+        Self::CHOICE_PAIRS.map(|pair| pair.1)
+    }
 }
 
 #[cfg(test)]
@@ -302,13 +403,24 @@ mod tests {
         crate::RANDOM_SEED.0
     }
 
+    #[fixture]
+    fn choice_atlantis_options() -> [&'static str; 17] {
+        ChoiceNameOptions::choice_atlantis_options()
+    }
+
+    #[fixture]
+    fn choice_olympus_options() -> [&'static str; 17] {
+        ChoiceNameOptions::choice_olympus_options()
+    }
+
     // This test checks that the get_random_pair method returns two different
     // choices
     #[rstest]
-    fn test_get_random_pair() {
+    fn test_get_random_pair(
+        choice_atlantis_options: [&'static str; 17],
+        choice_olympus_options: [&'static str; 17],
+    ) {
         let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_random_pair();
-        let choice_atlantis_options = ChoiceNameOptions::CHOICE_PAIRS.map(|pair| pair.0);
-        let choice_olympus_options = ChoiceNameOptions::CHOICE_PAIRS.map(|pair| pair.1);
         // This assertion checks that the choice_atlantis is pulled from the
         // choice_atlantis_options array, ensuring that get_random_pair is correctly
         // using the array to generate choices
