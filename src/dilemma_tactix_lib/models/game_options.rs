@@ -112,6 +112,7 @@ use crate::{
 /// * [`GameOptions::default()`](#method.default)
 /// * [`GameOptions::builder()`](#method.builder)
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
     pub(crate) min_value:  u32,
@@ -155,10 +156,12 @@ impl GameOptions {
     ///
     /// * [`GameOptions::default()`](#method.default)
     #[must_use]
+
     pub fn new(min_value: u32, max_value: u32) -> Self {
         #[cfg(test)]
         let (choice_atlantis, choice_olympus) =
             ChoiceNameOptions::get_random_pair_seeded(RANDOM_SEED.0);
+
         #[cfg(test)]
         let (atlantis_atlantis, atlantis_olympus, olympus_atlantis, olympus_olympus) = (
             NumberPair::random_seeded(min_value, max_value, RANDOM_SEED.0),
@@ -166,8 +169,10 @@ impl GameOptions {
             NumberPair::random_seeded(min_value, max_value, RANDOM_SEED.2),
             NumberPair::random_seeded(min_value, max_value, RANDOM_SEED.3),
         );
+
         #[cfg(not(test))]
         let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_random_pair();
+
         #[cfg(not(test))]
         let (atlantis_atlantis, atlantis_olympus, olympus_atlantis, olympus_olympus) = (
             NumberPair::random(min_value, max_value),
@@ -175,6 +180,7 @@ impl GameOptions {
             NumberPair::random(min_value, max_value),
             NumberPair::random(min_value, max_value),
         );
+
         Self {
             min_value,
             max_value,
@@ -201,6 +207,7 @@ impl GameOptions {
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
+
     pub const fn min_value(&self) -> u32 {
         self.min_value
     }
@@ -219,6 +226,7 @@ impl GameOptions {
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
+
     pub const fn max_value(&self) -> u32 {
         self.max_value
     }
@@ -237,6 +245,7 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
+
     pub const fn choice_atlantis(&self) -> &str {
         self.choice_atlantis
     }
@@ -255,6 +264,7 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     #[must_use]
+
     pub const fn choice_olympus(&self) -> &str {
         self.choice_olympus
     }
@@ -276,6 +286,7 @@ impl GameOptions {
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
+
     pub const fn atlantis_atlantis(&self) -> NumberPair {
         self.atlantis_atlantis
     }
@@ -297,6 +308,7 @@ impl GameOptions {
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
+
     pub const fn atlantis_olympus(&self) -> NumberPair {
         self.atlantis_olympus
     }
@@ -318,6 +330,7 @@ impl GameOptions {
     /// * [`GameOptions::atlantis_olympus()`](#method.atlantis_olympus)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
+
     pub const fn olympus_atlantis(&self) -> NumberPair {
         self.olympus_atlantis
     }
@@ -338,6 +351,7 @@ impl GameOptions {
     /// * [`GameOptions::atlantis_olympus()`](#method.atlantis_olympus)
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     #[must_use]
+
     pub const fn olympus_olympus(&self) -> NumberPair {
         self.olympus_olympus
     }
@@ -378,6 +392,7 @@ impl GameOptions {
     /// * [`GameOptions::default()`](#method.default)
     /// * [`GameOptionsBuilder::build()`](#method.build)
     #[must_use]
+
     pub const fn builder() -> GameOptionsBuilder {
         GameOptionsBuilder::new()
     }
@@ -408,6 +423,7 @@ impl Default for GameOptions {
     ///
     /// * [`GameOptions::new()`](#method.new)
     /// * [`GameOptions::builder()`](#method.builder)
+
     fn default() -> Self {
         Self::new(1, 10)
     }
@@ -417,6 +433,7 @@ impl Display for GameOptions {
     /// Implements the Display trait for `GameOptions`.
     ///
     /// This function implements the Display trait for `GameOptions`.
+
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -436,6 +453,7 @@ impl Display for GameOptions {
 }
 
 #[cfg(test)]
+
 mod tests {
 
     use rstest::{
@@ -446,49 +464,73 @@ mod tests {
     use super::*;
 
     #[fixture]
+
     fn choice_atlantis_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_atlantis_options()
     }
 
     #[fixture]
+
     fn choice_olympus_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_olympus_options()
     }
 
     #[rstest]
+
     fn test_game_options_default(
         choice_atlantis_options: [&'static str; 17],
         choice_olympus_options: [&'static str; 17],
     ) {
         let game_options = GameOptions::default();
+
         assert_eq!(game_options.min_value(), 1);
+
         assert_eq!(game_options.max_value(), 10);
+
         assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(6, 9));
+
         assert_eq!(game_options.atlantis_olympus(), NumberPair::new(3, 8));
+
         assert_eq!(game_options.olympus_atlantis(), NumberPair::new(6, 7));
+
         assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 6));
+
         assert_eq!(game_options.choice_atlantis(), "discrete");
+
         assert_eq!(game_options.choice_olympus(), "continuous");
+
         assert!(choice_atlantis_options.contains(&game_options.choice_atlantis()));
+
         assert!(choice_olympus_options.contains(&game_options.choice_olympus()));
     }
 
     #[test]
+
     fn test_game_options_new() {
         let game_options = GameOptions::new(1, 10);
+
         assert_eq!(game_options.min_value(), 1);
+
         assert_eq!(game_options.max_value(), 10);
+
         assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(6, 9));
+
         assert_eq!(game_options.atlantis_olympus(), NumberPair::new(3, 8));
+
         assert_eq!(game_options.olympus_atlantis(), NumberPair::new(6, 7));
+
         assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 6));
+
         assert_eq!(game_options.choice_atlantis(), "discrete");
+
         assert_eq!(game_options.choice_olympus(), "continuous");
     }
 
     #[test]
+
     fn test_game_options_display() {
         let game_options = GameOptions::new(1, 10);
+
         assert_eq!(
             format!("{}", game_options),
             "min_value: 1, max_value: 10, choice_atlantis: discrete, choice_olympus: continuous, \
@@ -498,26 +540,42 @@ mod tests {
     }
 
     #[test]
+
     fn test_builder() {
         let builder = GameOptions::builder();
+
         assert!(builder.min_value.is_none());
+
         assert!(builder.max_value.is_none());
+
         assert!(builder.choice_atlantis.is_none());
+
         assert!(builder.choice_olympus.is_none());
+
         assert!(builder.atlantis_atlantis.is_none());
+
         assert!(builder.atlantis_olympus.is_none());
+
         assert!(builder.olympus_atlantis.is_none());
+
         assert!(builder.olympus_olympus.is_none());
 
         let game_options = builder.build();
 
         assert_eq!(game_options.min_value(), 1);
+
         assert_eq!(game_options.max_value(), 10);
+
         assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+
         assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+
         assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+
         assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
+
         assert_eq!(game_options.choice_atlantis(), "cooperate");
+
         assert_eq!(game_options.choice_olympus(), "defect");
     }
 }

@@ -50,10 +50,12 @@
 
 #[cfg(test)]
 mod constants;
+
 #[cfg(test)]
 pub(crate) use constants::RANDOM_SEED;
 
 mod models;
+
 pub use models::{
     Choice,
     ChoiceNameOptions,
