@@ -111,7 +111,7 @@ use crate::{
 /// * [`GameOptions::new()`](#method.new)
 /// * [`GameOptions::default()`](#method.default)
 /// * [`GameOptions::builder()`](#method.builder)
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
     pub(crate) min_value:  u32,
