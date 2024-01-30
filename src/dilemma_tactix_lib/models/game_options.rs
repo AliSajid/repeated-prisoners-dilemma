@@ -54,6 +54,7 @@ use std::fmt::Display;
 use crate::RANDOM_SEED;
 use crate::{
     ChoiceNameOptions,
+    GameOptionsBuilder,
     NumberPair,
 };
 
@@ -63,12 +64,10 @@ use crate::{
 /// a single grid from the parameters that may be related to a tournament or a
 /// series of grids.
 ///
-/// The four parameters are:
+/// The two parameters are:
 ///
 /// * `min_value` - The minimum value for that can be assigned to a choice.
 /// * `max_value` - The maximum value for that can be assigned to a choice.
-/// * `choice_atlantis` - The label for the first choice that can be made.
-/// * `choice_olympus` - The label for the second choice that can be made.
 ///
 /// # Example
 ///
@@ -88,6 +87,20 @@ use crate::{
 /// let game_options = GameOptions::default();
 /// ```
 ///
+/// ## Builder
+///
+/// ```
+/// use dilemma_tactix_lib::GameOptions;
+///
+/// let game_options = GameOptions
+///     .builder()
+///     .min_value(1)
+///     .max_value(10)
+///     .choice_atlantis("discrete")
+///     .choice_olympus("continuous")
+///     .build();
+/// ```
+///
 /// # Notes
 ///
 /// The `GameOptions` struct implements the `Default` trait, and can be created
@@ -97,24 +110,25 @@ use crate::{
 ///
 /// * [`GameOptions::new()`](#method.new)
 /// * [`GameOptions::default()`](#method.default)
+/// * [`GameOptions::builder()`](#method.builder)
 #[derive(Debug, Clone)]
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
-    min_value:             u32,
+    pub(crate) min_value:  u32,
     /// The maximum value for that can be assigned to a choice.
-    max_value:             u32,
-    /// Score for Aleph-Atlantis and Bey-Atlantis
-    pub atlantis_atlantis: NumberPair,
-    /// Score for Aleph-Atlantis and Bey-Olympus
-    pub atlantis_olympus:  NumberPair,
-    /// Score for Aleph-Olympus and Bey-Atlantis
-    pub olympus_atlantis:  NumberPair,
-    /// Score for Aleph-Olympus and Bey-Olympus
-    pub olympus_olympus:   NumberPair,
+    pub(crate) max_value:  u32,
     /// The label for the first choice that can be made
     pub choice_atlantis:   &'static str,
     /// The label for the second choice that can be made
     pub choice_olympus:    &'static str,
+    /// Score for Aleph-Atlantis and Beth-Atlantis
+    pub atlantis_atlantis: NumberPair,
+    /// Score for Aleph-Atlantis and Beth-Olympus
+    pub atlantis_olympus:  NumberPair,
+    /// Score for Aleph-Olympus and Beth-Atlantis
+    pub olympus_atlantis:  NumberPair,
+    /// Score for Aleph-Olympus and Beth-Olympus
+    pub olympus_olympus:   NumberPair,
 }
 
 impl GameOptions {
@@ -124,8 +138,8 @@ impl GameOptions {
     /// parameters.
     ///
     /// In the implementation, the new struct instance instantiates the
-    /// ChoiceNameOptions struct, and then uses it to get a random pair of
-    /// choices. It then uses the given min_value and max_value to generate
+    /// `ChoiceNameOptions` struct, and then uses it to get a random pair of
+    /// choices. It then uses the given `min_value` and `max_value` to generate
     /// random scores for the four possible combinations of outcomes.
     ///
     /// # Arguments
@@ -142,10 +156,9 @@ impl GameOptions {
     /// * [`GameOptions::default()`](#method.default)
     #[must_use]
     pub fn new(min_value: u32, max_value: u32) -> Self {
-        let choice_name_options = ChoiceNameOptions::new();
         #[cfg(test)]
         let (choice_atlantis, choice_olympus) =
-            choice_name_options.get_random_pair_seeded(RANDOM_SEED.0);
+            ChoiceNameOptions::get_random_pair_seeded(RANDOM_SEED.0);
         #[cfg(test)]
         let (atlantis_atlantis, atlantis_olympus, olympus_atlantis, olympus_olympus) = (
             NumberPair::random_seeded(min_value, max_value, RANDOM_SEED.0),
@@ -154,7 +167,7 @@ impl GameOptions {
             NumberPair::random_seeded(min_value, max_value, RANDOM_SEED.3),
         );
         #[cfg(not(test))]
-        let (choice_atlantis, choice_olympus) = choice_name_options.get_random_pair();
+        let (choice_atlantis, choice_olympus) = ChoiceNameOptions::get_random_pair();
         #[cfg(not(test))]
         let (atlantis_atlantis, atlantis_olympus, olympus_atlantis, olympus_olympus) = (
             NumberPair::random(min_value, max_value),
@@ -165,12 +178,12 @@ impl GameOptions {
         Self {
             min_value,
             max_value,
+            choice_atlantis,
+            choice_olympus,
             atlantis_atlantis,
             atlantis_olympus,
             olympus_atlantis,
             olympus_olympus,
-            choice_atlantis,
-            choice_olympus,
         }
     }
 
@@ -242,7 +255,7 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     #[must_use]
-    pub fn choice_olympus(&self) -> &str {
+    pub const fn choice_olympus(&self) -> &str {
         self.choice_olympus
     }
 
@@ -250,7 +263,7 @@ impl GameOptions {
     ///
     /// This function returns the value of `atlantis_atlantis`, which is the
     /// `NumberPair` containing the scores for the case when both Player Aleph
-    /// and Player Bey choose the Atlantis strategy.
+    /// and Player Beth choose the Atlantis strategy.
     ///
     /// # Returns
     ///
@@ -271,7 +284,7 @@ impl GameOptions {
     ///
     /// This function returns the value of `atlantis_olympus`, which is the
     /// `NumberPair` containing the scores for the case when Player Aleph
-    /// chooses the Atlantis strategy and Player Bey chooses the Olympus
+    /// chooses the Atlantis strategy and Player Beth chooses the Olympus
     /// strategy.
     ///
     /// # Returns
@@ -292,7 +305,7 @@ impl GameOptions {
     ///
     /// This function returns the value of `olympus_atlantis`, which is the
     /// `NumberPair` containing the scores for the case when Player Aleph
-    /// chooses the Olympus strategy and Player Bey chooses the Atlantis
+    /// chooses the Olympus strategy and Player Beth chooses the Atlantis
     /// strategy.
     ///
     /// # Returns
@@ -313,7 +326,7 @@ impl GameOptions {
     ///
     /// This function returns the value of `olympus_olympus`, which is the
     /// `NumberPair` containing the scores for the case when both Player Aleph
-    /// and Player Bey choose the Olympus strategy.
+    /// and Player Beth choose the Olympus strategy.
     ///
     /// # Returns
     ///
@@ -327,6 +340,46 @@ impl GameOptions {
     #[must_use]
     pub const fn olympus_olympus(&self) -> NumberPair {
         self.olympus_olympus
+    }
+
+    /// Create a builder for a `GameOptions` struct.
+    ///
+    /// This function creates a builder for a `GameOptions` struct which allows
+    /// for step-by-step building of individual game options objects, bypassing
+    /// random generation of values if desired.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameOptions;
+    ///
+    /// let game_options = GameOptions
+    ///     .builder()
+    ///     .min_value(1)
+    ///     .max_value(10)
+    ///     .choice_atlantis("discrete")
+    ///     .choice_olympus("continuous")
+    ///     .build();
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new `GameOptionsBuilder` struct.
+    ///
+    /// # Notes
+    ///
+    /// Unlike the `default` method. a `default` builder is guaranteed to
+    /// be the same each time it is called.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptionsBuilder`](#struct.GameOptionsBuilder)
+    /// * [`GameOptions::new()`](#method.new)
+    /// * [`GameOptions::default()`](#method.default)
+    /// * [`GameOptionsBuilder::build()`](#method.build)
+    #[must_use]
+    pub const fn builder() -> GameOptionsBuilder {
+        GameOptionsBuilder::new()
     }
 }
 
@@ -344,23 +397,17 @@ impl Default for GameOptions {
     ///
     /// # Returns
     ///
-    /// A new `GameOptions` struct with default values.
+    /// A new `GameOptions` struct with default values for the parameters.
     ///
-    /// # Example
+    /// # Notes
     ///
-    /// ```
-    /// use dilemma_tactix_lib::{
-    ///     ChoiceNameOptions,
-    ///     GameOptions,
-    /// };
-    ///
-    /// let choice_name_options = ChoiceNameOptions::new();
-    /// let game_options = GameOptions::default();
-    /// ```
+    /// Unlike the default options in the `builder()` method, the default
+    /// options here are guaranteed to generate a new random grid each time.
     ///
     /// # See Also
     ///
     /// * [`GameOptions::new()`](#method.new)
+    /// * [`GameOptions::builder()`](#method.builder)
     fn default() -> Self {
         Self::new(1, 10)
     }
@@ -391,11 +438,28 @@ impl Display for GameOptions {
 #[cfg(test)]
 mod tests {
 
+    use rstest::{
+        fixture,
+        rstest,
+    };
+
     use super::*;
 
-    #[test]
-    fn test_game_options_default() {
-        let choice_name_options = ChoiceNameOptions::new();
+    #[fixture]
+    fn choice_atlantis_options() -> [&'static str; 17] {
+        ChoiceNameOptions::choice_atlantis_options()
+    }
+
+    #[fixture]
+    fn choice_olympus_options() -> [&'static str; 17] {
+        ChoiceNameOptions::choice_olympus_options()
+    }
+
+    #[rstest]
+    fn test_game_options_default(
+        choice_atlantis_options: [&'static str; 17],
+        choice_olympus_options: [&'static str; 17],
+    ) {
         let game_options = GameOptions::default();
         assert_eq!(game_options.min_value(), 1);
         assert_eq!(game_options.max_value(), 10);
@@ -405,12 +469,8 @@ mod tests {
         assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 6));
         assert_eq!(game_options.choice_atlantis(), "discrete");
         assert_eq!(game_options.choice_olympus(), "continuous");
-        assert!(choice_name_options
-            .choice_atlantis_options
-            .contains(&game_options.choice_atlantis()));
-        assert!(choice_name_options
-            .choice_olympus_options
-            .contains(&game_options.choice_olympus()));
+        assert!(choice_atlantis_options.contains(&game_options.choice_atlantis()));
+        assert!(choice_olympus_options.contains(&game_options.choice_olympus()));
     }
 
     #[test]
@@ -435,5 +495,29 @@ mod tests {
              atlantis_atlantis: (6, 9), atlantis_olympus: (3, 8), olympus_atlantis: (6, 7), \
              olympus_olympus: (3, 6)"
         );
+    }
+
+    #[test]
+    fn test_builder() {
+        let builder = GameOptions::builder();
+        assert!(builder.min_value.is_none());
+        assert!(builder.max_value.is_none());
+        assert!(builder.choice_atlantis.is_none());
+        assert!(builder.choice_olympus.is_none());
+        assert!(builder.atlantis_atlantis.is_none());
+        assert!(builder.atlantis_olympus.is_none());
+        assert!(builder.olympus_atlantis.is_none());
+        assert!(builder.olympus_olympus.is_none());
+
+        let game_options = builder.build();
+
+        assert_eq!(game_options.min_value(), 1);
+        assert_eq!(game_options.max_value(), 10);
+        assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+        assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+        assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+        assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
+        assert_eq!(game_options.choice_atlantis(), "cooperate");
+        assert_eq!(game_options.choice_olympus(), "defect");
     }
 }
