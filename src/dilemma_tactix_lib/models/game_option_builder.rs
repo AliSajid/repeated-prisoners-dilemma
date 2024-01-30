@@ -558,16 +558,12 @@ impl GameOptionsBuilder {
             // Create a new random number generator
             let mut rng = rand_chacha::ChaCha12Rng::from_entropy();
 
-            match (self.min_value, self.max_value) {
-                (None, None) => default_pair,
-                _ => {
-                    // Generate two random values between min_value and max_value
-                    let random_value1 = rng.gen_range(min_value..=max_value);
-                    let random_value2 = rng.gen_range(min_value..=max_value);
-
-                    // Return a new NumberPair with the generated random values
-                    NumberPair::new(random_value1, random_value2)
-                }
+            if (self.min_value, self.max_value) == (None, None) {
+                default_pair
+            } else {
+                let random_value1 = rng.gen_range(min_value..=max_value);
+                let random_value2 = rng.gen_range(min_value..=max_value);
+                NumberPair::new(random_value1, random_value2)
             }
         };
 

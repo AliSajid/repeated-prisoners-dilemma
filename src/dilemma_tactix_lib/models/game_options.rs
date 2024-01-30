@@ -112,7 +112,6 @@ use crate::{
 /// * [`GameOptions::default()`](#method.default)
 /// * [`GameOptions::builder()`](#method.builder)
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-
 pub struct GameOptions {
     /// The minimum value for that can be assigned to a choice.
     pub(crate) min_value:  u32,
@@ -156,7 +155,6 @@ impl GameOptions {
     ///
     /// * [`GameOptions::default()`](#method.default)
     #[must_use]
-
     pub fn new(min_value: u32, max_value: u32) -> Self {
         #[cfg(test)]
         let (choice_atlantis, choice_olympus) =
@@ -207,7 +205,6 @@ impl GameOptions {
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
-
     pub const fn min_value(&self) -> u32 {
         self.min_value
     }
@@ -226,7 +223,6 @@ impl GameOptions {
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
-
     pub const fn max_value(&self) -> u32 {
         self.max_value
     }
@@ -245,7 +241,6 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
     #[must_use]
-
     pub const fn choice_atlantis(&self) -> &str {
         self.choice_atlantis
     }
@@ -264,7 +259,6 @@ impl GameOptions {
     /// * [`GameOptions::max_value()`](#method.max_value)
     /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
     #[must_use]
-
     pub const fn choice_olympus(&self) -> &str {
         self.choice_olympus
     }
@@ -286,7 +280,6 @@ impl GameOptions {
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
-
     pub const fn atlantis_atlantis(&self) -> NumberPair {
         self.atlantis_atlantis
     }
@@ -308,7 +301,6 @@ impl GameOptions {
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
-
     pub const fn atlantis_olympus(&self) -> NumberPair {
         self.atlantis_olympus
     }
@@ -330,7 +322,6 @@ impl GameOptions {
     /// * [`GameOptions::atlantis_olympus()`](#method.atlantis_olympus)
     /// * [`GameOptions::olympus_olympus()`](#method.olympus_olympus)
     #[must_use]
-
     pub const fn olympus_atlantis(&self) -> NumberPair {
         self.olympus_atlantis
     }
@@ -351,7 +342,6 @@ impl GameOptions {
     /// * [`GameOptions::atlantis_olympus()`](#method.atlantis_olympus)
     /// * [`GameOptions::olympus_atlantis()`](#method.olympus_atlantis)
     #[must_use]
-
     pub const fn olympus_olympus(&self) -> NumberPair {
         self.olympus_olympus
     }
@@ -392,7 +382,6 @@ impl GameOptions {
     /// * [`GameOptions::default()`](#method.default)
     /// * [`GameOptionsBuilder::build()`](#method.build)
     #[must_use]
-
     pub const fn builder() -> GameOptionsBuilder {
         GameOptionsBuilder::new()
     }
@@ -453,7 +442,6 @@ impl Display for GameOptions {
 }
 
 #[cfg(test)]
-
 mod tests {
 
     use rstest::{
@@ -464,19 +452,16 @@ mod tests {
     use super::*;
 
     #[fixture]
-
     fn choice_atlantis_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_atlantis_options()
     }
 
     #[fixture]
-
     fn choice_olympus_options() -> [&'static str; 17] {
         ChoiceNameOptions::choice_olympus_options()
     }
 
     #[rstest]
-
     fn test_game_options_default(
         choice_atlantis_options: [&'static str; 17],
         choice_olympus_options: [&'static str; 17],
@@ -505,7 +490,6 @@ mod tests {
     }
 
     #[test]
-
     fn test_game_options_new() {
         let game_options = GameOptions::new(1, 10);
 
@@ -527,7 +511,6 @@ mod tests {
     }
 
     #[test]
-
     fn test_game_options_display() {
         let game_options = GameOptions::new(1, 10);
 
@@ -540,7 +523,6 @@ mod tests {
     }
 
     #[test]
-
     fn test_builder() {
         let builder = GameOptions::builder();
 

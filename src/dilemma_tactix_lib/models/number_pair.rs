@@ -97,7 +97,6 @@ use rand_chacha::ChaCha12Rng;
 /// assert!(number_pair.second() < 10);
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-
 pub struct NumberPair {
     /// The first number in the pair.
     first:  u32,
@@ -129,7 +128,6 @@ impl NumberPair {
     ///
     /// A new `NumberPair` struct with the given values.
     #[must_use]
-
     pub const fn new(first: u32, second: u32) -> Self {
         Self { first, second }
     }
@@ -166,7 +164,6 @@ impl NumberPair {
     /// A new `NumberPair` struct with random values between `min_value` and
     /// `max_value` for each of `first` and `second`.
     #[must_use]
-
     pub fn random(min_value: u32, max_value: u32) -> Self {
         let mut rng = ChaCha12Rng::from_entropy();
 
@@ -214,7 +211,6 @@ impl NumberPair {
     /// `max_value` for each of `first` and `second`.
     #[doc(hidden)]
     #[cfg(test)]
-
     pub(crate) fn random_seeded(min_value: u32, max_value: u32, seed: u64) -> Self {
         // Create a new RNG seeded with the given seed.
         let mut rng = ChaCha12Rng::seed_from_u64(seed);
@@ -258,7 +254,6 @@ impl NumberPair {
     ///
     /// The value of `first` as a `u32`.
     #[must_use]
-
     pub const fn first(&self) -> u32 {
         self.first
     }
@@ -292,7 +287,6 @@ impl NumberPair {
     ///
     /// The value of `second` as a `u32`.
     #[must_use]
-
     pub const fn second(&self) -> u32 {
         self.second
     }
@@ -313,7 +307,6 @@ impl NumberPair {
 /// This function returns a `fmt::Result`. If the write operation was
 /// successful, the function returns `Ok(())`. If the write operation failed,
 /// the function returns `Err` with the underlying error.
-
 impl Display for NumberPair {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "({}, {})", self.first, self.second)
@@ -353,7 +346,6 @@ impl Default for NumberPair {
 
 #[cfg(test)]
 #[allow(unused_comparisons)]
-
 mod tests {
 
     use rstest::{
@@ -369,7 +361,6 @@ mod tests {
     // execute. This particular fixture is providing a fixed seed for random
     // number generation in tests.
     #[fixture]
-
     fn seed() -> u64 {
         // We return a constant seed value of 2024. This seed can be used to
         // initialize a random number generator in a predictable way,
@@ -380,7 +371,6 @@ mod tests {
 
     // This is a fixture function that provides a NumberPair instance for testing
     #[fixture]
-
     fn number_pair_example() -> NumberPair {
         // We create a NumberPair with values 1 and 2
         NumberPair::new(1, 2)
@@ -388,7 +378,6 @@ mod tests {
 
     // This test checks the Display implementation for NumberPair
     #[rstest]
-
     fn test_number_pair_display(_number_pair_example: NumberPair) {
         // We create a NumberPair with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
@@ -400,7 +389,6 @@ mod tests {
 
     // This test checks the `default` constructor for NumberPair
     #[rstest]
-
     fn test_number_pair_default() {
         // We create a `NumberPair` using the `default` constructor
         let number_pair = NumberPair::default();
@@ -422,7 +410,6 @@ mod tests {
 
     // This test checks the `new` constructor for NumberPair
     #[rstest]
-
     fn test_number_pair_new() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
@@ -436,7 +423,6 @@ mod tests {
 
     // This test checks the `first` method of `NumberPair`
     #[rstest]
-
     fn test_number_pair_first() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
@@ -447,7 +433,6 @@ mod tests {
 
     // This test checks the `second` method of `NumberPair`
     #[rstest]
-
     fn test_number_pair_second() {
         // We create a `NumberPair` with values 1 and 2
         let number_pair = NumberPair::new(1, 2);
@@ -457,7 +442,6 @@ mod tests {
     }
 
     #[rstest]
-
     fn test_number_pair_random() {
         // Generate a random `NumberPair` where both numbers are between 1 and 10
         // We use the `random` function of the `NumberPair` struct to generate a pair of
@@ -486,7 +470,6 @@ mod tests {
     }
 
     #[rstest]
-
     fn test_number_pair_random_with_seed(seed: u64) {
         // Generate a random NumberPair where both numbers are between 1 and 10, using a
         // specific seed
@@ -520,7 +503,6 @@ mod tests {
     }
 
     #[rstest]
-
     fn test_number_pair_random_with_seed_repeated(seed: u64) {
         // Generate a random NumberPair where both numbers are between 1 and 10, using a
         // specific seed
