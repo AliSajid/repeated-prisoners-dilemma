@@ -48,112 +48,93 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use dilemma_tactix_lib::GameGrid;
-use prettytable::{
-    format::Alignment,
-    Cell,
-    Row,
-    Table,
+use std::{
+    cmp::Ordering,
+    io::{
+        self,
+        Write,
+    },
 };
 
-fn display_game_grid(game_grid: &GameGrid) {
-    let mut table = Table::new();
+use dilemma_tactix_lib::{
+    Choice,
+    GameGrid,
+    GameOptions,
+};
+use rand::{
+    seq::SliceRandom,
+    SeedableRng,
+};
 
-    table.add_row(Row::new(vec![
-        Cell::new(""),
-        Cell::new_align("Player 2", Alignment::CENTER).with_hspan(2),
-    ]));
-    table.add_row(Row::new(vec![
-        Cell::new("Player 1"),
-        Cell::new(game_grid.choice_atlantis()),
-        Cell::new(game_grid.choice_olympus()),
-    ]));
-    table.add_row(Row::new(vec![
-        Cell::new(game_grid.choice_atlantis()),
-        Cell::new(&game_grid.score_aa().to_string()),
-        Cell::new(&game_grid.score_ab().to_string()),
-    ]));
-    table.add_row(Row::new(vec![
-        Cell::new(game_grid.choice_olympus()),
-        Cell::new(&game_grid.score_ba().to_string()),
-        Cell::new(&game_grid.score_bb().to_string()),
-    ]));
-    table.printstd();
-}
-
-fn parse_choice(choice: &str, game_grid: &GameGrid) -> String {
+fn parse_choice(choice: &str) -> Choice {
     match choice {
-        "A" => game_grid.choice_atlantis().to_owned(),
-        "B" => game_grid.choice_olympus().to_owned(),
+        "A" => Choice::Atlantis,
+        "B" => Choice::Olympus,
         _ => {
             println!("Invalid choice, defaulting to A");
-            game_grid.choice_atlantis().to_owned()
+            Choice::Atlantis
         }
     }
 }
 
-fn main() {
-    let game_grid = GameGrid::default();
-    display_game_grid(&game_grid);
+fn get_computer_choice(seed: Option<u64>) -> Choice {
+    let mut rng = rand_chacha::ChaCha12Rng::seed_from_u64(seed.unwrap_or(0));
+    let choices = ["A", "B"];
+    let choice = choices.choose(&mut rng).unwrap();
+    parse_choice(choice)
+}
+
+pub fn game_loop(game_options: GameOptions, game_grid: GameGrid) {
+    game_grid.show_grid();
 
     println!("The choices available to you are: ");
-    println!("A: {}", game_grid.choice_atlantis());
-    println!("B: {}", game_grid.choice_olympus());
-    println!("Enter your choice (A or B): ");
-    let mut choice_atlantis = String::new();
-    std::io::stdin()
-        .read_line(&mut choice_atlantis)
-        .expect("Failed to read line");
-    let choice_atlantis = parse_choice(choice_atlantis.trim(), &game_grid);
+    println!("A: {}", game_options.choice_atlantis());
+    println!("B: {}", game_options.choice_olympus());
+    print!("Enter your choice (A or B): ");
+    io::stdout().flush().unwrap();
 
-    println!("Enter opponents choice (A or B): ");
-    let mut choice_olympus = String::new();
-    std::io::stdin()
-        .read_line(&mut choice_olympus)
-        .expect("Failed to read line");
-    let choice_olympus = parse_choice(choice_olympus.trim(), &game_grid);
+    let mut choice = String::new();
+    io::stdin().read_line(&mut choice).unwrap();
 
-    let result = game_grid.play(&choice_atlantis, &choice_olympus);
+    let choice = parse_choice(choice.trim());
+    let computer_choice = get_computer_choice(None);
 
-    if (result.first() == game_grid.score_aa().first())
-        && (result.second() == game_grid.score_aa().second())
-    {
-        println!(
-            "Both players both chose {}. Player 1 scored {}, Player 2 scored {}",
-            game_grid.choice_atlantis(),
-            game_grid.score_aa().first(),
-            game_grid.score_aa().second()
-        );
-    } else if (result.first() == game_grid.score_ab().first())
-        && (result.second() == game_grid.score_ab().second())
-    {
-        println!(
-            "Player 1 chose {}, Player 2 chose {}. Player 1 scored {}, Player 2 scored {}",
-            game_grid.choice_atlantis(),
-            game_grid.choice_olympus(),
-            game_grid.score_ab().first(),
-            game_grid.score_ab().second()
-        );
-    } else if (result.first() == game_grid.score_ba().first())
-        && (result.second() == game_grid.score_ba().second())
-    {
-        println!(
-            "Player 1 chose {}, Player 2 chose {}. Player 1 scored {}, Player 2 scored {}",
-            game_grid.choice_olympus(),
-            game_grid.choice_atlantis(),
-            game_grid.score_ba().first(),
-            game_grid.score_ba().second()
-        );
-    } else if (result.first() == game_grid.score_bb().first())
-        && (result.second() == game_grid.score_bb().second())
-    {
-        println!(
-            "Both players chose {}, Player 1 scored {}, Player 2 scored {}",
-            game_grid.choice_olympus(),
-            game_grid.score_bb().first(),
-            game_grid.score_bb().second()
-        );
-    } else {
-        println!("Something went wrong");
+    let result = game_grid.return_score(choice, computer_choice);
+
+    println!("You chose: {}", choice);
+    println!("The computer chose: {}", computer_choice);
+    println!(
+        "Your Score: {}\nComputer Score: {}",
+        result.first(),
+        result.second()
+    );
+
+    match result.first().cmp(&result.second()) {
+        Ordering::Greater => println!("You win!"),
+        Ordering::Less => println!("The computer wins!"),
+        Ordering::Equal => println!("It's a tie!"),
     }
+}
+
+fn main() {
+    let game_options = GameOptions::builder().build();
+    let game_grid = GameGrid::new(game_options);
+
+    println!("Welcome to Dilemma Tactix!");
+
+    loop {
+        game_loop(game_options, game_grid);
+
+        print!("Play again? (Y/N): ");
+        io::stdout().flush().unwrap();
+
+        let mut play_again = String::new();
+        io::stdin().read_line(&mut play_again).unwrap();
+
+        if play_again.trim() != "Y" {
+            break;
+        }
+    }
+
+    println!("Thanks for playing!");
 }
