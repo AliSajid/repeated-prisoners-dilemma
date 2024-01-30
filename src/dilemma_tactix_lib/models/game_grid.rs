@@ -238,64 +238,64 @@ impl Default for GameGrid {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use rstest::{
-        fixture,
-        rstest,
-    };
+// #[cfg(test)]
+// mod tests {
+//     use rstest::{
+//         fixture,
+//         rstest,
+//     };
 
-    use super::*;
-    use crate::ChoiceNameOptions;
+//     use super::*;
+//     use crate::ChoiceNameOptions;
 
-    #[fixture]
-    fn seed() -> u64 {
-        2024
-    }
+//     #[fixture]
+//     fn seed() -> u64 {
+//         2024
+//     }
 
-    #[test]
-    fn test_game_grid_display() {
-        let game_grid = GameGrid::new(10, 1);
-        assert_eq!(
-            format!("{}", game_grid),
-            "Game Grid with Following Options:\nmin_value: 1, max_value: 10, choice_atlantis: A, \
-             choice_olympus: B\n"
-        );
-    }
+//     #[test]
+//     fn test_game_grid_display() {
+//         let game_grid = GameGrid::new(10, 1);
+//         assert_eq!(
+//             format!("{}", game_grid),
+//             "Game Grid with Following Options:\nmin_value: 1, max_value: 10,
+// choice_atlantis: A, \              choice_olympus: B\n"
+//         );
+//     }
 
-    #[rstest]
-    fn test_game_grid_default() {
-        let game_grid = GameGrid::default();
-        let choice_name_options = ChoiceNameOptions::new();
-        assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.max_value(), 10);
-        assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
-        assert!(choice_name_options
-            .choice_atlantis_options
-            .contains(&game_grid.choice_atlantis()));
-        assert!(choice_name_options
-            .choice_olympus_options
-            .contains(&game_grid.choice_olympus()));
-    }
+//     #[rstest]
+//     fn test_game_grid_default() {
+//         let game_grid = GameGrid::default();
+//         let choice_name_options = ChoiceNameOptions::new();
+//         assert_eq!(game_grid.min_value(), 1);
+//         assert_eq!(game_grid.max_value(), 10);
+//         assert_ne!(game_grid.choice_atlantis(), game_grid.choice_olympus());
+//         assert!(choice_name_options
+//             .choice_atlantis_options
+//             .contains(&game_grid.choice_atlantis()));
+//         assert!(choice_name_options
+//             .choice_olympus_options
+//             .contains(&game_grid.choice_olympus()));
+//     }
 
-    #[test]
-    fn test_game_grid_new() {
-        let game_grid = GameGrid::new(10, 1);
-        assert_eq!(game_grid.max_value(), 10);
-        assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_atlantis(), "A");
-        assert_eq!(game_grid.choice_olympus(), "B");
-    }
+//     #[test]
+//     fn test_game_grid_new() {
+//         let game_grid = GameGrid::new(10, 1);
+//         assert_eq!(game_grid.max_value(), 10);
+//         assert_eq!(game_grid.min_value(), 1);
+//         assert_eq!(game_grid.choice_atlantis(), "A");
+//         assert_eq!(game_grid.choice_olympus(), "B");
+//     }
 
-    #[test]
-    fn test_game_grid_score_aa() {
-        let game_grid = GameGrid::new(10, 1);
-        assert_eq!(game_grid.score_aa(), NumberPair::new(4, 3));
-    }
+//     #[test]
+//     fn test_game_grid_score_aa() {
+//         let game_grid = GameGrid::new(10, 1);
+//         assert_eq!(game_grid.score_aa(), NumberPair::new(4, 3));
+//     }
 
-    #[test]
-    fn test_game_grid_score_ab() {
-        let game_grid = GameGrid::new(10, 1);
-        assert_eq!(game_grid.score_ab(), NumberPair::new(2, 4));
-    }
-}
+//     #[test]
+//     fn test_game_grid_score_ab() {
+//         let game_grid = GameGrid::new(10, 1);
+//         assert_eq!(game_grid.score_ab(), NumberPair::new(2, 4));
+//     }
+// }

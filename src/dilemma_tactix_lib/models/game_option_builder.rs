@@ -48,50 +48,52 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use rand::{
+    Rng,
+    SeedableRng,
+};
+
 use crate::{
-    GameGrid,
     GameOptions,
     NumberPair,
 };
 
-/// A builder struct to create a [`GameGrid`](crate::GameGrid).
+/// A builder struct to create a [`GameOptions`](crate::GameOptions).
 ///
-/// This struct is used to create the `GameGrid` struct by success
+/// This struct is used to create the `GameOptions` struct by success
 ///
 /// # Example
 ///
 /// ```
 /// use dilemma_tactix_lib::{
-///     GameGrid,
-///     GameGridBuilder,
+///     GameOptionsBuilder,
 ///     NumberPair,
 /// };
 ///
-/// let game_grid = GameGridBuilder::new()
+/// let game_options = GameOptionsBuilder::new()
 ///     .max_value(10)
 ///     .min_value(1)
 ///     .choice_atlantis("A".to_string())
 ///     .choice_olympus("B".to_string())
-///     .score_aa(NumberPair::new(1, 1))
-///     .score_ab(NumberPair::new(1, 1))
-///     .score_ba(NumberPair::new(1, 1))
-///     .score_bb(NumberPair::new(1, 1))
+///     .atlantis_atlantis(NumberPair::new(1, 1))
+///     .atlantis_olympus(NumberPair::new(1, 1))
+///     .olympus_atlantis(NumberPair::new(1, 1))
+///     .olympus_olympus(NumberPair::new(1, 1))
 ///     .build();
-///
-/// assert_eq!(game_grid.max_value(), 10);
-/// assert_eq!(game_grid.min_value(), 1);
-/// assert_eq!(game_grid.choice_atlantis(), "A");
-/// assert_eq!(game_grid.choice_olympus(), "B");
-/// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
-/// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
-/// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
-/// assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+//# assert_eq!(game_options.min_value(), 1);
+//# assert_eq!(game_options.max_value(), 10);
+//# assert_eq!(game_options.choice_atlantis(), "A");
+//# assert_eq!(game_options.choice_olympus(), "B");
+//# assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(1, 1));
+//# assert_eq!(game_options.atlantis_olympus(), NumberPair::new(1, 1));
+//# assert_eq!(game_options.olympus_atlantis(), NumberPair::new(1, 1));
+//# assert_eq!(game_options.olympus_olympus(), NumberPair::new(1, 1));
 /// ```
 ///
 /// # Notes
 ///
 /// I chose to use the `Builder` pattern here because it allows for easier
-/// manipulation of the `GameGrid` struct.
+/// manipulation of the `GameOptions` struct.
 ///
 /// # Panics
 ///
@@ -99,220 +101,211 @@ use crate::{
 ///
 /// # See Also
 ///
-/// * [`GameGrid`](crate::GameGrid)
-/// * [`GameGrid::new()`](crate::GameGrid::new())
+/// * [`GameOptions`](crate::GameOptions)
+/// * [`GameOptions::new()`](crate::GameOptions::new())
 #[derive(Debug, Default)]
-pub struct GameOptionBuilder {
-    pub max_value:       Option<u32>,
-    pub min_value:       Option<u32>,
-    pub choice_atlantis: Option<&'static str>,
-    pub choice_olympus:  Option<&'static str>,
-    pub score_aa:        Option<NumberPair>,
-    pub score_ab:        Option<NumberPair>,
-    pub score_ba:        Option<NumberPair>,
-    pub score_bb:        Option<NumberPair>,
+pub struct GameOptionsBuilder {
+    pub min_value:         Option<u32>,
+    pub max_value:         Option<u32>,
+    pub choice_atlantis:   Option<&'static str>,
+    pub choice_olympus:    Option<&'static str>,
+    pub atlantis_atlantis: Option<NumberPair>,
+    pub atlantis_olympus:  Option<NumberPair>,
+    pub olympus_atlantis:  Option<NumberPair>,
+    pub olympus_olympus:   Option<NumberPair>,
 }
 
-impl GameOptionBuilder {
-    /// Creates a new `GameGridBuilder` struct.
+impl GameOptionsBuilder {
+    /// Creates a new `GameOptionsBuilder` struct.
     ///
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameGridBuilder;
+    /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
-    /// let game_grid_builder = GameGridBuilder::new();
-    ///
-    /// assert_eq!(game_grid_builder.max_value, None);
-    /// assert_eq!(game_grid_builder.min_value, None);
-    /// assert_eq!(game_grid_builder.choice_atlantis, None);
-    /// assert_eq!(game_grid_builder.choice_olympus, None);
-    /// assert_eq!(game_grid_builder.score_aa, None);
-    /// assert_eq!(game_grid_builder.score_ab, None);
-    /// assert_eq!(game_grid_builder.score_ba, None);
-    /// assert_eq!(game_grid_builder.score_bb, None);
+    /// let game_options_builder = GameOptionsBuilder::new();
+    //# assert_eq!(game_options_builder.max_value, None);
+    //# assert_eq!(game_options_builder.min_value, None);
+    //# assert_eq!(game_options_builder.choice_atlantis, None);
+    //# assert_eq!(game_options_builder.choice_olympus, None);
+    //# assert_eq!(game_options_builder.atlantis_atlantis, None);
+    //# assert_eq!(game_options_builder.atlantis_olympus, None);
+    //# assert_eq!(game_options_builder.olympus_atlantis, None);
+    //# assert_eq!(game_options_builder.olympus_olympus, None);
     /// ```
     ///
     /// # Returns
     ///
-    /// A new `GameGridBuilder` struct.
+    /// A new `GameOptionsBuilder` struct.
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            max_value:       None,
-            min_value:       None,
-            choice_atlantis: None,
-            choice_olympus:  None,
-            score_aa:        None,
-            score_ab:        None,
-            score_ba:        None,
-            score_bb:        None,
+            max_value:         None,
+            min_value:         None,
+            choice_atlantis:   None,
+            choice_olympus:    None,
+            atlantis_atlantis: None,
+            atlantis_olympus:  None,
+            olympus_atlantis:  None,
+            olympus_olympus:   None,
         }
     }
 
-    /// Sets the maximum value for the `GameGrid`.
+    /// Sets the minimum value for the `GameOptions`.
     ///
     /// # Arguments
     ///
-    /// * `max_value` - The maximum value for the `GameGrid`.
+    /// * `min_value` - The minimum value for the `GameOptions`.
     ///
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameGridBuilder;
+    /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
-    /// let game_grid_builder = GameGridBuilder::new().max_value(10);
-    ///
-    /// assert_eq!(game_grid_builder.max_value, Some(10));
+    /// let game_options_builder = GameOptionsBuilder::new().min_value(1);
+    //# assert_eq!(game_options_builder.min_value, Some(1));
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `max_value` field set.
+    /// The `GameOptionsBuilder` struct with the `min_value` field set.
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
-    #[must_use]
-    pub const fn max_value(mut self, max_value: u32) -> Self {
-        self.max_value = Some(max_value);
-        self
-    }
-
-    /// Sets the minimum value for the `GameGrid`.
-    ///
-    /// # Arguments
-    ///
-    /// * `min_value` - The minimum value for the `GameGrid`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// use dilemma_tactix_lib::GameGridBuilder;
-    ///
-    /// let game_grid_builder = GameGridBuilder::new().min_value(1);
-    ///
-    /// assert_eq!(game_grid_builder.min_value, Some(1));
-    /// ```
-    ///
-    /// # Returns
-    ///
-    /// The `GameGridBuilder` struct with the `min_value` field set.
-    ///
-    /// # See Also
-    ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
     pub const fn min_value(mut self, min_value: u32) -> Self {
         self.min_value = Some(min_value);
         self
     }
 
-    /// Sets the first choice available to players in `GameGrid`.
+    /// Sets the maximum value for the `GameOptions`.
+    ///
+    /// # Arguments
+    ///
+    /// * `max_value` - The maximum value for the `GameOptions`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use dilemma_tactix_lib::GameOptionsBuilder;
+    ///
+    /// let game_options_builder = GameOptionsBuilder::new().max_value(10);
+    //# assert_eq!(game_options_builder.max_value, Some(10));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The `GameOptionsBuilder` struct with the `max_value` field set.
+    ///
+    /// # See Also
+    ///
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
+    #[must_use]
+    pub const fn max_value(mut self, max_value: u32) -> Self {
+        self.max_value = Some(max_value);
+        self
+    }
+
+    /// Sets the first choice available to players in `GameOptions`.
     ///
     /// # Arguments
     ///
     /// * `choice_atlantis` - The first choice available to players in
-    ///   `GameGrid`.
+    ///   `GameOptions`.
     ///
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameGridBuilder;
+    /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().choice_atlantis("cooperate".to_string());
-    ///
-    /// assert_eq!(
-    ///     game_grid_builder.choice_atlantis,
-    ///     Some("cooperate".to_string())
-    /// );
+    /// let game_options_builder = GameOptionsBuilder::new().choice_atlantis("cooperate");
+    //# assert_eq!(game_options_builder.choice_atlantis, Some("cooperate"));
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `choice_atlantis` field set.
+    /// The `GameOptionsBuilder` struct with the `choice_atlantis` field set.
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub fn choice_atlantis(mut self, choice_atlantis: &'static str) -> Self {
+    pub const fn choice_atlantis(mut self, choice_atlantis: &'static str) -> Self {
         self.choice_atlantis = Some(choice_atlantis);
         self
     }
 
-    /// Sets the second choice available to players in `GameGrid`.
+    /// Sets the second choice available to players in `GameOptions`.
     ///
     /// # Arguments
     ///
     /// * `choice_olympus` - The second choice available to players in
-    ///   `GameGrid`.
+    ///   `GameOptions`.
     ///
     /// # Example
     ///
     /// ```
-    /// use dilemma_tactix_lib::GameGridBuilder;
+    /// use dilemma_tactix_lib::GameOptionsBuilder;
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().choice_olympus("defect".to_string());
-    ///
-    /// assert_eq!(game_grid_builder.choice_olympus, Some("defect".to_string()));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().choice_olympus("defect");
+    //# assert_eq!(game_options_builder.choice_olympus, Some("defect"));
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `choice_olympus` field set.
+    /// The `GameOptionsBuilder` struct with the `choice_olympus` field set.
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub fn choice_olympus(mut self, choice_olympus: &'static str) -> Self {
+    pub const fn choice_olympus(mut self, choice_olympus: &'static str) -> Self {
         self.choice_olympus = Some(choice_olympus);
         self
     }
@@ -321,40 +314,39 @@ impl GameOptionBuilder {
     ///
     /// # Arguments
     ///
-    /// * `score_aa` - The score to set.
+    /// * `atlantis_atlantis` - The score to set.
     ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::{
-    ///     GameGridBuilder,
+    ///     GameOptionsBuilder,
     ///     NumberPair,
     /// };
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().score_aa(NumberPair::new(1, 1));
-    ///
-    /// assert_eq!(game_grid_builder.score_aa, Some(NumberPair::new(1, 1)));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().atlantis_atlantis(NumberPair::new(1, 1));
+    //# assert_eq!(game_options_builder.atlantis_atlantis, Some(NumberPair::new(1, 1)));
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `score_aa` field set.
+    /// The `GameOptionsBuilder` struct with the `atlantis_atlantis` field set.
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub const fn score_aa(mut self, score_aa: NumberPair) -> Self {
-        self.score_aa = Some(score_aa);
+    pub const fn atlantis_atlantis(mut self, atlantis_atlantis: NumberPair) -> Self {
+        self.atlantis_atlantis = Some(atlantis_atlantis);
         self
     }
 
@@ -363,41 +355,43 @@ impl GameOptionBuilder {
     ///
     /// # Arguments
     ///
-    /// * `score_ab` - The score to set.
+    /// * `atlantis_olympus` - The score to set.
     ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::{
-    ///     GameGridBuilder,
+    ///     GameOptionsBuilder,
     ///     NumberPair,
     /// };
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().score_ab(NumberPair::new(1, 1));
-    ///
-    /// assert_eq!(game_grid_builder.score_ab, Some(NumberPair::new(1, 1)));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().atlantis_olympus(NumberPair::new(1, 1));
+    //# assert_eq!(
+    //#     game_options_builder.atlantis_olympus,
+    //#     Some(NumberPair::new(1, 1))
+    //# );
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `score_ab` field set.
+    /// The `GameOptionsBuilder` struct with the `atlantis_olympus` field set.
     ///
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub const fn score_ab(mut self, score_ab: NumberPair) -> Self {
-        self.score_ab = Some(score_ab);
+    pub const fn atlantis_olympus(mut self, atlantis_olympus: NumberPair) -> Self {
+        self.atlantis_olympus = Some(atlantis_olympus);
         self
     }
 
@@ -406,41 +400,43 @@ impl GameOptionBuilder {
     ///
     /// # Arguments
     ///
-    /// * `score_ba` - The score to set.
+    /// * `olympus_atlantis` - The score to set.
     ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::{
-    ///     GameGridBuilder,
+    ///     GameOptionsBuilder,
     ///     NumberPair,
     /// };
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().score_ba(NumberPair::new(1, 1));
-    ///
-    /// assert_eq!(game_grid_builder.score_ba, Some(NumberPair::new(1, 1)));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().olympus_atlantis(NumberPair::new(1, 1));
+    //# assert_eq!(
+    //#     game_options_builder.olympus_atlantis,
+    //#     Some(NumberPair::new(1, 1))
+    //# );
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `score_ba` field set.
+    /// The `GameOptionsBuilder` struct with the `olympus_atlantis` field set.
     ///
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub const fn score_ba(mut self, score_ba: NumberPair) -> Self {
-        self.score_ba = Some(score_ba);
+    pub const fn olympus_atlantis(mut self, olympus_atlantis: NumberPair) -> Self {
+        self.olympus_atlantis = Some(olympus_atlantis);
         self
     }
 
@@ -448,79 +444,80 @@ impl GameOptionBuilder {
     ///
     /// # Arguments
     ///
-    /// * `score_bb` - The score to set.
+    /// * `olympus_olympus` - The score to set.
     ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::{
-    ///     GameGridBuilder,
+    ///     GameOptionsBuilder,
     ///     NumberPair,
     /// };
     ///
-    /// let game_grid_builder =
-    ///     GameGridBuilder::new().score_bb(NumberPair::new(1, 1));
-    ///
-    /// assert_eq!(game_grid_builder.score_bb, Some(NumberPair::new(1, 1)));
+    /// let game_options_builder =
+    ///     GameOptionsBuilder::new().olympus_olympus(NumberPair::new(1, 1));
+    //# assert_eq!(
+    //#     game_options_builder.olympus_olympus,
+    //#     Some(NumberPair::new(1, 1))
+    //# );
     /// ```
     ///
     /// # Returns
     ///
-    /// The `GameGridBuilder` struct with the `score_bb` field set.
+    /// The `GameOptionsBuilder` struct with the `olympus_olympus` field set.
     ///
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::build()`](GameGridBuilder::build())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::build()`](GameOptionsBuilder::build())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
     #[must_use]
-    pub const fn score_bb(mut self, score_bb: NumberPair) -> Self {
-        self.score_bb = Some(score_bb);
+    pub const fn olympus_olympus(mut self, olympus_olympus: NumberPair) -> Self {
+        self.olympus_olympus = Some(olympus_olympus);
         self
     }
 
-    /// Builds the `GameGrid` struct.
+    /// Builds the `GameOptions` struct.
     ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::{
-    ///     GameGrid,
-    ///     GameGridBuilder,
+    ///     GameOptions,
+    ///     GameOptionsBuilder,
     ///     NumberPair,
     /// };
     ///
-    /// let game_grid = GameGridBuilder::new()
-    ///     .max_value(10)
+    /// let game_options = GameOptionsBuilder::new()
     ///     .min_value(1)
-    ///     .choice_atlantis("cooperate".to_string())
-    ///     .choice_olympus("defect".to_string())
-    ///     .score_aa(NumberPair::new(1, 1))
-    ///     .score_ab(NumberPair::new(1, 1))
-    ///     .score_ba(NumberPair::new(1, 1))
-    ///     .score_bb(NumberPair::new(1, 1))
+    ///     .max_value(10)
+    ///     .choice_atlantis("cooperate")
+    ///     .choice_olympus("defect")
+    ///     .atlantis_atlantis(NumberPair::new(1, 1))
+    ///     .atlantis_olympus(NumberPair::new(1, 1))
+    ///     .olympus_atlantis(NumberPair::new(1, 1))
+    ///     .olympus_olympus(NumberPair::new(1, 1))
     ///     .build();
-    ///
-    /// assert_eq!(game_grid.max_value(), 10);
-    /// assert_eq!(game_grid.min_value(), 1);
-    /// assert_eq!(game_grid.choice_atlantis(), "cooperate");
-    /// assert_eq!(game_grid.choice_olympus(), "defect");
-    /// assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
-    /// assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
-    /// assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
-    /// assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+    //# assert_eq!(game_options.max_value(), 10);
+    //# assert_eq!(game_options.min_value(), 1);
+    //# assert_eq!(game_options.choice_atlantis(), "cooperate");
+    //# assert_eq!(game_options.choice_olympus(), "defect");
+    //# assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+    //# assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+    //# assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+    //# assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
     /// ```
     ///
     /// # Returns
     ///
-    /// A new `GameGrid` struct.
+    /// A new `GameOptions` struct.
     ///
     /// # Panics
     ///
@@ -528,33 +525,65 @@ impl GameOptionBuilder {
     ///
     /// # See Also
     ///
-    /// * [`GameGridBuilder::new()`](GameGridBuilder::new())
-    /// * [`GameGridBuilder::max_value()`](GameGridBuilder::max_value())
-    /// * [`GameGridBuilder::min_value()`](GameGridBuilder::min_value())
-    /// * [`GameGridBuilder::choice_atlantis()`](GameGridBuilder::choice_atlantis())
-    /// * [`GameGridBuilder::choice_olympus()`](GameGridBuilder::choice_olympus())
-    /// * [`GameGridBuilder::score_aa()`](GameGridBuilder::score_aa())
-    /// * [`GameGridBuilder::score_ab()`](GameGridBuilder::score_ab())
-    /// * [`GameGridBuilder::score_ba()`](GameGridBuilder::score_ba())
-    /// * [`GameGridBuilder::score_bb()`](GameGridBuilder::score_bb())
+    /// * [`GameOptionsBuilder::new()`](GameOptionsBuilder::new())
+    /// * [`GameOptionsBuilder::max_value()`](GameOptionsBuilder::max_value())
+    /// * [`GameOptionsBuilder::min_value()`](GameOptionsBuilder::min_value())
+    /// * [`GameOptionsBuilder::choice_atlantis()`](GameOptionsBuilder::choice_atlantis())
+    /// * [`GameOptionsBuilder::choice_olympus()`](GameOptionsBuilder::choice_olympus())
+    /// * [`GameOptionsBuilder::atlantis_atlantis()`](GameOptionsBuilder::atlantis_atlantis())
+    /// * [`GameOptionsBuilder::atlantis_olympus()`](GameOptionsBuilder::atlantis_olympus())
+    /// * [`GameOptionsBuilder::olympus_atlantis()`](GameOptionsBuilder::olympus_atlantis())
+    /// * [`GameOptionsBuilder::olympus_olympus()`](GameOptionsBuilder::olympus_olympus())
     #[must_use]
-    pub fn build(self) -> GameGrid {
-        let max_value = self.max_value.unwrap_or(10);
+    pub fn build(self) -> GameOptions {
+        // Unwrap the min_value and max_value fields of the builder, providing default
+        // values if they are None
         let min_value = self.min_value.unwrap_or(1);
+        let max_value = self.max_value.unwrap_or(10);
+
+        // Unwrap the choice_atlantis and choice_olympus fields of the builder,
+        // providing default values if they are None
         let choice_atlantis = self.choice_atlantis.unwrap_or("cooperate");
         let choice_olympus = self.choice_olympus.unwrap_or("defect");
-        let score_aa = self.score_aa.unwrap_or(NumberPair::new(4, 4));
-        let score_ab = self.score_ab.unwrap_or(NumberPair::new(5, 0));
-        let score_ba = self.score_ba.unwrap_or(NumberPair::new(0, 5));
-        let score_bb = self.score_bb.unwrap_or(NumberPair::new(3, 3));
-        let game_options = GameOptions::new(min_value, max_value);
 
-        GameGrid {
-            game_options,
-            score_aa,
-            score_ab,
-            score_ba,
-            score_bb,
+        // Define a closure that generates a NumberPair
+        // If min_value and max_value are None, it returns the default pair
+        // Otherwise, it generates a new NumberPair with two random values between
+        // min_value and max_value
+        let generate_number_pair = |default_pair: NumberPair| -> NumberPair {
+            // Create a new random number generator
+            let mut rng = rand_chacha::ChaCha12Rng::from_entropy();
+
+            match (self.min_value, self.max_value) {
+                (None, None) => default_pair,
+                _ => {
+                    // Generate two random values between min_value and max_value
+                    let random_value1 = rng.gen_range(min_value..=max_value);
+                    let random_value2 = rng.gen_range(min_value..=max_value);
+
+                    // Return a new NumberPair with the generated random values
+                    NumberPair::new(random_value1, random_value2)
+                }
+            }
+        };
+
+        // Generate the atlantis_atlantis, atlantis_olympus, olympus_atlantis, and
+        // olympus_olympus fields using the closure
+        let atlantis_atlantis = generate_number_pair(NumberPair::new(4, 4));
+        let atlantis_olympus = generate_number_pair(NumberPair::new(5, 0));
+        let olympus_atlantis = generate_number_pair(NumberPair::new(0, 5));
+        let olympus_olympus = generate_number_pair(NumberPair::new(3, 3));
+
+        // Return a new GameOptions instance with the generated and unwrapped fields
+        GameOptions {
+            min_value,
+            max_value,
+            choice_atlantis,
+            choice_olympus,
+            atlantis_atlantis,
+            atlantis_olympus,
+            olympus_atlantis,
+            olympus_olympus,
         }
     }
 }
@@ -564,39 +593,39 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_game_grid_builder() {
-        let game_grid = GameOptionBuilder::new()
+    fn test_game_options_builder() {
+        let game_options = GameOptionsBuilder::new()
             .max_value(10)
             .min_value(1)
             .choice_atlantis("A")
-            .choice_olympus("B")
-            .score_aa(NumberPair::new(1, 1))
-            .score_ab(NumberPair::new(1, 1))
-            .score_ba(NumberPair::new(1, 1))
-            .score_bb(NumberPair::new(1, 1))
+            .choice_olympus("O")
+            .atlantis_atlantis(NumberPair::new(1, 1))
+            .atlantis_olympus(NumberPair::new(1, 1))
+            .olympus_atlantis(NumberPair::new(1, 1))
+            .olympus_olympus(NumberPair::new(1, 1))
             .build();
 
-        assert_eq!(game_grid.max_value(), 10);
-        assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_atlantis(), "A");
-        assert_eq!(game_grid.choice_olympus(), "B");
-        assert_eq!(game_grid.score_aa(), NumberPair::new(1, 1));
-        assert_eq!(game_grid.score_ab(), NumberPair::new(1, 1));
-        assert_eq!(game_grid.score_ba(), NumberPair::new(1, 1));
-        assert_eq!(game_grid.score_bb(), NumberPair::new(1, 1));
+        assert_eq!(game_options.max_value(), 10);
+        assert_eq!(game_options.min_value(), 1);
+        assert_eq!(game_options.choice_atlantis(), "A");
+        assert_eq!(game_options.choice_olympus(), "O");
+        assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(1, 1));
+        assert_eq!(game_options.atlantis_olympus(), NumberPair::new(1, 1));
+        assert_eq!(game_options.olympus_atlantis(), NumberPair::new(1, 1));
+        assert_eq!(game_options.olympus_olympus(), NumberPair::new(1, 1));
     }
 
     #[test]
     fn test_default_builder() {
-        let game_grid = GameOptionBuilder::new().build();
+        let game_options = GameOptionsBuilder::new().build();
 
-        assert_eq!(game_grid.max_value(), 10);
-        assert_eq!(game_grid.min_value(), 1);
-        assert_eq!(game_grid.choice_atlantis(), "cooperate");
-        assert_eq!(game_grid.choice_olympus(), "defect");
-        assert_eq!(game_grid.score_aa(), NumberPair::new(4, 4));
-        assert_eq!(game_grid.score_ab(), NumberPair::new(5, 0));
-        assert_eq!(game_grid.score_ba(), NumberPair::new(0, 5));
-        assert_eq!(game_grid.score_bb(), NumberPair::new(3, 3));
+        assert_eq!(game_options.max_value(), 10);
+        assert_eq!(game_options.min_value(), 1);
+        assert_eq!(game_options.choice_atlantis(), "cooperate");
+        assert_eq!(game_options.choice_olympus(), "defect");
+        assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+        assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+        assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+        assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
     }
 }

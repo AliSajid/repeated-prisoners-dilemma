@@ -56,6 +56,6 @@ mod number_pair;
 
 pub use choice_name_options::ChoiceNameOptions;
 pub use game_grid::GameGrid;
-pub use game_option_builder::GameOptionBuilder;
+pub use game_option_builder::GameOptionsBuilder;
 pub use game_options::GameOptions;
 pub use number_pair::NumberPair;
