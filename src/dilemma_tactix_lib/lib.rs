@@ -58,5 +58,6 @@ pub use models::{
     GameGrid,
     GameOptions,
     GameOptionsBuilder,
+    GameOptionsBuilderTypes,
     NumberPair,
 };
