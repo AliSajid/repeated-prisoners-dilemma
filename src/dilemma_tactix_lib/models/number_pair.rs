@@ -293,8 +293,8 @@ impl NumberPair {
 ///
 /// # Arguments
 ///
-/// * `f` - A mutable reference to a `Formatter`. This is a context in which the
-///   formatting will be done.
+/// * `f` - A mutable reference to a `Formatter`. This is a context in which the formatting will be
+///   done.
 ///
 /// # Returns
 ///
