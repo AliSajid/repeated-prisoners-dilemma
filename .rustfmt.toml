@@ -25,7 +25,7 @@ color = "Always"
 
 ## Configure comments
 wrap_comments = true
-comment_width = 80
+comment_width = 120
 normalize_comments = true
 
 ## Allow aligning of Enum Variants
