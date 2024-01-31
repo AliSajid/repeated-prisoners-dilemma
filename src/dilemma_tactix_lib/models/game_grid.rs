@@ -113,8 +113,7 @@ impl GameGrid {
     /// * [`GameOptions::new()`](struct.GameOptions.html#method.new)
     /// * [`GameOptions::default()`](struct.GameOptions.html#impl-Default)
     /// * [`GameOptions::builder()`](struct.GameOptions.html#method.builder)
-    /// * [`GameOptionsBuilder::build()`](struct.GameOptionsBuilder.html#method.
-    ///   build)
+    /// * [`GameOptionsBuilder::build()`](struct.GameOptionsBuilder.html#method.build)
     #[must_use]
     pub const fn new(game_options: GameOptions) -> Self {
         Self { game_options }
