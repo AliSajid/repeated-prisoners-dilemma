@@ -42,21 +42,25 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-#[cfg(test)]
-mod constants;
+use std::fmt;
 
-#[cfg(test)]
-pub(crate) use constants::RANDOM_SEED;
+#[derive(Debug)]
+pub enum BuilderError {
+    InvalidOptionSpecified(String),
+    InvalidOptionValueSpecified(String),
+}
 
-mod errors;
-mod models;
+impl fmt::Display for BuilderError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Self::InvalidOptionSpecified(ref s) => {
+                write!(f, "Invalid option specified: {s}")
+            }
+            Self::InvalidOptionValueSpecified(ref s) => {
+                write!(f, "Invalid option value specified: {s}")
+            }
+        }
+    }
+}
 
-pub use errors::BuilderError;
-pub use models::{
-    Choice,
-    ChoiceNameOptions,
-    GameGrid,
-    GameOptions,
-    GameOptionsBuilder,
-    NumberPair,
-};
+impl std::error::Error for BuilderError {}
