@@ -47,6 +47,20 @@ use crate::{
     NumberPair,
 };
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[allow(clippy::module_name_repetitions)]
+pub enum GameOptionsBuilderTypes {
+    /// This builder variant allows for full randomization
+    /// of the GameOptions struct that is being built.
+    Randomized,
+    /// This builder variant allows for the GameOptions struct
+    /// that is being built to be randomized, but seeded.
+    Seeded,
+    /// This builder variant allows for the GameOptions struct
+    /// that is being built to be fully customized.
+    Customized,
+}
+
 /// A builder struct to create a [`GameOptions`](crate::GameOptions).
 ///
 /// This struct is used to create the `GameOptions` struct by success
