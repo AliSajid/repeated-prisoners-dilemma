@@ -103,6 +103,8 @@ repos:
             - meta/LICENSE-HEADER
             - --comment-style
             - //
+            - --use-current-year
+            - --allow-past-years
           files: \.rs$
           id: insert-license
     - repo: https://github.com/google/yamlfmt
