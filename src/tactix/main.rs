@@ -133,7 +133,7 @@ fn read_user_input(prompt: &str) -> String {
 }
 
 fn main() {
-    let game_options = GameOptions::builder().build();
+    let game_options = GameOptions::builder("randomized").build();
 
     let game_grid = GameGrid::new(game_options);
 
