@@ -7449,7 +7449,7 @@
                 "edition": "2021",
                 "features": {},
                 "homepage": null,
-                "id": "dilemma-tactix 1.0.0-next.2 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
+                "id": "dilemma-tactix 1.1.0-next.1 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
                 "keywords": [],
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
@@ -7459,7 +7459,7 @@
                 "publish": null,
                 "readme": "README.md",
                 "repository": "https://github.com/AliSajid/dilemma-tactix",
-                "rust_version": "1.70.0",
+                "rust_version": "1.72.1",
                 "source": null,
                 "targets": [
                     {
@@ -7508,7 +7508,7 @@
                         "test": true
                     }
                 ],
-                "version": "1.0.0-next.2"
+                "version": "1.1.0-next.1"
             }
         },
         {
@@ -33522,7 +33522,7 @@
                         "edition": "2021",
                         "features": {},
                         "homepage": null,
-                        "id": "dilemma-tactix 1.0.0-next.2 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
+                        "id": "dilemma-tactix 1.1.0-next.1 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
                         "keywords": [],
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
@@ -33532,7 +33532,7 @@
                         "publish": null,
                         "readme": "README.md",
                         "repository": "https://github.com/AliSajid/dilemma-tactix",
-                        "rust_version": "1.70.0",
+                        "rust_version": "1.72.1",
                         "source": null,
                         "targets": [
                             {
@@ -33581,7 +33581,7 @@
                                 "test": true
                             }
                         ],
-                        "version": "1.0.0-next.2"
+                        "version": "1.1.0-next.1"
                     },
                     "path": null
                 }

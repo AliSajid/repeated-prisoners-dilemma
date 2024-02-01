@@ -648,7 +648,7 @@ Apache License 2.0
 
 #### Used by
 
-- [dilemma-tactix]( https://github.com/AliSajid/dilemma-tactix ) 1.0.0-next.2
+- [dilemma-tactix]( https://github.com/AliSajid/dilemma-tactix ) 1.1.0-next.1
 
 #### License
 
