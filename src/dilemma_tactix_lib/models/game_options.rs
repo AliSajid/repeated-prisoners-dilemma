@@ -86,13 +86,7 @@ use crate::{
 /// ```
 /// use dilemma_tactix_lib::GameOptions;
 ///
-/// let game_options = GameOptions
-///     .builder()
-///     .min_value(1)
-///     .max_value(10)
-///     .choice_atlantis("discrete")
-///     .choice_olympus("continuous")
-///     .build();
+/// let game_options = GameOptions::builder("customized").build();
 /// ```
 ///
 /// # Notes
@@ -107,10 +101,6 @@ use crate::{
 /// * [`GameOptions::builder()`](#method.builder)
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct GameOptions {
-    /// The minimum value for that can be assigned to a choice.
-    pub(crate) min_value:  u32,
-    /// The maximum value for that can be assigned to a choice.
-    pub(crate) max_value:  u32,
     /// The label for the first choice that can be made
     pub choice_atlantis:   &'static str,
     /// The label for the second choice that can be made
@@ -174,8 +164,6 @@ impl GameOptions {
         );
 
         Self {
-            min_value,
-            max_value,
             choice_atlantis,
             choice_olympus,
             atlantis_atlantis,
@@ -183,42 +171,6 @@ impl GameOptions {
             olympus_atlantis,
             olympus_olympus,
         }
-    }
-
-    /// Returns the value of `min_value`.
-    ///
-    /// This function returns the value of `min_value`.
-    ///
-    /// # Returns
-    ///
-    /// The value of `min_value`.
-    ///
-    /// # See Also
-    ///
-    /// * [`GameOptions::max_value()`](#method.max_value)
-    /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
-    /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
-    #[must_use]
-    pub const fn min_value(&self) -> u32 {
-        self.min_value
-    }
-
-    /// Returns the value of `max_value`.
-    ///
-    /// This function returns the value of `max_value`.
-    ///
-    /// # Returns
-    ///
-    /// The value of `max_value`.
-    ///
-    /// # See Also
-    ///
-    /// * [`GameOptions::min_value()`](#method.min_value)
-    /// * [`GameOptions::choice_atlantis()`](#method.choice_atlantis)
-    /// * [`GameOptions::choice_olympus()`](#method.choice_olympus)
-    #[must_use]
-    pub const fn max_value(&self) -> u32 {
-        self.max_value
     }
 
     /// Returns the value of `choice_atlantis`.
@@ -346,18 +298,17 @@ impl GameOptions {
     /// for step-by-step building of individual game options objects, bypassing
     /// random generation of values if desired.
     ///
+    /// # Arguments
+    ///
+    /// * `builder_type` - The type of builder to create. Valid values are
+    ///  `randomized`, `seeded`, and `customized`.
+    ///
     /// # Example
     ///
     /// ```
     /// use dilemma_tactix_lib::GameOptions;
     ///
-    /// let game_options = GameOptions
-    ///     .builder()
-    ///     .min_value(1)
-    ///     .max_value(10)
-    ///     .choice_atlantis("discrete")
-    ///     .choice_olympus("continuous")
-    ///     .build();
+    /// let game_options = GameOptions::builder("customized");
     /// ```
     ///
     /// # Returns
@@ -376,8 +327,18 @@ impl GameOptions {
     /// * [`GameOptions::default()`](#method.default)
     /// * [`GameOptionsBuilder::build()`](#method.build)
     #[must_use]
-    pub const fn builder() -> GameOptionsBuilder {
-        GameOptionsBuilder::new()
+    pub fn builder(builder_type: &str) -> GameOptionsBuilder {
+        match builder_type {
+            "seeded" | "Seeded" => {
+                GameOptionsBuilder::new(super::game_option_builder::GameOptionsBuilderTypes::Seeded)
+            }
+            "customized" | "Customized" => GameOptionsBuilder::new(
+                super::game_option_builder::GameOptionsBuilderTypes::Customized,
+            ),
+            _ => GameOptionsBuilder::new(
+                super::game_option_builder::GameOptionsBuilderTypes::Randomized,
+            ),
+        }
     }
 }
 
@@ -420,11 +381,8 @@ impl Display for GameOptions {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "min_value: {}, max_value: {}, choice_atlantis: {}, choice_olympus: {}, \
-             atlantis_atlantis: {}, atlantis_olympus: {}, olympus_atlantis: {}, olympus_olympus: \
-             {}",
-            self.min_value,
-            self.max_value,
+            "choice_atlantis: {}, choice_olympus: {}, atlantis_atlantis: {}, atlantis_olympus: \
+             {}, olympus_atlantis: {}, olympus_olympus: {}",
             self.choice_atlantis,
             self.choice_olympus,
             self.atlantis_atlantis,
@@ -462,10 +420,6 @@ mod tests {
     ) {
         let game_options = GameOptions::default();
 
-        assert_eq!(game_options.min_value(), 1);
-
-        assert_eq!(game_options.max_value(), 10);
-
         assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(6, 9));
 
         assert_eq!(game_options.atlantis_olympus(), NumberPair::new(3, 8));
@@ -487,10 +441,6 @@ mod tests {
     fn test_game_options_new() {
         let game_options = GameOptions::new(1, 10);
 
-        assert_eq!(game_options.min_value(), 1);
-
-        assert_eq!(game_options.max_value(), 10);
-
         assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(6, 9));
 
         assert_eq!(game_options.atlantis_olympus(), NumberPair::new(3, 8));
@@ -510,19 +460,14 @@ mod tests {
 
         assert_eq!(
             format!("{}", game_options),
-            "min_value: 1, max_value: 10, choice_atlantis: discrete, choice_olympus: continuous, \
-             atlantis_atlantis: (6, 9), atlantis_olympus: (3, 8), olympus_atlantis: (6, 7), \
-             olympus_olympus: (3, 6)"
+            "choice_atlantis: discrete, choice_olympus: continuous, atlantis_atlantis: (6, 9), \
+             atlantis_olympus: (3, 8), olympus_atlantis: (6, 7), olympus_olympus: (3, 6)"
         );
     }
 
     #[test]
-    fn test_builder() {
-        let builder = GameOptions::builder();
-
-        assert!(builder.min_value.is_none());
-
-        assert!(builder.max_value.is_none());
+    fn test_builder_randomized() {
+        let builder = GameOptions::builder("randomized");
 
         assert!(builder.choice_atlantis.is_none());
 
@@ -535,23 +480,39 @@ mod tests {
         assert!(builder.olympus_atlantis.is_none());
 
         assert!(builder.olympus_olympus.is_none());
+    }
 
-        let game_options = builder.build();
+    #[test]
+    fn test_builder_seeded() {
+        let builder = GameOptions::builder("seeded");
 
-        assert_eq!(game_options.min_value(), 1);
+        assert!(builder.choice_atlantis.is_none());
 
-        assert_eq!(game_options.max_value(), 10);
+        assert!(builder.choice_olympus.is_none());
 
-        assert_eq!(game_options.atlantis_atlantis(), NumberPair::new(4, 4));
+        assert!(builder.atlantis_atlantis.is_none());
 
-        assert_eq!(game_options.atlantis_olympus(), NumberPair::new(5, 0));
+        assert!(builder.atlantis_olympus.is_none());
 
-        assert_eq!(game_options.olympus_atlantis(), NumberPair::new(0, 5));
+        assert!(builder.olympus_atlantis.is_none());
 
-        assert_eq!(game_options.olympus_olympus(), NumberPair::new(3, 3));
+        assert!(builder.olympus_olympus.is_none());
+    }
 
-        assert_eq!(game_options.choice_atlantis(), "cooperate");
+    #[test]
+    fn test_builder_customized() {
+        let builder = GameOptions::builder("customized");
 
-        assert_eq!(game_options.choice_olympus(), "defect");
+        assert!(builder.choice_atlantis.is_none());
+
+        assert!(builder.choice_olympus.is_none());
+
+        assert!(builder.atlantis_atlantis.is_none());
+
+        assert!(builder.atlantis_olympus.is_none());
+
+        assert!(builder.olympus_atlantis.is_none());
+
+        assert!(builder.olympus_olympus.is_none());
     }
 }

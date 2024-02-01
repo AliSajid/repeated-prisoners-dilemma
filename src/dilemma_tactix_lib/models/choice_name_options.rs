@@ -175,12 +175,9 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
     ///
-    /// let choice_name_options = ChoiceNameOptions::new();
-    ///
-    /// let (choice_atlantis, choice_olympus) =
-    ///     choice_name_options.get_choice_pair(0);
+    /// let (choice_atlantis, choice_olympus) = CNO::get_choice_pair(0);
     ///
     /// assert_eq!(choice_atlantis, "cooperate");
     ///
@@ -218,14 +215,12 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
     ///
-    /// let choice_name_options = ChoiceNameOptions::new();
+    /// let (choice_atlantis, choice_olympus) = CNO::get_random_pair();
     ///
-    /// let (choice_atlantis, choice_olympus) =
-    ///     choice_name_options.get_random_pair();
-    ///
-    /// assert_ne!(choice_atlantis, choice_olympus);
+    /// # assert!(CNO::choice_atlantis_options().contains(&choice_atlantis));
+    /// # assert!(CNO::choice_olympus_options().contains(&choice_olympus));
     /// ```
     ///
     /// # Returns
@@ -239,10 +234,12 @@ impl ChoiceNameOptions {
     /// # Notes
     ///
     /// This function uses the [`rand`](https://crates.io/crates/rand) crate to generate a random number.
+    /// The random number is generated using the [`ChaCha12Rng`](https://docs.rs/rand_chacha/0.3.0/rand_chacha/struct.ChaCha12Rng.html)
     ///
     /// # See Also
     ///
     /// * [`rand`](https://crates.io/crates/rand)
+    /// * [`ChaCha12Rng`](https://docs.rs/rand_chacha/0.3.0/rand_chacha/struct.ChaCha12Rng.html)
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[must_use]
     pub fn get_random_pair() -> (&'static str, &'static str) {
@@ -258,21 +255,21 @@ impl ChoiceNameOptions {
     /// This function returns a random choice pair, based on the length
     /// of the array.
     ///
+    /// # Arguments
+    ///
+    /// * `seed` - The seed to use for random number generation.
+    ///
     /// # Examples
     ///
     /// ```
-    /// use dilemma_tactix_lib::ChoiceNameOptions;
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
     ///
-    /// let choice_name_options = ChoiceNameOptions::new();
-    ///
-    /// let (choice_atlantis, choice_olympus) =
-    ///     choice_name_options.get_random_pair_seeded(2024);
-    ///
-    /// assert_ne!(choice_atlantis, choice_olympus);
+    /// let (choice_atlantis, choice_olympus) = CNO::get_random_pair_seeded(2024);
     ///
     /// assert_eq!(choice_atlantis, "discrete");
-    ///
+    /// assert!(CNO::choice_atlantis_options().contains(&choice_atlantis));
     /// assert_eq!(choice_olympus, "continuous");
+    /// assert!(CNO::choice_olympus_options().contains(&choice_olympus));
     /// ```
     ///
     /// # Returns
@@ -286,10 +283,12 @@ impl ChoiceNameOptions {
     /// # Notes
     ///
     /// This function uses the [`rand`](https://crates.io/crates/rand) crate to generate a random number.
+    /// The random number is generated using the [`ChaCha12Rng`](https://docs.rs/rand_chacha/0.3.0/rand_chacha/struct.ChaCha12Rng.html)
     ///
     /// # See Also
     ///
     /// * [`rand`](https://crates.io/crates/rand)
+    /// * [`ChaCha12Rng`](https://docs.rs/rand_chacha/0.3.0/rand_chacha/struct.ChaCha12Rng.html)
     /// * [`get_choice_pair`](ChoiceNameOptions::get_choice_pair)
     #[cfg(test)]
     #[doc(hidden)]
@@ -314,7 +313,8 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// let pairs = ChoiceNameOptions::choice_pairs();
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
+    /// let pairs = CNO::choice_pairs();
     ///
     /// assert_eq!(pairs[0], ("cooperate", "defect"));
     /// ```
@@ -338,7 +338,8 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// assert_eq!(ChoiceNameOptions::choice_pairs_length(), 17);
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
+    /// assert_eq!(CNO::choice_pairs_length(), 17);
     /// ```
     ///
     /// # Returns
@@ -359,7 +360,8 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// let atlantis_options = ChoiceNameOptions::choice_atlantis_options();
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
+    /// let atlantis_options = CNO::choice_atlantis_options();
     ///
     /// assert_eq!(atlantis_options[0], "cooperate");
     /// ```
@@ -382,7 +384,8 @@ impl ChoiceNameOptions {
     /// # Examples
     ///
     /// ```
-    /// let olympus_options = ChoiceNameOptions::choice_olympus_options();
+    /// use dilemma_tactix_lib::ChoiceNameOptions as CNO;
+    /// let olympus_options = CNO::choice_olympus_options();
     ///
     /// assert_eq!(olympus_options[0], "defect");
     /// ```
