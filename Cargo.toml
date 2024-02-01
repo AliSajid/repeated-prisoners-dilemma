@@ -21,6 +21,10 @@ path = "src/tactix/main.rs"
 name = "tactix-bench"
 path = "src/tactix-bench/main.rs"
 
+[[bin]]
+name = "tactix-tui"
+path = "src/tactix-tui/main.rs"
+
 [dependencies]
 anyhow = { version = "1.0.79", features = ["backtrace"] }
 clap = { version = "4.3.0", features = ["string", "unicode", "derive"] }
@@ -34,6 +38,11 @@ tokio = { version = "1.28.1", features = ["full"] }
 [dev-dependencies]
 rstest = "0.18.2"
 
+[lints.rustdoc]
+broken_intra_doc_links = "deny"
+missing_docs = "forbid"
+invalid_rust_codeblocks = "deny"
+redundant_explicit_links = "deny"
 
 [profile.dev]
 opt-level = 1

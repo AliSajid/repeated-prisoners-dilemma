@@ -7506,6 +7506,21 @@
                         "required-features": [],
                         "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-bench/main.rs",
                         "test": true
+                    },
+                    {
+                        "crate_types": [
+                            "bin"
+                        ],
+                        "doc": true,
+                        "doctest": false,
+                        "edition": "2021",
+                        "kind": [
+                            "bin"
+                        ],
+                        "name": "tactix-tui",
+                        "required-features": [],
+                        "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-tui/main.rs",
+                        "test": true
                     }
                 ],
                 "version": "1.1.0-next.1"
@@ -33578,6 +33593,21 @@
                                 "name": "tactix-bench",
                                 "required-features": [],
                                 "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-bench/main.rs",
+                                "test": true
+                            },
+                            {
+                                "crate_types": [
+                                    "bin"
+                                ],
+                                "doc": true,
+                                "doctest": false,
+                                "edition": "2021",
+                                "kind": [
+                                    "bin"
+                                ],
+                                "name": "tactix-tui",
+                                "required-features": [],
+                                "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-tui/main.rs",
                                 "test": true
                             }
                         ],
