@@ -74,7 +74,7 @@ use crate::{
 ///     GameOptions,
 /// };
 ///
-/// let game_options = GameOptions::builder().build();
+/// let game_options = GameOptions::builder("customized").build();
 ///
 /// let game_grid = GameGrid::new(game_options);
 ///
@@ -97,7 +97,7 @@ impl GameGrid {
     ///     GameOptions,
     /// };
     ///
-    /// let game_options = GameOptions::builder().build();
+    /// let game_options = GameOptions::builder("customized").build();
     ///
     /// let game_grid = GameGrid::new(game_options);
     /// ```
@@ -120,22 +120,6 @@ impl GameGrid {
     }
 
     /// Format the `GameGrid` into a `Table`
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use dilemma_tactix_lib::{
-    ///     Choice,
-    ///     GameGrid,
-    ///     GameOptions,
-    /// };
-    ///
-    /// let game_options = GameOptions::builder().build();
-    ///
-    /// let game_grid = GameGrid::new(game_options);
-    ///
-    /// let table = game_grid.make_grid();
-    /// ```
     ///
     /// # Returns
     ///
@@ -186,7 +170,7 @@ impl GameGrid {
     ///     GameOptions,
     /// };
     ///
-    /// let game_options = GameOptions::builder().build();
+    /// let game_options = GameOptions::builder("customized").build();
     ///
     /// let game_grid = GameGrid::new(game_options);
     ///
@@ -218,7 +202,7 @@ impl GameGrid {
     ///     GameOptions,
     /// };
     ///
-    /// let game_options = GameOptions::builder().build();
+    /// let game_options = GameOptions::builder("customized").build();
     ///
     /// let game_grid = GameGrid::new(game_options);
     ///
