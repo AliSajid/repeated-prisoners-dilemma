@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/AliSajid/dilemma-tactix/compare/v1.1.0...v1.2.0) (2024-02-02)
+
+
+### Features
+
+* **tactix-tui:** add scaffold for the TUI implementatoin ([f5be963](https://github.com/AliSajid/dilemma-tactix/commit/f5be963014ada69601f0a38b6f3061ce1c0f6537))
+
 ## [1.1.0](https://github.com/AliSajid/dilemma-tactix/compare/v1.0.0...v1.1.0) (2024-02-01)
 
 
