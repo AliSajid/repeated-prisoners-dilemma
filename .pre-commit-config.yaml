@@ -54,21 +54,27 @@ repos:
         - id: check-json
           exclude: ".vscode/.*json"
         - id: check-merge-conflict
+        - id: no-commit-to-branch
+          args:
+            - --branch
+            - main
+            - --branch
+            - next
         - id: check-shebang-scripts-are-executable
         - id: check-toml
         - id: check-xml
         - id: check-yaml
         - id: end-of-file-fixer
           exclude: ".*licenses.*\\.(md|hbs)"
-        - args:
+        - id: mixed-line-ending
+          args:
             - --fix=no
-          id: mixed-line-ending
-        - args:
+        - id: pretty-format-json
+          exclude: ".vscode/launch.json"
+          args:
             - --indent=4
             - --autofix
             - --no-ensure-ascii
-          id: pretty-format-json
-          exclude: ".vscode/launch.json"
         - id: trailing-whitespace
           args:
             - --markdown-linebreak-ext=md
@@ -98,7 +104,8 @@ repos:
         - id: remove-crlf
         - id: forbid-tabs
         - id: remove-tabs
-        - args:
+        - id: insert-license
+          args:
             - --license-filepath
             - meta/LICENSE-HEADER
             - --comment-style
@@ -106,7 +113,6 @@ repos:
             - --use-current-year
             - --allow-past-years
           files: \.rs$
-          id: insert-license
     - repo: https://github.com/google/yamlfmt
       rev: v0.10.0
       hooks:
@@ -115,15 +121,17 @@ repos:
     - repo: https://github.com/igorshubovych/markdownlint-cli
       rev: v0.39.0
       hooks:
-        - args:
+        - id: markdownlint
+          args:
             - --ignore
             - CHANGELOG.md
-          id: markdownlint
     - repo: https://github.com/Yelp/detect-secrets
       rev: v1.4.0
       hooks:
         - id: detect-secrets
-          args: ["--baseline", ".secrets.baseline"]
+          args:
+            - "--baseline"
+            - ".secrets.baseline"
           exclude: "meta/licenses.*"
     - repo: https://github.com/sirosen/texthooks
       rev: 0.6.4
