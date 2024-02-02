@@ -7449,7 +7449,7 @@
                 "edition": "2021",
                 "features": {},
                 "homepage": null,
-                "id": "dilemma-tactix 1.1.0-next.1 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
+                "id": "dilemma-tactix 1.1.0 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
                 "keywords": [],
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
@@ -7523,7 +7523,7 @@
                         "test": true
                     }
                 ],
-                "version": "1.1.0-next.1"
+                "version": "1.1.0"
             }
         },
         {
@@ -33537,7 +33537,7 @@
                         "edition": "2021",
                         "features": {},
                         "homepage": null,
-                        "id": "dilemma-tactix 1.1.0-next.1 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
+                        "id": "dilemma-tactix 1.1.0 (path+file:///Users/aimami/experiments/rust-projects/dilemma_tactix)",
                         "keywords": [],
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
@@ -33611,7 +33611,7 @@
                                 "test": true
                             }
                         ],
-                        "version": "1.1.0-next.1"
+                        "version": "1.1.0"
                     },
                     "path": null
                 }
