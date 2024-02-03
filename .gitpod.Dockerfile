@@ -16,12 +16,7 @@ RUN brew install \
     markdownlint-cli \
     direnv \
     commitizen \
-    kubectl \
-    kubectx \
-    k9s \
-    infracost \
     tree \
     yq \
     yamllint \
-    helm \
     pre-commit
