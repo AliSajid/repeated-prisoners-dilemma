@@ -4,8 +4,8 @@ This page lists the licenses of the projects used in cargo-about.
 
 ## Overview of licenses
 
-- [Apache License 2.0](#Apache-2.0) (110)
-- [MIT License](#MIT) (22)
+- [Apache License 2.0](#Apache-2.0) (111)
+- [MIT License](#MIT) (24)
 - [BSD 3-Clause "New" or "Revised" License](#BSD-3-Clause) (1)
 - [Unicode License Agreement - Data Files and Software (2016)](#Unicode-DFS-2016) (1)
 
@@ -211,6 +211,7 @@ Apache License 2.0
 #### Used by
 
 - [encode_unicode]( https://github.com/tormol/encode_unicode ) 1.0.0
+- [static_assertions]( https://github.com/nvzqz/static-assertions-rs ) 1.1.0
 
 #### License
 
@@ -1513,7 +1514,7 @@ Apache License 2.0
 #### Used by
 
 - [anstream]( https://github.com/rust-cli/anstyle.git ) 0.6.11
-- [anstyle]( https://github.com/rust-cli/anstyle.git ) 1.0.4
+- [anstyle]( https://github.com/rust-cli/anstyle.git ) 1.0.5
 - [anstyle-query]( https://github.com/rust-cli/anstyle ) 1.0.2
 - [anstyle-wincon]( https://github.com/rust-cli/anstyle.git ) 3.0.2
 - [clap]( https://github.com/clap-rs/clap ) 4.4.18
@@ -2140,15 +2141,15 @@ Apache License 2.0
 - [anyhow]( https://github.com/dtolnay/anyhow ) 1.0.79
 - [indoc]( https://github.com/dtolnay/indoc ) 2.0.4
 - [itoa]( https://github.com/dtolnay/itoa ) 1.0.10
-- [libc]( https://github.com/rust-lang/libc ) 0.2.152
+- [libc]( https://github.com/rust-lang/libc ) 0.2.153
 - [paste]( https://github.com/dtolnay/paste ) 1.0.14
 - [proc-macro2]( https://github.com/dtolnay/proc-macro2 ) 1.0.78
 - [quote]( https://github.com/dtolnay/quote ) 1.0.35
 - [rustversion]( https://github.com/dtolnay/rustversion ) 1.0.14
 - [ryu]( https://github.com/dtolnay/ryu ) 1.0.16
 - [semver]( https://github.com/dtolnay/semver ) 1.0.21
-- [serde]( https://github.com/serde-rs/serde ) 1.0.195
-- [serde_derive]( https://github.com/serde-rs/serde ) 1.0.195
+- [serde]( https://github.com/serde-rs/serde ) 1.0.196
+- [serde_derive]( https://github.com/serde-rs/serde ) 1.0.196
 - [syn]( https://github.com/dtolnay/syn ) 2.0.48
 - [unicode-ident]( https://github.com/dtolnay/unicode-ident ) 1.0.12
 - [utf8parse]( https://github.com/alacritty/vte ) 0.2.1
@@ -3008,7 +3009,7 @@ Apache License 2.0
 - [glob]( https://github.com/rust-lang/glob ) 0.3.1
 - [hashbrown]( https://github.com/rust-lang/hashbrown ) 0.14.3
 - [heck]( https://github.com/withoutboats/heck ) 0.4.1
-- [itertools]( https://github.com/rust-itertools/itertools ) 0.12.0
+- [itertools]( https://github.com/rust-itertools/itertools ) 0.12.1
 - [lazy_static]( https://github.com/rust-lang-nursery/lazy-static.rs ) 1.4.0
 - [linux-raw-sys]( https://github.com/sunfishcode/linux-raw-sys ) 0.4.13
 - [lock_api]( https://github.com/Amanieu/parking_lot ) 0.4.11
@@ -3023,7 +3024,7 @@ Apache License 2.0
 - [regex-syntax]( https://github.com/rust-lang/regex/tree/master/regex-syntax ) 0.8.2
 - [rustc-demangle]( https://github.com/alexcrichton/rustc-demangle ) 0.1.23
 - [rustc_version]( https://github.com/Kimundi/rustc-version-rs ) 0.4.0
-- [rustix]( https://github.com/bytecodealliance/rustix ) 0.38.30
+- [rustix]( https://github.com/bytecodealliance/rustix ) 0.38.31
 - [scopeguard]( https://github.com/bluss/scopeguard ) 1.2.0
 - [signal-hook]( https://github.com/vorner/signal-hook ) 0.3.17
 - [signal-hook-mio]( https://github.com/vorner/signal-hook ) 0.2.3
@@ -4651,7 +4652,7 @@ MIT License
 
 #### Used by
 
-- [tokio]( https://github.com/tokio-rs/tokio ) 1.35.1
+- [tokio]( https://github.com/tokio-rs/tokio ) 1.36.0
 
 #### License
 
@@ -4751,7 +4752,7 @@ MIT License
 
 #### Used by
 
-- [lru]( https://github.com/jeromefroe/lru-rs.git ) 0.12.1
+- [lru]( https://github.com/jeromefroe/lru-rs.git ) 0.12.2
 
 #### License
 
@@ -4785,8 +4786,8 @@ MIT License
 
 #### Used by
 
-- [strum]( https://github.com/Peternator7/strum ) 0.25.0
-- [strum_macros]( https://github.com/Peternator7/strum ) 0.25.3
+- [strum]( https://github.com/Peternator7/strum ) 0.26.1
+- [strum_macros]( https://github.com/Peternator7/strum ) 0.26.1
 
 #### License
 
@@ -4829,6 +4830,76 @@ MIT License
 MIT License
 
 Copyright (c) 2020 Stephen M. Coakley
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
+### MIT
+
+MIT License
+
+#### Used by
+
+- [compact_str]( https://github.com/ParkMyCar/compact_str ) 0.7.1
+
+#### License
+
+```text
+MIT License
+
+Copyright (c) 2021 Parker Timmerman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
+### MIT
+
+MIT License
+
+#### Used by
+
+- [castaway]( https://github.com/sagebind/castaway ) 0.2.2
+
+#### License
+
+```text
+MIT License
+
+Copyright (c) 2021 Stephen M. Coakley
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -5004,7 +5075,7 @@ MIT License
 
 #### Used by
 
-- [ratatui]( https://github.com/ratatui-org/ratatui ) 0.25.0
+- [ratatui]( https://github.com/ratatui-org/ratatui ) 0.26.0
 
 #### License
 
