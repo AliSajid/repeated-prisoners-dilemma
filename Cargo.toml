@@ -19,11 +19,11 @@ path = "src/tactix/main.rs"
 
 [[bin]]
 name = "tactix-bench"
-path = "src/tactix-bench/main.rs"
+path = "src/tactix_bench/main.rs"
 
 [[bin]]
 name = "tactix-tui"
-path = "src/tactix-tui/main.rs"
+path = "src/tactix_tui/main.rs"
 
 [dependencies]
 anyhow = { version = "1.0.79", features = ["backtrace"] }
