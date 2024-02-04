@@ -4,5 +4,6 @@
         "minigame",
         "rstest",
         "Seedable"
-    ]
+    ],
+    "rust-analyzer.showUnlinkedFileNotification": false
 }
