@@ -8002,7 +8002,7 @@
                         ],
                         "name": "tactix-bench",
                         "required-features": [],
-                        "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-bench/main.rs",
+                        "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix_bench/main.rs",
                         "test": true
                     },
                     {
@@ -8017,7 +8017,7 @@
                         ],
                         "name": "tactix-tui",
                         "required-features": [],
-                        "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-tui/main.rs",
+                        "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix_tui/main.rs",
                         "test": true
                     }
                 ],
@@ -34441,7 +34441,7 @@
                                 ],
                                 "name": "tactix-bench",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-bench/main.rs",
+                                "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix_bench/main.rs",
                                 "test": true
                             },
                             {
@@ -34456,7 +34456,7 @@
                                 ],
                                 "name": "tactix-tui",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix-tui/main.rs",
+                                "src_path": "/Users/aimami/experiments/rust-projects/dilemma_tactix/src/tactix_tui/main.rs",
                                 "test": true
                             }
                         ],
