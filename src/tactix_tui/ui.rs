@@ -46,14 +46,182 @@ use ratatui::{
     prelude::*,
     widgets::{
         Block,
+        BorderType,
         Borders,
+        Padding,
+        Paragraph,
     },
 };
 
 pub use crate::app::App;
 
-pub fn ui(frame: &mut Frame, _app: &App) {
+fn render_header(frame: &mut Frame, rect: Rect) {
+    let header_block = Block::default()
+        .borders(Borders::ALL)
+        .border_type(BorderType::Rounded)
+        .padding(Padding::new(1, 1, 1, 0));
+    let header = Paragraph::new("Tactix")
+        .style(Style::new().white().on_red().bold())
+        .centered()
+        .block(header_block);
+
+    frame.render_widget(header, rect);
+}
+
+fn render_footer(frame: &mut Frame, rect: Rect) {
+    let footer = Paragraph::new("Press 'Q' to quit".to_string())
+        .block(
+            Block::default()
+                .title("")
+                .borders(Borders::ALL)
+                .border_type(BorderType::Rounded),
+        )
+        .style(Style::new().white().on_black())
+        .centered();
+
+    frame.render_widget(footer, rect);
+}
+
+pub fn ui(frame: &mut Frame, app: &App) {
     let size = frame.size();
-    let block = Block::default().title("Tactix").borders(Borders::ALL);
-    frame.render_widget(block, size);
+
+    let screen_layout = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(5),
+            Constraint::Min(0),
+            Constraint::Length(3),
+        ])
+        .split(size);
+
+    render_header(frame, screen_layout[0]);
+
+    let main_content_layout = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Ratio(1, 5),
+            Constraint::Ratio(3, 5),
+            Constraint::Ratio(1, 5),
+        ])
+        .split(screen_layout[1]);
+
+    let game_rows = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Percentage(20); 5])
+        .split(main_content_layout[1]);
+
+    let beth_header_row = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Ratio(1, 4),
+            Constraint::Ratio(2, 4),
+            Constraint::Ratio(1, 4),
+        ])
+        .split(game_rows[1]);
+
+    let aleph_header_row = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Ratio(1, 4),
+            Constraint::Ratio(2, 4),
+            Constraint::Ratio(1, 4),
+        ])
+        .split(game_rows[2]);
+
+    let aleph_strategy_rect = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Ratio(1, 2); 2])
+        .split(aleph_header_row[1]);
+
+    let atlantis_header_row = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Ratio(1, 4),
+            Constraint::Ratio(2, 4),
+            Constraint::Ratio(1, 4),
+        ])
+        .split(game_rows[3]);
+
+    let olympus_header_row = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Ratio(1, 4),
+            Constraint::Ratio(2, 4),
+            Constraint::Ratio(1, 4),
+        ])
+        .split(game_rows[4]);
+
+    let atlantis_score_rect = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Ratio(1, 2); 2])
+        .split(atlantis_header_row[1]);
+
+    let olympus_score_rect = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Ratio(1, 2); 2])
+        .split(olympus_header_row[1]);
+
+    let beth_text = Paragraph::new("Player Beth")
+        .block(Block::default().title("").borders(Borders::ALL))
+        .style(Style::new().white().on_black())
+        .alignment(Alignment::Center);
+
+    frame.render_widget(beth_text, beth_header_row[1]);
+
+    let aleph_text = Paragraph::new("Player Aleph")
+        .block(Block::default().title("").borders(Borders::ALL))
+        .style(Style::new().white().on_black())
+        .alignment(Alignment::Center);
+
+    frame.render_widget(aleph_text, aleph_header_row[0]);
+
+    let atlantis_text = Paragraph::new(app.game_grid.game_options.choice_atlantis().to_string())
+        .block(Block::default().title("").borders(Borders::ALL))
+        .style(Style::new().white().on_black())
+        .alignment(Alignment::Center);
+
+    frame.render_widget(atlantis_text.clone(), atlantis_header_row[0]);
+    frame.render_widget(atlantis_text.clone(), aleph_strategy_rect[0]);
+
+    let atlantis_atlantis_score =
+        Paragraph::new(app.game_grid.game_options.atlantis_atlantis().to_string())
+            .block(Block::default().title("").borders(Borders::ALL))
+            .style(Style::new().white().on_black())
+            .alignment(Alignment::Center);
+
+    frame.render_widget(atlantis_atlantis_score.clone(), atlantis_score_rect[0]);
+
+    let atlantis_olympus_score =
+        Paragraph::new(app.game_grid.game_options.atlantis_olympus().to_string())
+            .block(Block::default().title("").borders(Borders::ALL))
+            .style(Style::new().white().on_black())
+            .alignment(Alignment::Center);
+
+    frame.render_widget(atlantis_olympus_score.clone(), atlantis_score_rect[1]);
+
+    let olympus_text = Paragraph::new(app.game_grid.game_options.choice_olympus().to_string())
+        .block(Block::default().title("").borders(Borders::ALL))
+        .style(Style::new().white().on_black())
+        .alignment(Alignment::Center);
+
+    frame.render_widget(olympus_text.clone(), olympus_header_row[0]);
+    frame.render_widget(olympus_text.clone(), aleph_strategy_rect[1]);
+
+    let olympus_atlantis_score =
+        Paragraph::new(app.game_grid.game_options.olympus_atlantis().to_string())
+            .block(Block::default().title("").borders(Borders::ALL))
+            .style(Style::new().white().on_black())
+            .alignment(Alignment::Center);
+
+    frame.render_widget(olympus_atlantis_score.clone(), olympus_score_rect[0]);
+
+    let olympus_olympus_score =
+        Paragraph::new(app.game_grid.game_options.olympus_olympus().to_string())
+            .block(Block::default().title("").borders(Borders::ALL))
+            .style(Style::new().white().on_black())
+            .alignment(Alignment::Center);
+
+    frame.render_widget(olympus_olympus_score.clone(), olympus_score_rect[1]);
+
+    render_footer(frame, screen_layout[2])
 }
