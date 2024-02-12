@@ -63,6 +63,10 @@ use crossterm::{
         LeaveAlternateScreen,
     },
 };
+use dilemma_tactix_lib::{
+    GameGrid,
+    GameOptions,
+};
 use ratatui::{
     backend::{
         Backend,
@@ -81,13 +85,16 @@ use crate::{
 fn main() -> Result<(), Box<dyn Error>> {
     // setup terminal
     enable_raw_mode()?;
-    let mut stderr = io::stderr(); // This is a special case. Normally using stdout is fine
-    execute!(stderr, EnterAlternateScreen, EnableMouseCapture)?;
-    let backend = CrosstermBackend::new(stderr);
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
+    let game_options = GameOptions::builder("customized").build();
+    let game = GameGrid::new(game_options);
+
     // create app and run it
-    let mut app = App::new();
+    let mut app = App::new(game);
     let _res = run_app(&mut terminal, &mut app);
 
     // restore terminal
