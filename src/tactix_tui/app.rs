@@ -53,7 +53,7 @@ pub struct App {
 }
 
 impl App {
-    pub fn new(game_grid: GameGrid) -> Self {
+    pub const fn new(game_grid: GameGrid) -> Self {
         Self {
             game_grid,
             selected: None,
