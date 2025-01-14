@@ -45,11 +45,11 @@ repos:
           files: "Cargo.toml$"
           pass_filenames: true
     - repo: https://github.com/commitizen-tools/commitizen
-      rev: v3.13.0
+      rev: v4.1.0
       hooks:
         - id: commitizen
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.5.0
+      rev: v5.0.0
       hooks:
         - id: check-json
           exclude: ".vscode/.*json"
@@ -79,7 +79,7 @@ repos:
           args:
             - --markdown-linebreak-ext=md
     - repo: https://github.com/compilerla/conventional-pre-commit
-      rev: v3.1.0
+      rev: v4.0.0
       hooks:
         - args:
             - build
@@ -98,7 +98,7 @@ repos:
           stages:
             - commit-msg
     - repo: https://github.com/Lucas-C/pre-commit-hooks
-      rev: v1.5.4
+      rev: v1.5.5
       hooks:
         - id: forbid-crlf
         - id: remove-crlf
@@ -114,19 +114,19 @@ repos:
             - --allow-past-years
           files: \.rs$
     - repo: https://github.com/google/yamlfmt
-      rev: v0.10.0
+      rev: v0.15.0
       hooks:
         - id: yamlfmt
           exclude: ".github/workflows/.*\\.ya?ml"
     - repo: https://github.com/igorshubovych/markdownlint-cli
-      rev: v0.39.0
+      rev: v0.43.0
       hooks:
         - id: markdownlint
           args:
             - --ignore
             - CHANGELOG.md
     - repo: https://github.com/Yelp/detect-secrets
-      rev: v1.4.0
+      rev: v1.5.0
       hooks:
         - id: detect-secrets
           args:
@@ -134,12 +134,12 @@ repos:
             - ".secrets.baseline"
           exclude: "meta/licenses.*"
     - repo: https://github.com/sirosen/texthooks
-      rev: 0.6.4
+      rev: 0.6.8
       hooks:
         - id: fix-smartquotes
         - id: fix-ligatures
         - id: forbid-bidi-controls
     - repo: https://github.com/zricethezav/gitleaks
-      rev: v8.18.1
+      rev: v8.23.0
       hooks:
         - id: gitleaks

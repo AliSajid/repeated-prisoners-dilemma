@@ -49,8 +49,8 @@ opt-level = 1
 debug = true
 
 [profile.release]
-opt-level = 'z' # Optimize for size
-lto = true # Enable link-time optimization
+opt-level = 'z'   # Optimize for size
+lto = true        # Enable link-time optimization
 codegen-units = 1 # Compile the whole crate at once
-panic = "abort" # Abort on panic
+panic = "abort"   # Abort on panic
 strip = "symbols" # Strip debug symbols
