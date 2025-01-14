@@ -2857,7 +2857,7 @@
                     "std": []
                 },
                 "homepage": "https://github.com/bitflags/bitflags",
-                "id": "registry+https://github.com/rust-lang/crates.io-index#bitflags@2.7.0",
+                "id": "registry+https://github.com/rust-lang/crates.io-index#bitflags@2.8.0",
                 "keywords": [
                     "bit",
                     "bitmask",
@@ -2867,7 +2867,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -2896,7 +2896,7 @@
                         ],
                         "name": "bitflags",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/src/lib.rs",
                         "test": true
                     },
                     {
@@ -2911,7 +2911,7 @@
                         ],
                         "name": "custom_bits_type",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/custom_bits_type.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/custom_bits_type.rs",
                         "test": false
                     },
                     {
@@ -2926,7 +2926,7 @@
                         ],
                         "name": "custom_derive",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/custom_derive.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/custom_derive.rs",
                         "test": false
                     },
                     {
@@ -2941,7 +2941,7 @@
                         ],
                         "name": "fmt",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/fmt.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/fmt.rs",
                         "test": false
                     },
                     {
@@ -2956,7 +2956,7 @@
                         ],
                         "name": "macro_free",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/macro_free.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/macro_free.rs",
                         "test": false
                     },
                     {
@@ -2971,7 +2971,7 @@
                         ],
                         "name": "serde",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/serde.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/serde.rs",
                         "test": false
                     },
                     {
@@ -2986,11 +2986,11 @@
                         ],
                         "name": "parse",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/benches/parse.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/benches/parse.rs",
                         "test": false
                     }
                 ],
-                "version": "2.7.0"
+                "version": "2.8.0"
             }
         },
         {
@@ -8494,7 +8494,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0.93",
+                        "req": "^1.0.95",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -35204,7 +35204,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0.93",
+                                "req": "^1.0.95",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -45996,7 +45996,7 @@
                             "std": []
                         },
                         "homepage": "https://github.com/bitflags/bitflags",
-                        "id": "registry+https://github.com/rust-lang/crates.io-index#bitflags@2.7.0",
+                        "id": "registry+https://github.com/rust-lang/crates.io-index#bitflags@2.8.0",
                         "keywords": [
                             "bit",
                             "bitmask",
@@ -46006,7 +46006,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -46035,7 +46035,7 @@
                                 ],
                                 "name": "bitflags",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -46050,7 +46050,7 @@
                                 ],
                                 "name": "custom_bits_type",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/custom_bits_type.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/custom_bits_type.rs",
                                 "test": false
                             },
                             {
@@ -46065,7 +46065,7 @@
                                 ],
                                 "name": "custom_derive",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/custom_derive.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/custom_derive.rs",
                                 "test": false
                             },
                             {
@@ -46080,7 +46080,7 @@
                                 ],
                                 "name": "fmt",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/fmt.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/fmt.rs",
                                 "test": false
                             },
                             {
@@ -46095,7 +46095,7 @@
                                 ],
                                 "name": "macro_free",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/macro_free.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/macro_free.rs",
                                 "test": false
                             },
                             {
@@ -46110,7 +46110,7 @@
                                 ],
                                 "name": "serde",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/examples/serde.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/examples/serde.rs",
                                 "test": false
                             },
                             {
@@ -46125,11 +46125,11 @@
                                 ],
                                 "name": "parse",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.7.0/benches/parse.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bitflags-2.8.0/benches/parse.rs",
                                 "test": false
                             }
                         ],
-                        "version": "2.7.0"
+                        "version": "2.8.0"
                     },
                     "path": null
                 },

@@ -3220,7 +3220,7 @@ Apache License 2.0
 - [addr2line]( https://github.com/gimli-rs/addr2line ) 0.24.2
 - [autocfg]( https://github.com/cuviper/autocfg ) 1.4.0
 - [backtrace]( https://github.com/rust-lang/backtrace-rs ) 0.3.74
-- [bitflags]( https://github.com/bitflags/bitflags ) 2.7.0
+- [bitflags]( https://github.com/bitflags/bitflags ) 2.8.0
 - [cfg-if]( https://github.com/alexcrichton/cfg-if ) 1.0.0
 - [either]( https://github.com/rayon-rs/either ) 1.13.0
 - [equivalent]( https://github.com/cuviper/equivalent ) 1.0.1
