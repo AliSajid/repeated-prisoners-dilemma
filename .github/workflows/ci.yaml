@@ -63,7 +63,7 @@ jobs:
                 toolchain: nightly
                 components: rustfmt, clippy
             - name: Cache dependencies
-              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+              uses: Swatinem/rust-cache@f0deed1e0edfc6a9be95417288c0e1099b1eeec3 # v2.7.7
             - name: Cargo Build
               run: cargo build --verbose
             - name: Cargo Test
@@ -73,7 +73,7 @@ jobs:
             - name: Cargo Lint
               run: cargo clippy -- -D warnings
             - name: Wait before badge creation
-              uses: AliSajid/random-wait-action@v1.1.0
+              uses: AliSajid/random-wait-action@v2.7.1
               with:
                 minimum: ${{env.MINIMUM_WAIT}}
                 maximum: ${{env.MAXIMUM_WAIT}}
