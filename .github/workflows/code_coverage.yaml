@@ -31,6 +31,10 @@ jobs:
                 toolchain: nightly
                 components: llvm-tools-preview
 
+            - uses: taiki-e/install-action@cargo-llvm-cov
+
+            - uses: taiki-e/install-action@nextest
+
             - name: Collect coverage data (including doctests)
               run: mise run coverage
 
