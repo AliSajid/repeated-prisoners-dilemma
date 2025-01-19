@@ -83,8 +83,14 @@ jobs:
             - name: Cache dependencies
               uses: Swatinem/rust-cache@f0deed1e0edfc6a9be95417288c0e1099b1eeec3 # v2.7.7
 
-            - name: Build and test the codebase
-              run: mise run test
+            - name: Cargo Build
+              run: cargo build --verbose
+            - name: Cargo Test
+              run: cargo test
+            - name: Cargo Format
+              run: cargo +nightly fmt --all -- --check
+            - name: Cargo Lint
+              run: cargo clippy -- -D warnings
 
             - name: Wait before badge creation
               uses: AliSajid/random-wait-action@01a89d4ed3ec77b010cf360224470c7aea5bd186 # v2.8.0
