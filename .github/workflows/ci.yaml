@@ -68,7 +68,6 @@ jobs:
               env:
                 MISE_ENV: "ci"
               with:
-                version: latest
                 experimental: true
 
             - name: Install Rust
