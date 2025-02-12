@@ -13,7 +13,7 @@ jobs:
         name: Generate Coverage
         runs-on: ubuntu-24.04
         container:
-            image: xd009642/tarpaulin:develop-nightly
+            image: xd009642/tarpaulin:develop-nightly@sha256:7cad7c933e3ffaeaadac10eeae2703b60c19f23250fc5bff4b9f9425a52912ab
             options: --security-opt seccomp=unconfined
 
         steps:
@@ -21,12 +21,12 @@ jobs:
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
             - name: Install mise-en-place
-              uses: jdx/mise-action@v2
+              uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2
               with:
                 experimental: true
 
             - name: Install Rust Toolchain
-              uses: dtolnay/rust-toolchain@a54c7afa936fefeb4456b2dd8068152669aa8203
+              uses: dtolnay/rust-toolchain@c5a29ddb4d9d194e7c84ec8c3fba61b1c31fee8c
               with:
                 toolchain: nightly
                 components: llvm-tools-preview
@@ -38,7 +38,7 @@ jobs:
                 cargo llvm-cov report --doctests --lcov --output-path lcov.info
 
             - name: Upload to codecov.io
-              uses: codecov/codecov-action@v5
+              uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3 # v5
               with:
                 file: lcov.info
               env:
