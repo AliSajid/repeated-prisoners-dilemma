@@ -32,10 +32,7 @@ jobs:
                 components: llvm-tools-preview
 
             - name: Collect coverage data (including doctests)
-              run: |
-                cargo llvm-cov --no-report nextest --config-file nextest.toml
-                cargo llvm-cov --no-report --doc
-                cargo llvm-cov report --doctests --lcov --output-path lcov.info
+              run: mise run coverage
 
             - name: Upload to codecov.io
               uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3 # v5
